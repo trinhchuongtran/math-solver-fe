@@ -87,6 +87,7 @@ function Solution(props) {
     <Card title={"Bài Giải"}>
       {/* <Divider orientation="left">Bài Giải</Divider> */}
       <Col>
+      <Title level={5}>
         <MathJax.Context
           input="tex"
           options={{
@@ -109,6 +110,7 @@ function Solution(props) {
             <MathJax.Node>{result}</MathJax.Node>
           </div>
         </MathJax.Context>
+        </Title>
       </Col>
     </Card>
   );
@@ -134,12 +136,13 @@ class FlavorForm extends React.Component {
       }),
     }).then((res) => {
       res.json().then((db) => {
-        inputJson = db.baitoan.description;
-        console.log(db);
+        inputJson = db.data.baitoan.description;
+        // console.log(db);
         this.setState({
           defaultTopic: inputJson,
           topic: inputJson,
-          variable: db.Variable,
+          variable: db.data.Variable,
+          name: db.name
         });
         var findVar = this.state.value;
         var listvar = [];
@@ -167,7 +170,7 @@ class FlavorForm extends React.Component {
       isOpenSolution: false,
       isRender: false,
       isSubmit: false,
-      name: this.props.nameProblem,
+      name: "",
     };
 
     this.setState({ topic: this.state.defaultTopic });

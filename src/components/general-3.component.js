@@ -32,7 +32,7 @@ class ContentProblem extends React.Component {
       indeterminate: true,
       checkAll: true
     };
-    fetch("http://127.0.0.1:8000/api/list_problem", {
+    fetch("http://api.bkmathapp.tk/api/list_problem", {
       method: "POST",
     }).then((res) => {
       res.json().then((db) => {
@@ -64,7 +64,7 @@ class ContentProblem extends React.Component {
   };
 
   handleClick = (event, id, nameProblem) => {
-    this.setState({ isOpen: !this.state.isOpen, idProblem: id});
+    this.setState({ isOpen: !this.state.isOpen, idProblem: id, nameProblem: nameProblem});
     console.log(nameProblem)
     this.setState({nameProblem: nameProblem})
     console.log(this.state.nameProblem)
