@@ -1,26 +1,33 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 
+import { Button } from "antd";
 
+import Plot from "../api/Plot";
+import authService from "../services/auth.service";
+import General3 from "./general-3.component";
 
-export default class General2 extends Component {
-  constructor(props) {
-    super(props);
+// export default class General2 extends Component {
+function General2() {
+  var [input_latex, setInputLatex] = useState(""); 
 
-    this.state = {
-    };
-  }
-
-  componentDidMount() {
+  return (
+    <div>
+        <math-field id="formula" style={{
+        backgroundColor: "#c0cacc",
+        height: "50px",
+        borderRadius: "10px",
+        color: "#000000",
+        fontSize: "20px"
+      }}></math-field>
     
-  }
-
-  render() {
-    return (
-      <div className="container">
-        <header className="jumbotron">
-          <h3>Sub Gen 2</h3>
-        </header>
-      </div>
-    );
-  }
+      <Button style={{
+        marginTop: "10px"
+      }} onClick={() => {
+        setInputLatex(document.getElementById('formula').getValue("latex"));
+      }} id="submit">Submit</Button>
+      <Plot id="result" tex={input_latex}></Plot> 
+    </div> 
+  )
 }
+
+export default General2;

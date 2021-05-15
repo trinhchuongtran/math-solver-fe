@@ -33,6 +33,7 @@ export default class Login extends Component {
     this.handleLogin = this.handleLogin.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
+    this.logOut = this.logOut.bind(this);
 
     this.state = {
       // redirect: null,
@@ -42,15 +43,19 @@ export default class Login extends Component {
       message: ""
     };
   }
-  // componentDidMount() {
+  componentDidMount() {
   //   let user = AuthService.getCurrentUser();
   //   if (user !== null) this.setState({ redirect: "/home"});
-  // }
+    this.logOut();
+  }
 
   onChangeEmail(e) {
     this.setState({
       email: e.target.value
     });
+  }
+  logOut() {
+    AuthService.logout();
   }
 
   onChangePassword(e) {
@@ -68,7 +73,6 @@ export default class Login extends Component {
     });
 
     this.form.validateAll();
-
     if (this.checkBtn.context._errors.length === 0) {
       AuthService.login(this.state.email, this.state.password).then(
         () => {
@@ -104,11 +108,7 @@ export default class Login extends Component {
     return (
       <div className="col-md-12">
         <div className="card card-container">
-          <img
-            src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-            alt="profile-img"
-            className="profile-img-card"
-          />
+          
 
           <Form
             onSubmit={this.handleLogin}
@@ -117,11 +117,11 @@ export default class Login extends Component {
             }}
           >
             <div className="form-group">
-              <label htmlFor="username">Email</label>
+              <label htmlFor="email">Email</label>
               <Input
                 type="text"
                 className="form-control"
-                name="username"
+                name="email"
                 value={this.state.email}
                 onChange={this.onChangeEmail}
                 validations={[required, email]}

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Switch, Route, Link } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 import AuthService from "./services/auth.service";
@@ -15,6 +14,9 @@ import General1 from "./components/general-1.component"
 import General2 from "./components/general-2.component";
 import General3 from "./components/general-3.component";
 
+import { Layout, Menu } from 'antd';
+
+const { SubMenu } = Menu;
 class App extends Component {
   constructor(props) {
     super(props);
@@ -27,9 +29,13 @@ class App extends Component {
     };
   }
 
+  handleClick = e => {
+    console.log('click ', e);
+  };
+
   componentDidMount() {
     const user = AuthService.getCurrentUser();
-
+    
     if (user) {
       this.setState({
         currentUser: user,
@@ -44,11 +50,69 @@ class App extends Component {
   }
 
   render() {
-    const { currentUser, showModeratorBoard, showAdminBoard } = this.state;
+    const { currentUser, showModeratorBoard, showAdminBoard} = this.state;
 
     return (
       <div>
-        <nav className="navbar navbar-expand navbar-dark bg-dark">
+        <Layout className="layout">
+          <Menu onClick={this.handleClick} defaultSelectedKeys={['home']} mode="horizontal">
+            <Menu.Item key="home">
+              <Link to={"/"}>
+                MathSolver 
+              </Link>
+            </Menu.Item>
+            <SubMenu key="SubMenu" title="Giải toán cơ bản">
+              <Menu.Item key="poly">
+                <Link to={"/general1"}>
+                  Dạng toán Đa thức
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="graph">
+                <Link to={"/general2"}>
+                  Dạng toán Đồ thị
+                </Link>
+              </Menu.Item>
+            </SubMenu>
+            <Menu.Item key="problem">
+              <Link to={"/general3"}>
+                Giải tổng hợp
+              </Link>
+            </Menu.Item>
+            {showModeratorBoard && (
+              <Menu.Item key="define">
+                Định nghĩa bài toán
+              </Menu.Item>
+            )}
+            {showAdminBoard && (
+              <Menu.Item key="monitor">
+                Quản lý
+              </Menu.Item>
+            )}
+            
+            {currentUser ? (
+              <Menu.Item style={{float: 'right'}}>
+                <a href="/" onClick={this.logOut}></a>
+                Đăng xuất
+              </Menu.Item>
+            ) : (
+              <Menu.Item key="login" style={{float: 'right'}}>
+                <Link to={"/login"}>
+                  Đăng nhập
+                </Link>
+              </Menu.Item>
+            )}
+            {currentUser && (
+              <Menu.Item key="profile" style={{float: 'right'}}>
+                <Link to={"/profile"}>
+                  {currentUser.email}
+                </Link>
+
+              </Menu.Item>
+            )}
+          </Menu>
+          
+        </Layout>
+        {/* <nav className="navbar navbar-expand navbar-dark bg-dark">
           <Link to={"/"} className="navbar-brand">
             MathSolver
           </Link>
@@ -130,7 +194,7 @@ class App extends Component {
               </li>
             </div>
           )}
-        </nav>
+        </nav> */}
 
         <div className="container mt-3">
           <Switch>
