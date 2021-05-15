@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import AuthService from "../services/auth.service";
 
-import { Popover, Button } from "antd";
+import { Popover, Button, Avatar } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 
 export default class Profile extends Component {
   constructor(props) {
@@ -37,8 +38,11 @@ export default class Profile extends Component {
       <div>
         {this.state.userReady ? 
         <div>
+          {currentUser.avatar ? null : <Avatar shape="square" size={64} icon={<UserOutlined />}></Avatar>}
           <h3><strong>{currentUser.email}</strong></h3>
-          <h5>UserName</h5>
+          <p><b>Họ và Tên: </b> {currentUser.first_name.normalize() + " " + currentUser.last_name}</p>
+          <p><b>Trường: </b> {!currentUser.work_address ? "Chưa có" : currentUser.work_address} </p>
+          <p><b>Vai trò: </b> {currentUser.role}</p>
           <Popover content={token} title="Token">
             <Button type="primary">Token</Button>
           </Popover>

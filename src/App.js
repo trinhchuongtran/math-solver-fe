@@ -26,11 +26,13 @@ class App extends Component {
       showModeratorBoard: false,
       showAdminBoard: false,
       currentUser: undefined,
+      current: ''
     };
   }
 
   handleClick = e => {
     console.log('click ', e);
+    this.setState({ current: e.key });
   };
 
   componentDidMount() {
@@ -50,12 +52,12 @@ class App extends Component {
   }
 
   render() {
-    const { currentUser, showModeratorBoard, showAdminBoard} = this.state;
+    const { currentUser, showModeratorBoard, showAdminBoard, current } = this.state;
 
     return (
       <div>
         <Layout className="layout">
-          <Menu onClick={this.handleClick} defaultSelectedKeys={['home']} mode="horizontal">
+          <Menu onClick={this.handleClick} selectedKeys={[current]} mode="horizontal">
             <Menu.Item key="home">
               <Link to={"/"}>
                 MathSolver 
