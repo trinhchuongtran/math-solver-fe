@@ -84,7 +84,7 @@ function Plot({ tex }) {
                     <MathJax.Node>{result_detail}</MathJax.Node>
                 </div>
             </MathJax.Context>
-            {result ? <img style={{ height: "400px" }} src={`data:image/jpeg;base64,${result}`} />: null }
+            {result ? <img style={{ "display": "block", "margin-left": "auto", "margin-right": "auto", "width": "40%"}} src={`data:image/jpeg;base64,${result}`} />: null }
         </div>
     )
 };

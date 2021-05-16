@@ -14,21 +14,32 @@ import General1 from "./components/general-1.component"
 import General2 from "./components/general-2.component";
 import General3 from "./components/general-3.component";
 
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Breadcrumb, Row, Col } from 'antd';
 
+import { HomeOutlined, FunctionOutlined, EditOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
+
+const { Content, Sider, Header, Footer } = Layout;
 const { SubMenu } = Menu;
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.logOut = this.logOut.bind(this);
 
     this.state = {
+      collapsed: false,
       showModeratorBoard: false,
       showAdminBoard: false,
       currentUser: undefined,
       current: ''
     };
   }
+
+  toggle = () => {
+    this.setState({
+      collapsed: !this.state.collapsed,
+    });
+  };
 
   handleClick = e => {
     console.log('click ', e);
@@ -55,26 +66,19 @@ class App extends Component {
     const { currentUser, showModeratorBoard, showAdminBoard, current } = this.state;
 
     return (
-      <div>
-        <Layout className="layout">
-          <Menu onClick={this.handleClick} selectedKeys={[current]} mode="horizontal">
+
+        <Layout className="layout" >
+          <Menu onClick={this.handleClick} selectedKeys={[current]} mode="horizontal"  style={{padding: "0 150px"}}>
             <Menu.Item key="home">
               <Link to={"/"}>
                 MathSolver 
               </Link>
             </Menu.Item>
-            <SubMenu key="SubMenu" title="Giải toán cơ bản">
-              <Menu.Item key="poly">
-                <Link to={"/general1"}>
-                  Dạng toán Đa thức
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="graph">
-                <Link to={"/general2"}>
-                  Dạng toán Đồ thị
-                </Link>
-              </Menu.Item>
-            </SubMenu>
+            <Menu.Item>
+              <Link to={"/solve"}>
+                Giải
+              </Link>
+            </Menu.Item>
             <Menu.Item key="problem">
               <Link to={"/general3"}>
                 Giải tổng hợp
@@ -112,8 +116,25 @@ class App extends Component {
               </Menu.Item>
             )}
           </Menu>
-          
-        </Layout>
+        {/* <style={{ minHeight: '100vh' }}> */}
+        {/* <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
+            <Menu theme="dark" mode="inline">
+              <Menu.Item key="polynomial" icon={<FunctionOutlined/>}>
+                Đa thức
+              </Menu.Item>
+              <Menu.Item key="graph" icon={<EditOutlined/>}>
+                Đồ thị
+              </Menu.Item>
+            </Menu>
+          </Sider>
+          <Layout>
+            <Header style={{ "background": "#fff"}}>
+              {React.createElement(this.state.collapsed ? MenuUnfoldOutlined: MenuFoldOutlined, {
+                className: 'trigger',
+                onClick: this.toggle,
+              })}
+            </Header> */}
+    
         {/* <nav className="navbar navbar-expand navbar-dark bg-dark">
           <Link to={"/"} className="navbar-brand">
             MathSolver
@@ -198,21 +219,30 @@ class App extends Component {
           )}
         </nav> */}
 
-        <div className="container mt-3">
-          <Switch>
-            <Route exact path={["/", "/home"]} component={Home} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/profile" component={Profile} />
-            <Route path="/general" component={BoardUser} />
-            <Route path="/general1" component={General1}/>
-            <Route path="/general2" component={General2}/>
-            <Route path="/general3" component={General3}/>
-            <Route path="/mod" component={BoardModerator} />
-            <Route path="/admin" component={BoardAdmin} />
-            {/* <Route path="*" component={Home} /> */}
-          </Switch>
-        </div>
-      </div>
+        {/* <div className="container mt-3"> */}
+          <Layout style={{padding: "0 150px"}}>
+            <Content style={{ minHeight: '80vh', background: "#fff"}}>
+              <Row> 
+                <Col>
+                  <Switch>
+                    <Route exact path={["/", "/home"]} component={Home} />
+                    <Route exact path="/login" component={Login} />
+                    <Route exact path="/profile" component={Profile} />
+                    <Route path="/solve" component={BoardUser} />
+                    <Route path="/solve/polynomial" component={General1}/>
+                    <Route path="/solve/graph" component={General2}/>
+                    <Route path="/general3" component={General3}/>
+                    <Route path="/mod" component={BoardModerator} />
+                    <Route path="/admin" component={BoardAdmin} />
+                    {/* <Route path="*" component={Home} /> */}
+                  </Switch>
+                </Col>
+              </Row>
+
+            </Content>
+          </Layout>
+            <Footer style={{ textAlign: 'center' }}>Math</Footer>
+    </Layout>
     );
   }
 }
