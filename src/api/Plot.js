@@ -24,7 +24,7 @@ function Plot({ tex }) {
     
     // function handleClick(e) {
         // e.preventDefault();
-        fetch("http://127.0.0.1:8000/api/plot_api", requestOptions)
+        fetch("http://api.bkmathapp.tk/api/plot_api", requestOptions)
             .then(res => {
                 res.json().then(db => {
                     // console.log(db.detail);
