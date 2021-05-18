@@ -136,7 +136,7 @@ class FlavorForm extends React.Component {
       }),
     }).then((res) => {
       res.json().then((db) => {
-        console.log(db);
+        // console.log(db);
         inputJson = db.data.baitoan.description;
         this.setState({
           defaultTopic: inputJson,
