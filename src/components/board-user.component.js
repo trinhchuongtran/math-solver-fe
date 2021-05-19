@@ -1,49 +1,25 @@
 import React, { Component, useState } from "react";
-// import PageTitle from "../components/common/PageTitle";
-// import SolutionView from "../components/components-overview/SolutionView"
-// import ExampleView from "../components/components-overview/ExampleView"
-// import MathJax from 'react-mathjax2'
-import Result from "../api/Result"
-// import convertLatexToSpeakableText from 'mathlive';
-// import SimpleDialogDemo from "../components/components-overview/SimpleDialog"
-import { Row, Col } from 'antd';
+import Result from "../api/Result";
+import MathJax from "react-mathjax2";
 
-import { Modal, Button } from 'antd';
-import { List, Card } from 'antd';
+import { Row, Col } from "antd";
+import { Layout } from "antd";
+import { Divider } from "antd";
 
+import { Modal, Button } from "antd";
+import { List, Card } from "antd";
+import { Typography } from 'antd';
 
+const { Title } = Typography;
 
-// import PropTypes from 'prop-types';
-// import Button from '@material-ui/core/Button';
-// import List from '@material-ui/core/List';
-// import ListItem from '@material-ui/core/ListItem';
-// import ListItemText from '@material-ui/core/ListItemText';
-// import DialogTitle from '@material-ui/core/DialogTitle';
-// import Dialog from '@material-ui/core/Dialog';
+const { Header, Footer, Sider, Content } = Layout;
+const { parse } = require("equation-parser");
 
-const { parse } = require("equation-parser")
+const style = { paddingTop: "8px", paddingBottom: "8px" };
 
 var emails = [];
 
-const styleSubmit = {
-  marginLeft: "10px",
-  height: "40px",
-  borderRadius: "10px"
-}
-
-// class Dathuc extends React.Component{
-//   constructor(props) {
-//     super(props);
-
-//     this.state = {
-//     };
-//   }
-
-
-// }
-
 function SimpleDialog(props) {
-
   const { onClose, selectedValue, open } = props;
 
   const handleClose = () => {
@@ -55,63 +31,29 @@ function SimpleDialog(props) {
   };
 
   return (
-    <Modal footer={null}
-          title="Tuỳ chọn"
-          visible={open}
-          onCancel={handleClose}
-        >
-          {emails.map((email) => (
-            <Button type="text" block onClick={() => handleListItemClick(email)}>
-            {"Giải theo biến " + email}
-          </Button>
-          // <ListItem button onClick={() => handleListItemClick(email)} key={email}>
-          //   <ListItemText primary={"Giải theo biến " + email} />
-          // </ListItem>
-        ))}
-        </Modal>
-    // <Modal onClose={handleClose} aria-labelledby="simple-dialog-title" style={{
-    //   padding: "0px 30px 0px 30px"
-    // }} open={open}>
-    //   <DialogTitle id="simple-dialog-title">Tuỳ chọn</DialogTitle>
-    //   <List>
-    //     {emails.map((email) => (
-    //       <ListItem button onClick={() => handleListItemClick(email)} key={email}>
-    //         <ListItemText primary={"Giải theo biến " + email} />
-    //       </ListItem>
-    //     ))}
-    //   </List>
-    // </Dialog>
+    <Modal footer={null} title="Tuỳ chọn" visible={open} onCancel={handleClose}>
+      {emails.map((email) => (
+        <Button type="text" block onClick={() => handleListItemClick(email)}>
+          {"Giải theo biến " + email}
+        </Button>
+      ))}
+    </Modal>
   );
 }
 
-// SimpleDialog.propTypes = {
-//   onClose: PropTypes.func.isRequired,
-//   open: PropTypes.bool.isRequired,
-//   selectedValue: PropTypes.string.isRequired,
-// };
-
 function duyetObject(obj) {
   if (obj.a == undefined || obj.b == undefined) {
-
     if (obj.type == "variable") {
       return obj.name;
-    }
-    else if(obj.type=="negative"){
-      
+    } else if (obj.type == "negative") {
       return duyetObject(obj.value);
-    }
-    else if( obj.type =="block"){
+    } else if (obj.type == "block") {
       return duyetObject(obj.child);
-    }
-    else if(obj.type=="function"){
+    } else if (obj.type == "function") {
       return duyetObject(obj.args[0]);
-    }
-    else return "";
-  }
-  else {
+    } else return "";
+  } else {
     return duyetObject(obj.a) + duyetObject(obj.b);
-
-
   }
 }
 
@@ -120,26 +62,43 @@ function Dathuc() {
 
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState(emails[1]);
+  const [openResult, setOpenResult] = React.useState(false);
+  // const [loading, setLoading] = React.useState(false);
+
+  const listExample = ["x^2-2x+3 = 0", "2x^2 -5x-10=0", "-7x^2+10x-20=0"];
+  const listPlot = ["x^2-2x+3 = 0", "2x^2 -5x-10=0", "-7x^2+10x-20=0"];
+  const listdathuc = [
+    {
+      name: "Phương trình bậc 1",
+      list: ["x=3=1", "2x+7=0"],
+    },
+    {
+      name: "Phương trình bậc 2",
+      list: ["x^2-2x+3 = 0", "2x^2 -5x-10=0", "-7x^2+10x-20=0"],
+    },
+    {
+      name: "Phương trình bậc 4 trùng phương",
+      list: ["x^4-2x^2+1=0", "3x^4-5x^2-1=0"],
+    },
+  ];
 
   const handleClickOpen = () => {
     emails = [];
 
     //NOTE
-    var test = document.getElementById('formula').getValue("ascii-math");
-    console.log(test)
+    var test = document.getElementById("formula").getValue("ascii-math");
+    console.log(test);
     if (test != "") {
-      console.log(parse(test))
+      console.log(parse(test));
       var test1 = duyetObject(parse(test));
-      
+
       var test2 = test1.split("");
       const uniqueSet = new Set(test2);
       const backToArray = [...uniqueSet];
       backToArray.forEach(function (item, index, array) {
         emails.push(item);
-
       });
-    }
-    else {
+    } else {
       emails.push("Không hợp lệ, vui lòng nhập lại");
     }
     setOpen(true);
@@ -148,86 +107,161 @@ function Dathuc() {
   const handleClose = (value) => {
     setOpen(false);
     setSelectedValue(value);
-    setInputLatex(document.getElementById('formula').getValue("latex"));
+    setInputLatex(document.getElementById("formula").getValue("latex"));
+    setOpenResult(true);
   };
-
-  // var test = "x^2+2x=q+2+1+3";
-
-  // // let valuesArray = Object.values(parse(test));
-  // // var test1 = duyetObject(parse(test));
-  // // console.log(test1);
   return (
-    <Row fluid className="main-content-container px-4">
-      {/* Page Header */}
-      <Row>
-        {/* <PageTitle title="Đa thức" subtitle="Subtitle" className="text-sm-left mb-3" /> */}
-        <Col style={{width: "500px"}}>
-          <math-field id="formula" style={{
-            backgroundColor: "#c0cacc",
-            height: "40px",
-            borderRadius: "10px",
-            color: "#000000",
-            fontSize: "20px"
-          }}></math-field>
+    <>
+      <Row style={{ paddingTop: "16px", paddingBottom: "16px" }}>
+        <Col span={21}>
+          <math-field
+            id="formula"
+            style={{
+              width: "100%",
+              backgroundColor: "#c0cacc",
+              height: "40px",
+              borderRadius: "10px",
+              color: "#000000",
+              fontSize: "20px",
+            }}
+          ></math-field>
         </Col>
-        <Col>
-          <div>
-            {/* <Button style={styleSubmit} variant="outlined" color="primary" onClick={handleClickOpen}> */}
-            <Button onClick={handleClickOpen}>
+        <Col span={3}>
+          <Col span={22} offset={1}>
+            <Button
+              type="primary"
+              block
+              style={{ height: "40px" }}
+              onClick={handleClickOpen}
+            >
               Submit
             </Button>
-            <SimpleDialog selectedValue={selectedValue} open={open} onClose={handleClose} />
-          </div>
-
-
-
-
-
+            <SimpleDialog
+              selectedValue={selectedValue}
+              open={open}
+              onClose={handleClose}
+            />
+          </Col>
         </Col>
-        <Col>
-
-          <Card>
-            {/* <CardHeader className="border-bottom">
-              <h6 className="m-0">Bài giải</h6>
-            </CardHeader>
-            <CardBody className="d-flex py-0"> */}
+      </Row>
+      <Row gutter={16}>
+        {!openResult && (
+          <>
+            <Card style={{ minWidth: "100%" }}>
+              <Col span={24}>
+                {/* <Card style={{border: "2px solid #000000"}}
+                title="Một số bài toán giải đa thức cơ bản"
+                // bodyStyle={{backgroundColor: '#ececec' }}
+                style={{ minHeight: "100%"}}
+              > */}
+                <Divider orientation="left" plain>
+                <Title level={3}>Một số bài toán giải đa thức cơ bản</Title>
+                </Divider>
+                <Row gutter={16}>
+                  {listdathuc.map((item) => {
+                    return (
+                      <Col span={12} style={style}>
+                        <Card
+                          bordered
+                          title={item.name}
+                          style={{
+                            minHeight: "100%",
+                            border: "2px solid #ececec",
+                          }}
+                        >
+                          <List>
+                            {item.list.map((dathuc) => {
+                              return (
+                                <List.Item>
+                                  <MathJax.Context>
+                                    <MathJax.Node>{dathuc}</MathJax.Node>
+                                  </MathJax.Context>
+                                </List.Item>
+                              );
+                            })}
+                          </List>
+                        </Card>
+                      </Col>
+                    );
+                  })}
+                </Row>
+                {/* </Card> */}
+              </Col>
+              <Col span={24}>
+                {/* <Card title="Đồ thị"> */}
+                <Divider orientation="left" plain>
+                <Title level={3}>Vẽ đồ thị</Title>
+                </Divider>
+                <Row gutter={8}>
+                  {/* <List style={{paddingLeft:"16px"}}> */}
+                  {listPlot.map((item) => {
+                    return (
+                      // <List.Item style={{minWidth:"100%"}}>
+                      <Col span={8}>
+                        <Card style={{ border: "2px solid #ececec" }}>
+                          <MathJax.Context>
+                            <MathJax.Node>{item}</MathJax.Node>
+                          </MathJax.Context>
+                        </Card>
+                      </Col>
+                      // {/* </List.Item> */}
+                    );
+                  })}
+                </Row>
+                {/* </List> */}
+              </Col>
+            </Card>
+          </>
+        )}
+        {openResult && (
+          <>
+            <Col span={18}>
               <Result tex={input_latex} var={selectedValue}></Result>
-            {/* </CardBody>
-            <CardFooter className="border-top">
-              <Row>
-                <Col>
-                  {/* eslint-disable-next-line */}
-                  {/* <a href="#">Xem các bước giải &rarr;</a>
+            </Col>
+            <Col span={6}>
+              <Row style={{ minHeight: "100%" }}>
+                <Col span={24}>
+                  <Card title="Vẽ đồ thị">
+                    <MathJax.Context>
+                      <MathJax.Node>{input_latex}</MathJax.Node>
+                    </MathJax.Context>
+                  </Card>
+                </Col>
+                <Col span={24}>
+                  <Card title="Bài tập tương tự">
+                    <List>
+                      {listExample.map((item) => {
+                        return (
+                          <List.Item>
+                            <MathJax.Context>
+                              <MathJax.Node>{item}</MathJax.Node>
+                            </MathJax.Context>
+                          </List.Item>
+                        );
+                      })}
+                    </List>
+                  </Card>
                 </Col>
               </Row>
-            </CardFooter> */}
-          </Card>
-
-        </Col>
-        <Col>
-          {/* <ExampleView></ExampleView> */}
-        </Col>
-
-
-
+            </Col>
+          </>
+        )}
+        <Col span={8}>{/* <ExampleView></ExampleView> */}</Col>
       </Row>
-
-    </Row >
-  )
-};
+    </>
+  );
+}
 
 export default class BoardUser extends Component {
-  
-
-  componentDidMount() {
-    
-  }
+  componentDidMount() {}
 
   render() {
     return (
-      <>
-      <Dathuc></Dathuc>
-      </>
+      <Layout>
+        <Content>
+          <Dathuc></Dathuc>
+        </Content>
+      </Layout>
     );
   }
 }
