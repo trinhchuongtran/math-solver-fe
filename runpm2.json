@@ -1,10 +1,10 @@
 {
-  apps : [
+  "apps" : [
     {
-      name      : "front_end",
-      script    : "npx",
-      interpreter: "none",
-      args: "serve -p 6899 -T"
+      "name"      : "front_end",
+      "script"    : "npm",
+      "interpreter": "none",
+      "args": "serve -p 6899 -T"
     }
   ]
 }
