@@ -23,7 +23,16 @@ import { HomeOutlined, FunctionOutlined, EditOutlined, MenuUnfoldOutlined, MenuF
 const { Content, Sider, Header, Footer } = Layout;
 const { SubMenu } = Menu;
 
-
+const keyMap = {
+  "/login": "login",
+  "/": "home",
+  "/profile": "profile",
+  "/polynomial": "polynomial",
+  "/graph": "graph",
+  "/problem": "problem",
+  "/define": "define",
+  "/monitor": "monitor"
+}
 class App extends Component {
   constructor(props) {
     super(props);
@@ -74,7 +83,7 @@ class App extends Component {
     return (
 
         <Layout className="layout">
-          <Menu onClick={this.handleClick} selectedKeys={[current]} mode="horizontal"  style={{padding: "0 150px"}}>
+          <Menu onClick={this.handleClick} selectedKeys={keyMap[pathname]} mode="horizontal"  style={{padding: "0 150px"}}>
             <Menu.Item key="home">
               <Link to={"/"}>
                 MathSolver 
@@ -137,110 +146,7 @@ class App extends Component {
               </Menu.Item>
             )}
           </Menu>
-        {/* <style={{ minHeight: '100vh' }}> */}
-        {/* <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
-            <Menu theme="dark" mode="inline">
-              <Menu.Item key="polynomial" icon={<FunctionOutlined/>}>
-                Đa thức
-              </Menu.Item>
-              <Menu.Item key="graph" icon={<EditOutlined/>}>
-                Đồ thị
-              </Menu.Item>
-            </Menu>
-          </Sider>
-          <Layout>
-            <Header style={{ "background": "#fff"}}>
-              {React.createElement(this.state.collapsed ? MenuUnfoldOutlined: MenuFoldOutlined, {
-                className: 'trigger',
-                onClick: this.toggle,
-              })}
-            </Header> */}
-    
-        {/* <nav className="navbar navbar-expand navbar-dark bg-dark">
-          <Link to={"/"} className="navbar-brand">
-            MathSolver
-          </Link>
-          <div className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <Link to={"/home"} className="nav-link">
-                Home
-              </Link>
-            </li>
 
-            {showModeratorBoard && (
-              <li className="nav-item">
-                <Link to={"/mod"} className="nav-link">
-                  Moderator Board
-                </Link>
-              </li>
-            )}
-
-            {showAdminBoard && (
-              <li className="nav-item">
-                <Link to={"/admin"} className="nav-link">
-                  Admin Board
-                </Link>
-              </li>
-            )}
-
-            {(
-              <li className="nav-item">
-                <Link to={"/general"} className="nav-link">
-                  General 
-                </Link>
-              </li>
-            )}
-
-            {(
-              <li className="nav-item">
-                <Link to={"/general1"} className="nav-link">
-                  Gen 1
-                </Link>
-              </li> 
-            )}
-
-            {(
-              <li className="nav-item">
-                <Link to={"/general2"} className="nav-link">
-                  Gen 2
-                </Link>
-              </li> 
-            )}
-
-            {(
-              <li className="nav-item">
-                <Link to={"/general3"} className="nav-link">
-                  Gen 3
-                </Link>
-              </li> 
-            )}
-          </div>
-
-          {currentUser ? (
-            <div className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link to={"/profile"} className="nav-link">
-                  Profile
-                </Link>
-              </li>
-              <li className="nav-item">
-                <a href="/login" className="nav-link" onClick={this.logOut}>
-                  LogOut
-                </a>
-              </li>
-            </div>
-          ) : (
-            <div className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link to={"/login"} className="nav-link">
-                  Login
-                </Link>
-              </li>
-            </div>
-          )}
-        </nav> */}
-
-        {/* <div className="container mt-3"> */}
           <Layout style={{padding: "0 150px"}}>
             <MathSolver style={{margin: "16px"}}></MathSolver>
             {pathname=="/login"? 
