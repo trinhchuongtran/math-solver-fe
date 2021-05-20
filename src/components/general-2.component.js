@@ -14,7 +14,7 @@ function General2() {
 
   return (
     <div>
-      <math-field id="formula" style={{
+      {/* <math-field id="formula" style={{
         backgroundColor: "#c0cacc",
         height: "50px",
         borderRadius: "10px",
@@ -28,7 +28,7 @@ function General2() {
       }} onClick={() => {
         setInputLatex(document.getElementById('formula').getValue("latex"));
       }} id="submit">Submit</Button>
-      <Plot id="result" tex={input_latex}></Plot> 
+      <Plot id="result" tex={input_latex}></Plot>  */}
     </div> 
   )
 }

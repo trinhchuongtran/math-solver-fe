@@ -242,7 +242,6 @@ class App extends Component {
 
         {/* <div className="container mt-3"> */}
           <Layout style={{padding: "0 150px"}}>
-
             <MathSolver style={{margin: "16px"}}></MathSolver>
             {pathname=="/login"? 
             <Row style={{minHeight: '80vh'}}>
