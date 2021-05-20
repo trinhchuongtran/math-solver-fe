@@ -13,6 +13,8 @@ import BoardAdmin from "./components/board-admin.component";
 import General1 from "./components/general-1.component"
 import General2 from "./components/general-2.component";
 import General3 from "./components/general-3.component";
+import MathSolver from "./components/breadcrumb.component";
+import { withRouter } from "react-router";
 
 import { Layout, Menu, Breadcrumb, Row, Col } from 'antd';
 
@@ -20,6 +22,7 @@ import { HomeOutlined, FunctionOutlined, EditOutlined, MenuUnfoldOutlined, MenuF
 
 const { Content, Sider, Header, Footer } = Layout;
 const { SubMenu } = Menu;
+
 
 class App extends Component {
   constructor(props) {
@@ -31,7 +34,8 @@ class App extends Component {
       showModeratorBoard: false,
       showAdminBoard: false,
       currentUser: undefined,
-      current: ''
+      current: undefined,
+
     };
   }
 
@@ -59,42 +63,59 @@ class App extends Component {
   }
 
   logOut() {
-    AuthService.logout();
+    AuthService.logout().then(this.setState({current: "home"}));
   }
+
+
 
   render() {
     const { currentUser, showModeratorBoard, showAdminBoard, current } = this.state;
-
+    const { pathname } = this.props.location;
     return (
 
-        <Layout className="layout" >
+        <Layout className="layout">
           <Menu onClick={this.handleClick} selectedKeys={[current]} mode="horizontal"  style={{padding: "0 150px"}}>
             <Menu.Item key="home">
               <Link to={"/"}>
                 MathSolver 
               </Link>
             </Menu.Item>
-            <Menu.Item>
+            {/* <Menu.Item>
               <Link to={"/solve"}>
-                Giải
+                Giải cơ bản
               </Link>
-            </Menu.Item>
+            </Menu.Item> */}
+            <SubMenu key="solve" title="Giải cơ bản">
+              <Menu.Item key="polynomial">
+                <Link to={"/polynomial"}>
+                  Đa thức
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="graph">
+                <Link to={"/graph"}>
+                  Đồ thị
+                </Link>
+              </Menu.Item>
+            </SubMenu>
             <Menu.Item key="problem">
-              <Link to={"/general3"}>
+              <Link to={"/problem"}>
                 Giải tổng hợp
               </Link>
             </Menu.Item>
             {showModeratorBoard && (
               <Menu.Item key="define">
-                Định nghĩa bài toán
+                <Link to={"/define"}>
+                  Định nghĩa bài toán
+                </Link>
               </Menu.Item>
             )}
             {showAdminBoard && (
               <Menu.Item key="monitor">
-                Quản lý
+                <Link to={"/monitor"}>
+                  Quản lý
+                </Link>
               </Menu.Item>
             )}
-            
             {currentUser ? (
               <Menu.Item style={{float: 'right'}}>
                 <a href="/" onClick={this.logOut}></a>
@@ -221,25 +242,36 @@ class App extends Component {
 
         {/* <div className="container mt-3"> */}
           <Layout style={{padding: "0 150px"}}>
-            <Content style={{ minHeight: '80vh', background: "#fff"}}>
-              <Row> 
-                <Col>
+
+            <MathSolver style={{margin: "16px"}}></MathSolver>
+            {pathname=="/login"? 
+            <Row style={{minHeight: '80vh'}}>
+            <Col span={8}></Col>
+            <Col span={8}>
+              <Switch>
+                <Route exact path="/login" component={Login}/>
+              </Switch>
+            </Col>
+            <Col span={8}></Col>
+              
+            </Row>
+            :
+            <Content style={{ minHeight: '80vh', background: "#fff", padding: "16px"}}>
                   <Switch>
-                    <Route exact path={["/", "/home"]} component={Home} />
-                    <Route exact path="/login" component={Login} />
+                    <Route exact path={"/"} component={Home} />
+                    {/* <Route exact path="/login" component={Login} /> */}
                     <Route exact path="/profile" component={Profile} />
-                    <Route path="/solve" component={BoardUser} />
-                    <Route path="/solve/polynomial" component={General1}/>
-                    <Route path="/solve/graph" component={General2}/>
-                    <Route path="/general3" component={General3}/>
-                    <Route path="/mod" component={BoardModerator} />
-                    <Route path="/admin" component={BoardAdmin} />
+                    {/* <Route path="/solve" component={BoardUser} /> */}
+                    <Route path="/polynomial" component={General1}/>
+                    <Route path="/graph" component={General2}/>
+                    <Route path="/problem" component={General3}/>
+                    <Route path="/define" component={BoardModerator} />
+                    <Route path="/monitor" component={BoardAdmin} />
                     {/* <Route path="*" component={Home} /> */}
                   </Switch>
-                </Col>
-              </Row>
-
             </Content>
+            }
+            
           </Layout>
             <Footer style={{ textAlign: 'center' }}>Math</Footer>
     </Layout>
@@ -247,4 +279,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
