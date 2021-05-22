@@ -62,6 +62,7 @@ function Exercise(data2) {
                   span={24}
                   style={{ display: "flex", alignItems: "center" }}
                 >
+                  
                   <MathJax.Context>
                     <MathJax.Node>{item.before}</MathJax.Node>
                   </MathJax.Context>
@@ -73,7 +74,7 @@ function Exercise(data2) {
                   >
                     <Form.Item
                       name={item.name}
-                      style={{ display: "inline-block", alignItems: "center" }}
+                      style={{ display: "inline-block", alignItems: "center" , margin: "12px 0px"}}
                     >
                       <Input style={{ width: "128px" }} />
                     </Form.Item>
@@ -105,13 +106,13 @@ export default class General2 extends Component {
       data: {},
       isLoad: false,
     };
-    fetch("http://127.0.0.1:6900/api/exer_api", {
+    fetch("http://api.bkmathapp.tk/api/exer_api", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        input: "x^4 -8x^2+7=0",
+        input: "x^4 -8x^2=0",
         variable: "x",
       }),
     }).then((res) => {

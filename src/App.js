@@ -169,8 +169,8 @@ class App extends Component {
                     {/* <Route path="/solve" component={General1} /> */}
                     <Route path="/solve" component={BoardUser} />
                     {/* <Route path="/polynomial" component={BoardUser}/> */}
-                    {/* <Route path="/polynomial" component={General1}/> */}
-                    <Route path="/polynomial" component={General2}/>
+                    <Route path="/polynomial" component={General1}/>
+                    <Route path="/exercise" component={General2}/>
                     <Route path="/solve/graph" component={General2}/>
                     <Route path="/problem" component={General3}/>
                     <Route path="/mod" component={BoardModerator} />
