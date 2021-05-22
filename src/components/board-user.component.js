@@ -220,9 +220,10 @@ function Dathuc() {
         <Col span={21}>
           <math-field
             id="formula"
+            // virtual-keyboard-mode="onfocus"
             style={{
               width: "100%",
-              // backgroundColor: "#ffffff",
+              backgroundColor: "#ffffff",
               height: "40px",
               borderRadius: "10px",
               color: "#000000",
