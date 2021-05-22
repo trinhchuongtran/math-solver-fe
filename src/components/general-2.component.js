@@ -19,7 +19,8 @@ function General2() {
         height: "50px",
         borderRadius: "10px",
         color: "#000000",
-        fontSize: "20px"
+        fontSize: "20px",
+        width: "100%"
       }}></math-field>
     
       <Button style={{

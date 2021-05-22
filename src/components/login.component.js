@@ -1,173 +1,131 @@
 import React, { Component } from "react";
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
 
-import { isEmail } from "validator";
+
+import { Form, Input, Button, Typography} from "antd";
+import { UserOutlined, KeyOutlined } from "@ant-design/icons";
+
+
 import AuthService from "../services/auth.service";
 import { Redirect } from "react-router";
 
-const required = value => {
-  if (!value) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        This field is required!
-      </div>
-    );
-  }
-};
+const { Text } = Typography;
 
-const email = value => {
-  if (!isEmail(value)) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        This is not a valid email!
-      </div>
-    )
-  }
-}
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
-    this.handleLogin = this.handleLogin.bind(this);
-    this.onChangeEmail = this.onChangeEmail.bind(this);
-    this.onChangePassword = this.onChangePassword.bind(this);
-    this.logOut = this.logOut.bind(this);
+
+  this.enterLoading = this.enterLoading.bind(this);
 
     this.state = {
-      // redirect: null,
-      email: "",
-      password: "",
+
+      validateStatus: false,
       loading: false,
       message: ""
-    };
-  }
-  componentDidMount() {
-  //   let user = AuthService.getCurrentUser();
-  //   if (user !== null) this.setState({ redirect: "/home"});
-    this.logOut();
   }
 
-  onChangeEmail(e) {
-    this.setState({
-      email: e.target.value
-    });
+  
+
+  }
+  componentDidMount() {
+
+    let user = AuthService.getCurrentUser();
+    if (user !== null) {
+
+    this.logOut();
+    window.location.reload();
+  }
   }
   logOut() {
     AuthService.logout();
   }
 
-  onChangePassword(e) {
-    this.setState({
-      password: e.target.value
-    });
-  }
-
-  handleLogin(e) {
-    e.preventDefault();
+  onFinish = (values) => {
 
     this.setState({
+      loading: true,
       message: "",
-      loading: true
+    
     });
 
-    this.form.validateAll();
-    if (this.checkBtn.context._errors.length === 0) {
-      AuthService.login(this.state.email, this.state.password).then(
+      AuthService.login(values.email, values.password).then(
         () => {
+
           this.props.history.push("/profile");
           window.location.reload();
         },
         error => {
           const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
+            error.response.status == 401? "Email hoặc mật khẩu không đúng!":
             error.toString();
-
+              console.log(error.response);
           this.setState({
             loading: false,
             message: resMessage
           });
         }
       );
-    } else {
-      this.setState({
-        loading: false
-      });
-    }
   }
 
+  enterLoading = index => {
+      this.setState(( {loading }) => {
+        return {
+          loading: true,
+          message: ""
+        };
+      });
+  }
+
+
   render() {
-    // if (this.state.redirect) {
-    //   console.log("122")
-    //   return <Redirect to={this.state.redirect}/>
-    // }
     return (
-      <div className="col-md-12">
-        <div className="card card-container">
-          
-
-          <Form
-            onSubmit={this.handleLogin}
-            ref={c => {
-              this.form = c;
-            }}
+      <Form
+        name="login"
+        className="login-form"
+        onFinish={this.onFinish}
+        >
+        <Form.Item
+          name="email"
+          rules={[
+            {
+              required: true,
+              message: "Email is required!",
+            },
+            {
+              type: "email",
+              message: "The input is not valid email!", 
+            }
+          ]}>
+          <Input 
+            prefix={<UserOutlined/>}
+            placeholder="E-mail"
+          />
+        </Form.Item>
+        <Form.Item
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: "Password is required!"
+            }
+          ]}
           >
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <Input
-                type="text"
-                className="form-control"
-                name="email"
-                value={this.state.email}
-                onChange={this.onChangeEmail}
-                validations={[required, email]}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <Input
-                type="password"
-                className="form-control"
-                name="password"
-                value={this.state.password}
-                onChange={this.onChangePassword}
-                validations={[required]}
-              />
-            </div>
-
-            <div className="form-group">
-              <button
-                className="btn btn-primary btn-block"
-                disabled={this.state.loading}
-              >
-                {this.state.loading && (
-                  <span className="spinner-border spinner-border-sm"></span>
-                )}
-                <span>Login</span>
-              </button>
-            </div>
-
-            {this.state.message && (
-              <div className="form-group">
-                <div className="alert alert-danger" role="alert">
-                  {this.state.message}
-                </div>
-              </div>
-            )}
-            <CheckButton
-              style={{ display: "none" }}
-              ref={c => {
-                this.checkBtn = c;
-              }}
-            />
-          </Form>
-        </div>
-      </div>
+          <Input.Password
+            prefix={<KeyOutlined/>}
+            type="password"
+            placeholder="Password"/>
+        </Form.Item>
+        
+        <Form.Item>
+          <Button className="login-form-button" type="primary" htmlType="submit" loading={this.state.loading} >
+            Đăng nhập 
+          </Button>
+        </Form.Item>
+          {this.state.message && (
+            <Text type="danger">{this.state.message}</Text>
+          )}
+        </Form>
+        
     );
   }
 }

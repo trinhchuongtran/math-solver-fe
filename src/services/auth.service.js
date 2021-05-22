@@ -5,7 +5,7 @@ const API_URL = "http://localhost:8080/api/auth/";
 class AuthService {
   login(email, password) {
     return axios
-      .post(`http://localhost:8000/api/login/`, {
+      .post(`http://api.bkmathapp.tk/api/login/`, {
         email,
         password
       })
