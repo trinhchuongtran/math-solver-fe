@@ -4,30 +4,40 @@ import { Button, Popover } from "antd";
 import { List, Card, Form } from "antd";
 import { Input } from "antd";
 import { Row, Col } from "antd";
+import "../css/exercise.css";
 
 function Exercise(data2) {
   const [check, setCheck] = React.useState({});
   const [checkSubmit, setCheckSubmit] = React.useState(false);
-  // const [data, setData] = React.useState({});
+  const [dataInput, setDataInput] = React.useState({});
 
   // setData(data2);
   function popoverContent(data4) {
-    if (data4) {
-      return "Right";
+    // console.log(dataInput[data4]);
+    if (dataInput[data4]) {
+      if (check[data4]) {
+        return "Đúng";
+      } else {
+        return "Sai";
+      }
     } else {
-      return "Wrong";
+      return "Trống";
     }
   }
 
   const onFinish = (e) => {
     var lst = [];
+    console.log(e);
     for (var i = 0; i < Object.keys(e).length; i++) {
-      lst.push({
-        name: Object.keys(e)[i],
-        key: data2.data.handle[i].key,
-        input: e[Object.keys(e)[i]],
-      });
+      if (e[Object.keys(e)[i]] != undefined) {
+        lst.push({
+          name: Object.keys(e)[i],
+          key: data2.data.handle[i].key,
+          input: e[Object.keys(e)[i]],
+        });
+      }
     }
+    setDataInput(e);
     fetch("http://api.bkmathapp.tk/api/check_api", {
       method: "POST",
       headers: {
@@ -45,36 +55,38 @@ function Exercise(data2) {
   };
   return (
     <Row>
-      <Col span={24}>
+      <Col className="exercise_equation">
         <MathJax.Context>
           <MathJax.Node>{data2.data.equation}</MathJax.Node>
         </MathJax.Context>
       </Col>
       <Col span={24}>
-        <Form
-          onFinish={onFinish}
-        >
+        <Form onFinish={onFinish}>
           <Row>
             {data2.data.handle.map((item) => {
               console.log(data2.data);
               return (
                 <Col
+                  className="exercise_item"
                   span={24}
                   style={{ display: "flex", alignItems: "center" }}
                 >
-                  
                   <MathJax.Context>
                     <MathJax.Node>{item.before}</MathJax.Node>
                   </MathJax.Context>
                   <Popover
                     trigger=""
                     visible={checkSubmit}
-                    content={popoverContent(check[item.name])}
+                    content={popoverContent(item.name)}
                     placement="right"
                   >
                     <Form.Item
                       name={item.name}
-                      style={{ display: "inline-block", alignItems: "center" , margin: "12px 0px"}}
+                      style={{
+                        display: "inline-block",
+                        alignItems: "center",
+                        margin: "auto 0px",
+                      }}
                     >
                       <Input style={{ width: "128px" }} />
                     </Form.Item>
