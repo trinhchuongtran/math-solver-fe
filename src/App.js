@@ -150,7 +150,7 @@ class App extends Component {
           <Layout style={{padding: "0 150px"}}>
             <MathSolver style={{margin: "16px"}}></MathSolver>
             {pathname=="/login"? 
-            <Row style={{minHeight: '80vh'}}>
+            <Row style={{}}>
             <Col span={8}></Col>
             <Col span={8}>
               <Switch>
@@ -161,16 +161,16 @@ class App extends Component {
               
             </Row>
             :
-            <Content style={{ minHeight: '80vh', background: "#fff", padding: "16px"}}>
+            <Content style={{ background: "#fff", padding: "16px"}}>
                   <Switch>
                     <Route exact path={"/"} component={Home} />
                     {/* <Route exact path="/login" component={Login} /> */}
                     <Route exact path="/profile" component={Profile} />
                     {/* <Route path="/solve" component={General1} /> */}
                     <Route path="/solve" component={BoardUser} />
-                    <Route path="/solve/polynomial" component={General1}/>
+                    <Route path="/polynomial" component={BoardUser}/>
                     <Route path="/solve/graph" component={General2}/>
-                    <Route path="/general3" component={General3}/>
+                    <Route path="/problem" component={General3}/>
                     <Route path="/mod" component={BoardModerator} />
                     <Route path="/admin" component={BoardAdmin} />
                     {/* <Route path="*" component={Home} /> */}

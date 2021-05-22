@@ -248,7 +248,7 @@ function Dathuc() {
           </Col>
         </Col>
       </Row>
-      <Row gutter={16}>
+      <Row gutter={16} style={{ minHeight: "100%"}}>
         {!openResult && (
           <>
             <Row gutter={8} style={{ minWidth: "100%" }}>
@@ -295,7 +295,7 @@ function Dathuc() {
                 </Menu>
               </Col>
               <Col span={16}>
-                <Card style={{ minWidth: "100%" }}>
+                <Card style={{ minWidth: "100%", minHeight: "100%" }}>
                   <Col span={24}>
                     {/* <Card style={{border: "2px solid #000000"}}
                 title="Một số bài toán giải đa thức cơ bản"
