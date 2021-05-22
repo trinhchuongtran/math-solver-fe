@@ -228,6 +228,7 @@ class App extends Component {
                     <Route exact path={["/", "/home"]} component={Home} />
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/profile" component={Profile} />
+                    {/* <Route path="/solve" component={General1} /> */}
                     <Route path="/solve" component={BoardUser} />
                     <Route path="/solve/polynomial" component={General1}/>
                     <Route path="/solve/graph" component={General2}/>
