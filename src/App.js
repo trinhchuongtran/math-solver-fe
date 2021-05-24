@@ -76,7 +76,6 @@ class App extends Component {
   }
 
 
-
   render() {
     const { currentUser, showModeratorBoard, showAdminBoard, current } = this.state;
     const { pathname } = this.props.location;

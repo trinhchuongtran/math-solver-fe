@@ -1,0 +1,39 @@
+.ant-menu-submenu {
+  /* font-size: 16px;
+    font-family: "font-family: 'Times New Roman',Times,STIXGeneral,serif;";
+    font-weight: 400 */
+}
+
+.ant-btn-primary {
+  background: #147f8f;
+  border-color: #147f8f;
+}
+
+.solve_plot > span {
+  font-size: 16px;
+  /* padding: 12px 0; */
+  font-weight: 300;
+}
+
+.solve_dathuc {
+  text-align: left;
+  /* padding: 12px; */
+  /* line-height: 10; */
+  border-radius: 8px;
+}
+
+.solve_dathuc > span {
+  font-weight: 300;
+  font-size: 16px;
+}
+
+.solve_item{
+    padding-top: 4px;
+    padding-bottom: 4px;
+    height: 50px;
+}
+
+.solve_plot{
+    font-weight: bold;
+     text-align: left
+}
