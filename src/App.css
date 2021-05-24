@@ -1,10 +1,19 @@
 @import '~antd/dist/antd.css';
 
+.body {
+  /* background-image: url('https://i.pinimg.com/originals/7a/68/17/7a6817707b313cb5e01eab1cfec2adac.jpg'); */
+}
 .login-form {
   width: 100%;
 }
+
 .login-form-button {
   width: 100%
+}
+
+.nav-button {
+  float: right;
+  margin: 7px;
 }
 /* label {
   display: block;
