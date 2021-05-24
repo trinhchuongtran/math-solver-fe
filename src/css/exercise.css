@@ -1,0 +1,10 @@
+.exercise_equation > span {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.exercise_item > span{
+    font-size: 20px;
+    padding: 12px 0;
+    font-weight: 300;
+}

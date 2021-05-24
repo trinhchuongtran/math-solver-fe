@@ -14,6 +14,7 @@ import General1 from "./components/general-1.component"
 import General2 from "./components/general-2.component";
 import General3 from "./components/general-3.component";
 import MathSolver from "./components/breadcrumb.component";
+import Graph from "./components/graph.component";
 import { withRouter } from "react-router";
 
 import { Layout, Menu, Breadcrumb, Row, Col, Drawer, Button} from 'antd';
@@ -73,7 +74,7 @@ class App extends Component {
 
   componentDidMount() {
     const user = AuthService.getCurrentUser();
-    
+
     if (user) {
       this.setState({
         currentUser: user,
@@ -84,7 +85,7 @@ class App extends Component {
   }
 
   logOut() {
-    AuthService.logout().then(this.setState({current: "home"}));
+    AuthService.logout().then(this.setState({ current: "home" }));
   }
 
 
@@ -106,23 +107,18 @@ class App extends Component {
                 Giải cơ bản
               </Link>
             </Menu.Item> */}
-            <SubMenu key="solve" title="Giải cơ bản">
-              <Menu.Item key="polynomial">
-                <Link to={"/polynomial"}>
-                  Đa thức
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="graph">
-                <Link to={"/graph"}>
-                  Đồ thị
-                </Link>
-              </Menu.Item>
-            </SubMenu>
-            <Menu.Item key="problem">
-              <Link to={"/problem"}>
-                Giải tổng hợp
+          <SubMenu key="solve" title="Giải cơ bản">
+            <Menu.Item key="polynomial">
+              <Link to={"/polynomial"}>
+                Đa thức
               </Link>
             </Menu.Item>
+            <Menu.Item key="graph">
+              <Link to={"/graph"}>
+                Đồ thị
+              </Link>
+            </Menu.Item>
+          </SubMenu>
             {showModeratorBoard && (
               <Menu.Item key="define">
                 <Link to={"/define"}>
@@ -196,7 +192,7 @@ class App extends Component {
                     {/* <Route exact path="/profile" component={Profile} /> */}
                     <Route path="/solve" component={BoardUser} />
                     <Route path="/polynomial" component={General1}/>
-                    <Route path="/graph" component={General2}/>
+                    <Route path="/graph" component={Graph}/>
                     <Route path="/problem" component={General3}/>
                     <Route path="/define" component={BoardModerator} />
                     <Route path="/monitor" component={BoardAdmin} />

@@ -1,54 +1,143 @@
-import React, { useState } from "react";
+import React, { Component, useState } from "react";
+import MathJax from "react-mathjax2";
+import { Button, Popover } from "antd";
+import { List, Card, Form } from "antd";
+import { Input } from "antd";
+import { Row, Col } from "antd";
+import "../css/exercise.css";
 
-import BoardUser from "./board-user.component";
-import MathInput from "./math-input.component";
-import Plot from '../api/Plot';
-import { Tabs, Button, Row, Col} from 'antd';
+function Exercise(data2) {
+  const [check, setCheck] = React.useState({});
+  const [checkSubmit, setCheckSubmit] = React.useState(false);
+  const [dataInput, setDataInput] = React.useState({});
 
-// export default class General2 extends Component {
-const { TabPane } = Tabs;
-function General2() {
-  const [input_latex, setInputLatex] = useState('');
+  // setData(data2);
+  function popoverContent(data4) {
+    // console.log(dataInput[data4]);
+    if (dataInput[data4]) {
+      if (check[data4]) {
+        return "Đúng";
+      } else {
+        return "Sai";
+      }
+    } else {
+      return "Trống";
+    }
+  }
+
+  const onFinish = (e) => {
+    var lst = [];
+    console.log(e);
+    for (var i = 0; i < Object.keys(e).length; i++) {
+      if (e[Object.keys(e)[i]] != undefined) {
+        lst.push({
+          name: Object.keys(e)[i],
+          key: data2.data.handle[i].key,
+          input: e[Object.keys(e)[i]],
+        });
+      }
+    }
+    setDataInput(e);
+    fetch("http://api.bkmathapp.tk/api/check_api", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        request: lst,
+      }),
+    }).then((res) => {
+      res.json().then((db) => {
+        setCheck(db.result);
+        setCheckSubmit(true);
+      });
+    });
+  };
   return (
-    // <div className="card-container">
-    //   <MathInput></MathInput>
-    //   <Tabs type="card">
-    //     <TabPane tab="Đa thức" key="polynomial">
-    //       <BoardUser></BoardUser>
-    //     </TabPane>
-    //     <TabPane tab="Đồ thị" key="graph">
-    //       <p>Đồ thị</p>
-    //     </TabPane>
-    //   </Tabs>
-    // </div>
-    <div>
-      <Row style={{ padding: '16px 0'}}>
-        <Col span={21}>
-        <math-field id="formula" style={{
-          backgroundColor: "#c0cacc",
-          height: "50px",
-          borderRadius: "10px",
-          color: "#000000",
-          fontSize: "20px",
-          width: "100%"
-        }}></math-field>
-        </Col>
-        <Col span={3}>
-          <Col span={22} offset={1}>
-            <Button style={{
-              marginTop: "10px"
-              }} onClick={() => {
-              setInputLatex(document.getElementById('formula').getValue("latex"));
-              }} id="submit">Submit</Button>      
-          </Col>
-        </Col>
-      </Row>
-      
-    
-      
-      <Plot id="result" tex={input_latex}></Plot>
-    </div>
-  )
+    <Row>
+      <Col className="exercise_equation">
+        <MathJax.Context>
+          <MathJax.Node>{data2.data.equation}</MathJax.Node>
+        </MathJax.Context>
+      </Col>
+      <Col span={24}>
+        <Form onFinish={onFinish}>
+          <Row>
+            {data2.data.handle.map((item) => {
+              console.log(data2.data);
+              return (
+                <Col
+                  className="exercise_item"
+                  span={24}
+                  style={{ display: "flex", alignItems: "center" }}
+                >
+                  <MathJax.Context>
+                    <MathJax.Node>{item.before}</MathJax.Node>
+                  </MathJax.Context>
+                  <Popover
+                    trigger=""
+                    visible={checkSubmit}
+                    content={popoverContent(item.name)}
+                    placement="right"
+                  >
+                    <Form.Item
+                      name={item.name}
+                      style={{
+                        display: "inline-block",
+                        alignItems: "center",
+                        margin: "auto 0px",
+                      }}
+                    >
+                      <Input style={{ width: "128px" }} />
+                    </Form.Item>
+                  </Popover>
+                  <MathJax.Context>
+                    <MathJax.Node>{item.after}</MathJax.Node>
+                  </MathJax.Context>
+                </Col>
+              );
+            })}
+          </Row>
+          <Button
+            type="primary"
+            style={{ color: "white", background: "blue" }}
+            htmlType="submit"
+          >
+            Kiem tra
+          </Button>
+        </Form>
+      </Col>
+    </Row>
+  );
 }
 
-export default General2;
+export default class General2 extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: {},
+      isLoad: false,
+    };
+    fetch("http://api.bkmathapp.tk/api/exer_api", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        input: "x^4 -8x^2=0",
+        variable: "x",
+      }),
+    }).then((res) => {
+      res.json().then((db) => {
+        this.setState({ data: db.result, isLoad: true });
+      });
+    });
+  }
+  render() {
+    return (
+      <Row>
+        {this.state.isLoad && <Exercise data={this.state.data}></Exercise>}
+      </Row>
+    );
+  }
+}
