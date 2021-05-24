@@ -15,7 +15,7 @@ const { Title } = Typography;
 const { Header, Footer, Sider, Content } = Layout;
 const { parse } = require("equation-parser");
 
-const style = { paddingTop: "9px", paddingBottom: "8px" };
+const style = { paddingTop: "8px", paddingBottom: "8px" };
 
 var emails = [];
 

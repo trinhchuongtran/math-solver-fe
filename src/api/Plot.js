@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MathJax from 'react-mathjax2'
 import authHeader from '../services/auth-header';
+import PlotImage from '../components/plot-image.component';
+import { Row, Col,Card } from 'antd';
 
-function Plot({ tex }) {
+function Plot(props) {
     var [result, setResult] = useState("");
     var [result_detail, setResultDetail] = useState("");
+    const [loading, setLoading] = useState(false);
 
     // var myHeaders = new Headers();
     // myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
-        "input": tex,
+        "input": props.tex,
         "variable": "x",
     });
 
@@ -23,16 +26,18 @@ function Plot({ tex }) {
 
     
     // function handleClick(e) {
-        // e.preventDefault();
+    //     e.preventDefault();
+    useEffect(() => {
+
         fetch("http://api.bkmathapp.tk/api/plot_api", requestOptions)
-            .then(res => {
-                res.json().then(db => {
+            .then((res) => {
+                res.json().then((db) => {
                     // console.log(db.detail);
                     var result_api = "";
                     let valuesArray = Object.values(db.detail);
                     let i = 1;
                     for (let value of valuesArray) {
-                        console.log(value);
+                        // console.log(value);
                         if (typeof value == "number") {
                             continue;
                         }
@@ -53,18 +58,24 @@ function Plot({ tex }) {
                     console.log(result_api);
 
                     setResult(db.result);
-                })
+                    setLoading(true);
+                });
             }).catch(err => {
                 console.log(err);
-                console.log("test1");
-        })
+        });
+    })
+        
     // }
 
 
 
     return (
         <div>
-            <MathJax.Context input='tex'
+        <Row>
+            <Col span={18}>
+                <Card title="Khảo sát đồ thị" loading={!loading}>
+                <MathJax.Context
+                input='tex'
                 options={{
                     displayAlign: 'left',
                     mathmlSpacing: false,
@@ -79,12 +90,19 @@ function Plot({ tex }) {
                         packages: { '[+]': ['color'] },
                     }
                 }}
-            >
+                >
                 <div>
                     <MathJax.Node>{result_detail}</MathJax.Node>
                 </div>
-            </MathJax.Context>
-            {result ? <img style={{ "display": "block", "margin-left": "auto", "margin-right": "auto", "width": "40%"}} src={`data:image/jpeg;base64,${result}`} />: null }
+                </MathJax.Context>
+            {/* {result ? <img style={{"width": "40%"}} src={`data:image/jpeg;base64,${result}`} />: null } */}
+                </Card>
+            </Col>
+            <Col span={6}>
+                <PlotImage result={result} loading={!loading}/>
+            </Col>
+        </Row>
+        
         </div>
     )
 };

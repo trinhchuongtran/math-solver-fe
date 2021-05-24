@@ -16,17 +16,16 @@ import General3 from "./components/general-3.component";
 import MathSolver from "./components/breadcrumb.component";
 import { withRouter } from "react-router";
 
-import { Layout, Menu, Breadcrumb, Row, Col } from 'antd';
+import { Layout, Menu, Breadcrumb, Row, Col, Drawer, Button} from 'antd';
 
-import { HomeOutlined, FunctionOutlined, EditOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
+import { HomeOutlined, FunctionOutlined, EditOutlined, MenuUnfoldOutlined, MenuFoldOutlined, UserOutlined } from "@ant-design/icons";
 
 const { Content, Sider, Header, Footer } = Layout;
 const { SubMenu } = Menu;
 
 const keyMap = {
-  "/login": "login",
   "/": "home",
-  "/profile": "profile",
+  // "/profile": "profile",
   "/polynomial": "polynomial",
   "/graph": "graph",
   "/problem": "problem",
@@ -39,18 +38,31 @@ class App extends Component {
     this.logOut = this.logOut.bind(this);
 
     this.state = {
-      collapsed: false,
       showModeratorBoard: false,
       showAdminBoard: false,
       currentUser: undefined,
       current: undefined,
-
+      loginVisible: false,
+      profileVisible: false
     };
   }
 
-  toggle = () => {
+  showLogin = () => {
     this.setState({
-      collapsed: !this.state.collapsed,
+      loginVisible: true,
+    });
+  }; 
+
+  showProfile = () => {
+    this.setState({
+      profileVisible: true,
+    })
+  }
+  
+  onclose = () => {
+    this.setState({
+      loginVisible: false,
+      profileVisible: false
     });
   };
 
@@ -83,7 +95,7 @@ class App extends Component {
     return (
 
         <Layout className="layout">
-          <Menu onClick={this.handleClick} selectedKeys={keyMap[pathname]} mode="horizontal"  style={{padding: "0 150px"}}>
+          <Menu onClick={this.handleClick} selectedKeys={keyMap[pathname]} mode="horizontal" triggerSubMenuAction="click" style={{padding: "0 150px"}}>
             <Menu.Item key="home">
               <Link to={"/"}>
                 MathSolver 
@@ -126,30 +138,46 @@ class App extends Component {
               </Menu.Item>
             )}
             {currentUser ? (
-              <Menu.Item style={{float: 'right'}}>
-                <a href="/" onClick={this.logOut}></a>
+              <Button className="nav-button" shape="round" type="primary" href="/" onClick={this.logOut}>
+                {/* <a href="/" onClick={this.logOut}></a> */}
                 Đăng xuất
-              </Menu.Item>
+              </Button>
             ) : (
-              <Menu.Item key="login" style={{float: 'right'}}>
-                <Link to={"/login"}>
+              <Button className="nav-button" shape="round" type="primary" onClick={this.showLogin}>
+                {/* <Link to={"/login"}> */}
                   Đăng nhập
-                </Link>
-              </Menu.Item>
+                {/* </Link> */}
+              </Button>
             )}
             {currentUser && (
-              <Menu.Item key="profile" style={{float: 'right'}}>
-                <Link to={"/profile"}>
-                  {currentUser.email}
-                </Link>
+              <Button className="nav-button" shape="round" type="dashed" onClick={this.showProfile} icon={ <UserOutlined/> }>
+                {/* <Link to={"/profile"}> */}
+                   {currentUser.email}
+                {/* </Link> */}
 
-              </Menu.Item>
+              </Button>
             )}
           </Menu>
 
-          <Layout style={{padding: "0 150px"}}>
-            <MathSolver style={{margin: "16px"}}></MathSolver>
-            {pathname=="/login"? 
+          <Layout className="body" style={{padding: "0 150px"}}>
+            {/* <MathSolver style={{margin: "16px"}}></MathSolver> */}
+            <Drawer
+              title='Đăng nhập'
+              width={480}
+              onClose={this.onclose}
+              visible={this.state.loginVisible}
+            >
+              <Login></Login>
+            </Drawer>
+            <Drawer
+              title='Thông tin người dùng'
+              width={480}
+              onClose={this.onclose}
+              visible={this.state.profileVisible}
+            >
+              <Profile></Profile>
+            </Drawer>
+            {/* {pathname=="/login"? 
             <Row style={{minHeight: '80vh'}}>
             <Col span={8}></Col>
             <Col span={8}>
@@ -160,13 +188,13 @@ class App extends Component {
             <Col span={8}></Col>
               
             </Row>
-            :
-            <Content style={{ minHeight: '80vh', background: "#fff", padding: "16px"}}>
+            : */}
+            <Content >
                   <Switch>
                     <Route exact path={"/"} component={Home} />
                     {/* <Route exact path="/login" component={Login} /> */}
-                    <Route exact path="/profile" component={Profile} />
-                    {/* <Route path="/solve" component={BoardUser} /> */}
+                    {/* <Route exact path="/profile" component={Profile} /> */}
+                    <Route path="/solve" component={BoardUser} />
                     <Route path="/polynomial" component={General1}/>
                     <Route path="/graph" component={General2}/>
                     <Route path="/problem" component={General3}/>
@@ -175,7 +203,7 @@ class App extends Component {
                     {/* <Route path="*" component={Home} /> */}
                   </Switch>
             </Content>
-            }
+            {/* } */}
             
           </Layout>
             <Footer style={{ textAlign: 'center' }}>Math</Footer>
