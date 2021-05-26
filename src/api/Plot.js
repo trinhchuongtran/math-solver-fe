@@ -69,7 +69,7 @@ function Plot(props) {
             }).catch(err => {
                 console.log(err);
         });
-    })
+    }, [])
         
     // }
 

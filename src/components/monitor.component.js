@@ -25,10 +25,12 @@ function MonitorComponent(props) {
                 }).catch(err => {
                 console.log(err);
             })
-        }
+        }, []
     );
     function upgrade(id) {
-        fetch(`http://128.0.0.1:6900/api/users/${id}`, {
+
+        // fetch(`http://128.0.0.1:6900/api/users/${id}`, {
+        fetch(`http://api.bkmathapp.tk/api/user/${id}`, {
             method: 'PUT',
             headers: authHeader(),
         }).then((res) => {
@@ -41,7 +43,9 @@ function MonitorComponent(props) {
     };
 
     function delete_user(id) {
-        fetch(`http://128.0.0.1:6900/api/user/${id}`, {
+        // fetch(`http://128.0.0.1:6900/api/user/${id}`, {
+
+        fetch(`http://api.bkmathapp.tk/api/user/${id}`, {
             method: 'DELETE',
             headers: authHeader(),
             // body: JSON.stringify({
