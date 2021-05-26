@@ -1,17 +1,7 @@
 // import React from "react"
 import React from "react";
 import MathJax from "react-mathjax2";
-// import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-// import Typography from "@material-ui/core/Typography";
-import HighlightOffIcon from "@material-ui/icons/HighlightOff";
-// import Input from "@material-ui/core/Input";
-import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core";
-
-import Backdrop from "@material-ui/core/Backdrop";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import { LeftOutlined } from "@ant-design/icons";
 
 import { List, Card, Form } from "antd";
 import { Button } from "antd";
@@ -41,12 +31,17 @@ const tailLayout = {
 
 const Popup = (props) => {
   return (
-    <div className="popup-box">
-      <IconButton aria-label="delete" onClick={props.handleClose}>
-        <HighlightOffIcon />
-      </IconButton>
-      <FlavorForm idProblem={props.idProblem} />
-    </div>
+    <Card className="problem_card">
+      <Button
+        type="primary"
+        icon={<LeftOutlined />}
+        onClick={props.handleClose}
+        style={{ marginBottom: "8px" }}
+      >
+        Trở lại
+      </Button>
+      <Threads idProblem={props.idProblem} />
+    </Card>
   );
 };
 
@@ -69,7 +64,7 @@ function getcontent(data) {
 }
 
 function arrayRemove(arr, value) {
-  return arr.filter(function(ele) {
+  return arr.filter(function (ele) {
     return ele != value;
   });
 }
@@ -81,50 +76,47 @@ const styleSubmit = {
 };
 
 function Solution(props) {
-  const { result } = props;
+  console.log(props);
+  const { result, isloading } = props;
+  console.log(result, isloading);
   return (
-    // <div className={classes.solutionContent}>
-    <Card title={"Bài Giải"}>
-      {/* <Divider orientation="left">Bài Giải</Divider> */}
+    <Card title={"Bài Giải"} loading={!isloading} style={{ marginTop: "8px" }}>
       <Col>
-      <Title level={5}>
-        <MathJax.Context
-          input="tex"
-          options={{
-            displayAlign: "left",
-            mathmlSpacing: false,
-            displayIndent: "0",
-            paddingLeft: true,
-            skipHtmlTags: ["+"],
-            inlineMath: [
-              ["$", "$"],
-              ["\\(", "\\)"],
-            ],
-            processEscapes: true,
-            tex: {
-              packages: { "[+]": ["color"] },
-            },
-          }}
-        >
-          <div>
-            <MathJax.Node>{result}</MathJax.Node>
-          </div>
-        </MathJax.Context>
+        <Title level={5}>
+          <MathJax.Context
+            input="tex"
+            options={{
+              displayAlign: "left",
+              mathmlSpacing: false,
+              displayIndent: "0",
+              paddingLeft: true,
+              skipHtmlTags: ["+"],
+              inlineMath: [
+                ["$", "$"],
+                ["\\(", "\\)"],
+              ],
+              processEscapes: true,
+              tex: {
+                packages: { "[+]": ["color"] },
+              },
+            }}
+          >
+            <div>
+              <MathJax.Node>{result}</MathJax.Node>
+            </div>
+          </MathJax.Context>
         </Title>
       </Col>
     </Card>
   );
 }
 
-class FlavorForm extends React.Component {
+class Threads extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    // this.setState({idProblem: props.idProblem})
     var inputJson = "";
-    //   if (this.props.idProblem){
-    // console.log(this.props.idProblem);
     fetch("http://api.bkmathapp.tk/api/problem_detail", {
       method: "POST",
       headers: {
@@ -142,7 +134,7 @@ class FlavorForm extends React.Component {
           defaultTopic: inputJson,
           topic: inputJson,
           variable: db.data.Variable,
-          name: db.name
+          name: db.name,
         });
         var findVar = this.state.value;
         var listvar = [];
@@ -157,10 +149,8 @@ class FlavorForm extends React.Component {
           this.setState({ topic: topic });
         }
         this.setState({ isRender: true });
-        // console.log(this.state.topic)
       });
     });
-    // }
     this.state = {
       value: {},
       defaultTopic: inputJson,
@@ -211,7 +201,7 @@ class FlavorForm extends React.Component {
   }
 
   onFinish = (values) => {
-    console.log("Success:", values);
+    // console.log("Success:", values);
     // this.setState({ value: values });
     this.setState({ isSubmit: true, isOpenSolution: false });
     fetch("http://api.bkmathapp.tk/api/problem", {
@@ -258,41 +248,32 @@ class FlavorForm extends React.Component {
   render() {
     return (
       <Row style={{ display: "block" }}>
-        <Button type="primary" loading={!this.state.isOpenSolution}>
-          Click me!
-        </Button>
-        {/* <Backdrop className={classes.backdrop} open={!this.state.isRender}>
-          <CircularProgress color="inherit" />
-        </Backdrop> */}
-        {this.state.isRender && (
-          <Row>
-            <Col span={24}>
-              <Form
-                {...layout}
-                onFinish={this.onFinish}
-                onFinishFailed={this.onFinishFailed}
+        <Row>
+          <Col span={24}>
+            <Form
+              {...layout}
+              onFinish={this.onFinish}
+              onFinishFailed={this.onFinishFailed}
+            >
+              <Card
+                title={"Bài toán: " + this.state.name}
+                extra={
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    loading={this.state.isSubmit && !this.state.isOpenSolution}
+                  >
+                    Giải
+                  </Button>
+                }
+                loading={!this.state.isRender}
               >
-                {/* <Button type="primary" loading={true} onClick={() => this.enterLoading(0)}>
-          Click me!
-        </Button> */}
-
-                <Card
-                  title={"Bài toán: " + this.state.name}
-                  extra={
-                    <Button
-                      type="primary"
-                      style={{ color: "white", background: "blue" }}
-                      htmlType="submit"
-                    >
-                      Giải
-                    </Button>
-                  }
-                >
-                  <Title level={5}>{"Đề bài: " + this.state.topic}</Title>
-                  <Title level={5}>Nhập các giá trị:</Title>
+                <Title level={5}>{"Đề bài: " + this.state.topic}</Title>
+                <Title level={5}>Nhập các giá trị:</Title>
+                <Row>
                   {this.state.variable.map((element, i) => {
                     return (
-                      <Row>
+                      <Col span={8} className="problem_inputvalue">
                         <Title level={5} style={{ paddingRight: "6px" }}>
                           {element.name + " ="}
                         </Title>
@@ -302,19 +283,19 @@ class FlavorForm extends React.Component {
                         >
                           <Input style={{ width: "128px" }} />
                         </Form.Item>
-                      </Row>
+                      </Col>
                     );
                   })}
-                </Card>
-              </Form>
-            </Col>
-          </Row>
-        )}
-        {/* {(!this.state.isOpenSolution && this.state.isSubmit) &&
-          <CircularProgress color="inherit"/>
-          } */}
-        {this.state.isOpenSolution && (
-          <Solution result={this.state.result}></Solution>
+                </Row>
+              </Card>
+            </Form>
+          </Col>
+        </Row>
+        {this.state.isSubmit && (
+          <Solution
+            result={this.state.result}
+            isloading={this.state.isOpenSolution}
+          ></Solution>
         )}
       </Row>
     );

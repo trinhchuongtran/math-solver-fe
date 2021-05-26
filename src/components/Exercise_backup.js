@@ -7,7 +7,7 @@ import { Row, Col } from "antd";
 import { Menu } from "antd";
 import { Switch, Route, Link } from "react-router-dom";
 
-import "../css/exercise.css";
+import "../css/style.css";
 
 const { SubMenu } = Menu;
 
@@ -19,9 +19,6 @@ function Exercise(data2) {
   const [showbuttoncontent, setShowbuttoncontent] =
     React.useState("Hiện kết quả");
   const [selectedType, setSelectedType] = React.useState("default");
-
-  // const []
-  // () => popup()
 
   const listExample = ["x^2-2x+3 = 0", "2x^2 -5x-10=0", "-7x^2+10x-20=0"];
   const listPlot = ["x^2-2x+3 = 0", "2x^2 -5x-10=0", "-7x^2+10x-20=0"];
@@ -157,11 +154,8 @@ function Exercise(data2) {
 
   function checkSingleResult(name) {
     var lst = [];
-    // console.log(e, name)
-    console.log(data2.data);
     var key = "";
     for (var i = 0; i < data2.data.handle.length; i++) {
-      // console.log()
       if (data2.data.handle[i].name == name) {
         key = data2.data.handle[i].key;
         break;
@@ -179,7 +173,7 @@ function Exercise(data2) {
     var temp = {};
     temp[name] = true;
     setCheckSubmit(temp);
-    console.log(checkSubmit);
+    // console.log("checkSubmit: " ,checkSubmit);
   }
 
   function onchangeInput(e, name) {
@@ -251,28 +245,33 @@ function Exercise(data2) {
     setCheckSubmit(checkpopup);
   };
   return (
-    <Row gutter={8} style={{ minWidth: "100%", minHeight: "80vh" }}>
-      <Col span={4}>
+    <Row
+      gutter={12}
+      style={{ marginTop: "24px", minWidth: "100%", minHeight: "80vh" }}
+    >
+      <Col span={6}>
         <Menu
           onClick={handleClick}
-          // style={{ width: 256 }}
           defaultSelectedKeys={["1"]}
           defaultOpenKeys={["sub1"]}
           mode="inline"
-          // style={{ width: "unset" }}
+          className="menu"
         >
           {listfunc.map((item) => {
             return (
               <SubMenu key={item.key} title={item.title}>
                 {item.sub.map((subitem) => {
                   return (
-                    
                     <Menu.Item key={subitem.key}>
-                      <Link to={{pathname: "/solve", state:{selectedType: subitem.key}}}>
+                      <Link
+                        to={{
+                          pathname: "/polynomial",
+                          state: { selectedType: subitem.key },
+                        }}
+                      >
                         {subitem.title}
-                        </Link>
-                        </Menu.Item>
-                    // </Link>
+                      </Link>
+                    </Menu.Item>
                   );
                 })}
               </SubMenu>
@@ -280,113 +279,130 @@ function Exercise(data2) {
           })}
         </Menu>
       </Col>
-      <Col span={16}>
+      <Col span={18}>
         <Row>
-          <Col className="exercise_intro" span={24}>
-            <MathJax.Context>
-              <MathJax.Node>
-                {"\\text{Điền đáp án đúng vào chỗ trống: }"}
-              </MathJax.Node>
-            </MathJax.Context>
-          </Col>
-          <Col className="exercise_equation" span={24}>
-            <MathJax.Context>
-              <MathJax.Node>
-                {"\\text{Phương trình: }" + data2.data.equation}
-              </MathJax.Node>
-            </MathJax.Context>
-          </Col>
-          <Col span={24}>
-            <Form onFinish={onFinish}>
+          <Col span={16}>
+            <Card style={{ borderRadius: "8px" }} title="Bài Tập">
               <Row>
-                {data2.data.handle.map((item) => {
-                  return (
-                    <Col className="exercise_item" span={24}>
-                      <Row style={{ minWidth: "100%", minHeight: "100%" }}>
-                        <Col span={21} className="exercise_span">
-                          <MathJax.Context>
-                            <MathJax.Node>{item.before}</MathJax.Node>
-                          </MathJax.Context>
-                          <Popover
-                            trigger=""
-                            // visible={checkSubmit[item.name]}
-                            visible={showResultpopup}
-                            content={showResult(item.name)}
-                            // placement="right"
-                          >
-                            <Popover
-                              trigger=""
-                              visible={checkSubmit[item.name]}
-                              content={popoverContent(item.name)}
-                              placement="right"
+                <Col className="exercise_intro" span={24}>
+                  <MathJax.Context>
+                    <MathJax.Node>
+                      {"\\text{Điền đáp án đúng vào chỗ trống: }"}
+                    </MathJax.Node>
+                  </MathJax.Context>
+                </Col>
+                <Col className="exercise_equation" span={24}>
+                  <MathJax.Context>
+                    <MathJax.Node>
+                      {"\\text{Phương trình: }" + data2.data.equation}
+                    </MathJax.Node>
+                  </MathJax.Context>
+                </Col>
+                <Col span={24}>
+                  <Form onFinish={onFinish}>
+                    <Row>
+                      {data2.data.handle.map((item) => {
+                        return (
+                          <Col className="exercise_item" span={24}>
+                            <Row
+                              style={{ minWidth: "100%", minHeight: "100%" }}
                             >
-                              <Form.Item
-                                name={item.name}
+                              <Col span={21} className="exercise_span">
+                                <MathJax.Context>
+                                  <MathJax.Node>{item.before}</MathJax.Node>
+                                </MathJax.Context>
+                                <Popover
+                                  trigger=""
+                                  // visible={checkSubmit[item.name]}
+                                  visible={showResultpopup}
+                                  content={showResult(item.name)}
+                                  // placement="right"
+                                >
+                                  <Popover
+                                    trigger=""
+                                    visible={checkSubmit[item.name]}
+                                    content={popoverContent(item.name)}
+                                    placement="right"
+                                  >
+                                    <Form.Item
+                                      name={item.name}
+                                      style={{
+                                        display: "inline-block",
+                                        alignItems: "center",
+                                        margin: "auto 0px",
+                                      }}
+                                    >
+                                      <Input
+                                        onChange={(e) =>
+                                          onchangeInput(e, item.name)
+                                        }
+                                        style={{ width: "128px" }}
+                                      />
+                                    </Form.Item>
+                                  </Popover>
+                                </Popover>
+                                <MathJax.Context>
+                                  <MathJax.Node>{item.after}</MathJax.Node>
+                                </MathJax.Context>
+                              </Col>
+                              <Col
+                                span={3}
                                 style={{
-                                  display: "inline-block",
+                                  display: "flex",
                                   alignItems: "center",
-                                  margin: "auto 0px",
                                 }}
                               >
-                                <Input
-                                  onChange={(e) => onchangeInput(e, item.name)}
-                                  style={{ width: "128px" }}
-                                />
-                              </Form.Item>
-                            </Popover>
-                          </Popover>
-                          <MathJax.Context>
-                            <MathJax.Node>{item.after}</MathJax.Node>
-                          </MathJax.Context>
-                        </Col>
-                        <Col
-                          span={3}
-                          style={{ display: "flex", alignItems: "center" }}
+                                <Button
+                                  type="primary"
+                                  style={{ margin: "auto 0px", right: "0px" }}
+                                  onClick={() => checkSingleResult(item.name)}
+                                >
+                                  Kiểm tra
+                                </Button>
+                              </Col>
+                            </Row>
+                          </Col>
+                        );
+                      })}
+                    </Row>
+                    <Row
+                      justify="end"
+                      gutter={16}
+                      style={{ marginTop: "24px" }}
+                    >
+                      <Col span={6}>
+                        <Button
+                          type="primary"
+                          block
+                          onClick={() => showResultEvent()}
                         >
-                          <Button
-                            type="primary"
-                            style={{ margin: "auto 0px", right: "0px" }}
-                            onClick={() => checkSingleResult(item.name)}
-                          >
-                            Kiểm tra
-                          </Button>
-                        </Col>
-                      </Row>
-                    </Col>
-                  );
-                })}
-              </Row>
-              <Row justify="end" gutter={16} style={{ marginTop: "24px" }}>
-                <Col span={4}>
-                  <Button
-                    type="primary"
-                    block
-                    onClick={() => showResultEvent()}
-                  >
-                    {showbuttoncontent}
-                  </Button>
-                </Col>
-                <Col span={6}>
-                  <Button
-                    type="primary"
-                    block
-                    // style={{ color: "white", background: "blue" }}
-                    htmlType="submit"
-                  >
-                    Kiểm tra tất cả
-                  </Button>
+                          {showbuttoncontent}
+                        </Button>
+                      </Col>
+                      <Col span={6}>
+                        <Button
+                          type="primary"
+                          block
+                          // style={{ color: "white", background: "blue" }}
+                          htmlType="submit"
+                        >
+                          Kiểm tra tất cả
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Form>
                 </Col>
               </Row>
-            </Form>
+            </Card>
           </Col>
+          <Col span={8}></Col>
         </Row>
       </Col>
-      <Col span={4}></Col>
     </Row>
   );
 }
 
-export default class General2 extends Component {
+export default class ExerciseComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {

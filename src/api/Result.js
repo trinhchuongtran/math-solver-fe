@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import 'antd/dist/antd.css';
 import { Card, Row, Col } from 'antd';
+// import { Divider } from 'antd';
+// import { Typography } from "antd";
 import MathJax from 'react-mathjax2'
 
+// const { Title } = Typography;
+
 function Results(prop) {
-    console.log(prop);
     var [result, setResult] = useState("");
+    var [isLoading, setIsLoading] = useState(true);
     fetch("http://api.bkmathapp.tk/api/combine", {
         method: 'POST',
         headers: {
@@ -41,6 +45,7 @@ function Results(prop) {
                 }
             }
             setResult(result_api)
+            setIsLoading(false)
         })
     }).catch(err => {
 
@@ -51,7 +56,8 @@ function Results(prop) {
         brd.unsuspendUpdate();
     }
     return (
-        <Col sm="12" md="4" className="mb-3">
+        <Card loading={isLoading} title="Lời giải chi tiết">
+            
             <MathJax.Context input='tex'
                 options={{
                     displayAlign: 'left',
@@ -72,7 +78,7 @@ function Results(prop) {
                     <MathJax.Node>{result}</MathJax.Node>
                 </div>
             </MathJax.Context>
-        </Col>
+        </Card>
     )
 };
 

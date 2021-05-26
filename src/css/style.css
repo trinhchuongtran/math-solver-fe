@@ -1,0 +1,111 @@
+.exercise_equation {
+  padding-left: 12px;
+}
+
+.exercise_intro {
+  padding-left: 8px;
+}
+
+.exercise_equation > span {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.exercise_intro > span {
+  font-size: 18px;
+  font-weight: 1200;
+}
+
+.exercise_span > span {
+  font-size: 16px;
+  padding: 12px 0;
+  font-weight: 600;
+}
+
+.exercise_span {
+  display: flex;
+  align-items: center;
+}
+
+.exercise_item {
+  border: 2px solid #f2f7f7;
+  border-radius: 16px;
+  padding: 8px;
+  margin: 8px;
+}
+
+.ant-btn-primary {
+  background: #147f8f;
+  border-color: #147f8f;
+}
+
+.ant-menu-submenu {
+  font-size: 16px;
+  /* font-family: "font-family: 'Times New Roman',Times,STIXGeneral,serif;"; */
+  font-weight: 400;
+}
+
+.ant-btn-primary {
+  background: #147f8f;
+  border-color: #147f8f;
+}
+
+.solve_plot > span {
+  font-size: 16px;
+  /* padding: 12px 0; */
+  font-weight: 300;
+}
+
+.polynomial_poly_button {
+  text-align: left;
+  border-radius: 8px;
+}
+
+.polynomial_poly_button > span {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.polynomial_poly_item {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  height: 50px;
+}
+
+.menu {
+  border-radius: 8px;
+}
+
+.polynomial_plot_item {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  height: 50px;
+}
+
+.polynomial_plot_button {
+  text-align: left;
+  border-radius: 8px;
+}
+
+.polynomial_plot_button > span {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.polynomial_exer_card{
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+.polynomial_plot_card{
+  border-radius: 8px;
+}
+
+.problem_inputvalue{
+  display: flex;
+}
+
+.problem_card{
+  border-radius: 8px;
+  margin-top: 8px;
+}
