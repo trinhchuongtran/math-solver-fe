@@ -20,7 +20,7 @@ export default class HomeCard extends React.Component {
                     // bordered
                     hoverable={true}
                     cover={<img
-                        style={{padding: '1% 1%', objectFit: 'cover'}}
+                        style={{height: '500px', padding: '1% 1%', objectFit: 'cover'}}
                         src={this.props.source}
                         />}
                     // actions={[

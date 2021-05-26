@@ -16,6 +16,7 @@ import Polynomial from "./components/Polynomial";
 import Problem from "./components/Problem";
 import MathSolver from "./components/breadcrumb.component";
 import Graph from "./components/graph.component";
+import MonitorComponent from "./components/monitor.component";
 import { withRouter } from "react-router";
 
 import { Layout, Menu, Breadcrumb, Row, Col, Drawer, Button } from "antd";
@@ -39,8 +40,8 @@ const keyMap = {
   "/graph": "graph",
   "/problem": "problem",
   "/define": "define",
-  "/monitor": "monitor",
-};
+  "/monitor": "monitor"
+}
 class App extends Component {
   constructor(props) {
     super(props);
@@ -52,7 +53,7 @@ class App extends Component {
       currentUser: undefined,
       current: undefined,
       loginVisible: false,
-      profileVisible: false,
+      profileVisible: false
     };
   }
 
@@ -60,23 +61,23 @@ class App extends Component {
     this.setState({
       loginVisible: true,
     });
-  };
+  }; 
 
   showProfile = () => {
     this.setState({
       profileVisible: true,
-    });
-  };
-
+    })
+  }
+  
   onclose = () => {
     this.setState({
       loginVisible: false,
-      profileVisible: false,
+      profileVisible: false
     });
   };
 
-  handleClick = (e) => {
-    console.log("click ", e);
+  handleClick = e => {
+    console.log('click ', e);
     this.setState({ current: e.key });
   };
 
@@ -96,6 +97,8 @@ class App extends Component {
   logOut() {
     AuthService.logout().then(this.setState({ current: "home" }));
   }
+
+
 
   render() {
     const { currentUser, showModeratorBoard, showAdminBoard, current } =
@@ -195,7 +198,7 @@ class App extends Component {
           >
             <Profile></Profile>
           </Drawer>
-          {/* {pathname=="/login"? 
+          {/* {pathname=="/login"?
             <Row style={{minHeight: '80vh'}}>
             <Col span={8}></Col>
             <Col span={8}>
@@ -218,7 +221,7 @@ class App extends Component {
               <Route path="/graph" component={Graph} />
               <Route path="/problem" component={Problem} />
               <Route path="/define" component={BoardModerator} />
-              <Route path="/monitor" component={BoardAdmin} />
+              <Route path="/monitor" component={MonitorComponent} />
               {/* <Route path="*" component={Home} /> */}
             </Switch>
           </Content>
