@@ -13,7 +13,7 @@ import { Menu } from "antd";
 import { Switch, Route, Link } from "react-router-dom";
 
 // import Rightsidemenu from "../subcomponents/menu"
-import "../css/solve.css";
+import "../css/style.css";
 
 const { SubMenu } = Menu;
 
@@ -449,7 +449,7 @@ export default function Dathuc(data) {
   // const [loading, setLoading] = React.useState(false);
 
   const listExample = ["x^2-7x+10 = 0", "2x^2 +5x-7=0", "-7x^2+10x-3=0"];
-  const listPlot = ["x^2-2x+3 = 0", "2x^2 -5x-10=0", "-7x^2+10x-20=0"];
+  const listPlot = ["x^2-2x+3", "2x^2 -5x-10", "-7x^2+10x-20"];
   const listdathuc = {
     default: {
       name: "Ví dụ",
@@ -834,11 +834,18 @@ export default function Dathuc(data) {
                         {listPlot.map((item) => {
                           return (
                             <Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={12} className="polynomial_plot_item">
+                              <Link
+                                    to={{
+                                      pathname: "/graph",
+                                      state: { plot: item },
+                                    }}
+                                  >
                               <Button className="polynomial_plot_button" block>
                                 <MathJax.Context>
                                   <MathJax.Node>{item}</MathJax.Node>
                                 </MathJax.Context>
                               </Button>
+                              </Link>
                             </Col>
                           );
                         })}
@@ -891,16 +898,16 @@ export default function Dathuc(data) {
                     <Result tex={input_latex} var={selectedValue}></Result>
                 </Col>
                 <Col span={8}>
-                  <Row>
+                <Row>
                     <Col span={24}>
-                      <Card title="Vẽ đồ thị">
+                      <Card title="Vẽ đồ thị" className="polynomial_plot_card" style={{ borderRadius: "8px"}}>
                         <MathJax.Context>
                           <MathJax.Node>{input_latex}</MathJax.Node>
                         </MathJax.Context>
                       </Card>
                     </Col>
                     <Col span={24}>
-                      <Card title="Bài tập">
+                      <Card title="Bài tập" className="polynomial_exer_card">
                         <List>
                           <Row>
                             {listExample.map((item) => {

@@ -1,9 +1,10 @@
 import React from 'react';
 import { Image, Card, Divider } from 'antd';
+import "../css/style.css";
 
 function PlotImage(props) {
     return (
-        <Card title="Đồ thị" style={{width: '100%'}}>
+        <Card title="Đồ thị" className="graph_img_card">
             {/* {props.result ? */}
             <Image
             width={'100%'}

@@ -107,5 +107,26 @@
 
 .problem_card{
   border-radius: 8px;
+  /* margin-top: 8px; */
+}
+
+.graph_plot_card{
+  height: 100%;
+   min-width: 100%;
+   border-radius: 8px; 
+   /* margin-top: 8px; */
+}
+
+.graph_img_card{
+  width: 100%;
+  border-radius: 8px;
   margin-top: 8px;
+}
+
+.problen_listitem:hover{
+  box-shadow: unset
+}
+
+.problem_list_card{
+  border-radius: 8px;
 }

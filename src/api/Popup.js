@@ -76,9 +76,7 @@ const styleSubmit = {
 };
 
 function Solution(props) {
-  console.log(props);
   const { result, isloading } = props;
-  console.log(result, isloading);
   return (
     <Card title={"Bài Giải"} loading={!isloading} style={{ marginTop: "8px" }}>
       <Col>
@@ -248,49 +246,47 @@ class Threads extends React.Component {
   render() {
     return (
       <Row style={{ display: "block" }}>
-        <Row>
-          <Col span={24}>
-            <Form
-              {...layout}
-              onFinish={this.onFinish}
-              onFinishFailed={this.onFinishFailed}
+        <Col span={24}>
+          <Form
+            {...layout}
+            onFinish={this.onFinish}
+            onFinishFailed={this.onFinishFailed}
+          >
+            <Card
+              title={"Bài toán: " + this.state.name}
+              extra={
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={this.state.isSubmit && !this.state.isOpenSolution}
+                >
+                  Giải
+                </Button>
+              }
+              loading={!this.state.isRender}
             >
-              <Card
-                title={"Bài toán: " + this.state.name}
-                extra={
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    loading={this.state.isSubmit && !this.state.isOpenSolution}
-                  >
-                    Giải
-                  </Button>
-                }
-                loading={!this.state.isRender}
-              >
-                <Title level={5}>{"Đề bài: " + this.state.topic}</Title>
-                <Title level={5}>Nhập các giá trị:</Title>
-                <Row>
-                  {this.state.variable.map((element, i) => {
-                    return (
-                      <Col span={8} className="problem_inputvalue">
-                        <Title level={5} style={{ paddingRight: "6px" }}>
-                          {element.name + " ="}
-                        </Title>
-                        <Form.Item
-                          name={element.name}
-                          style={{ marginBottom: "12px" }}
-                        >
-                          <Input style={{ width: "128px" }} />
-                        </Form.Item>
-                      </Col>
-                    );
-                  })}
-                </Row>
-              </Card>
-            </Form>
-          </Col>
-        </Row>
+              <Title level={5}>{"Đề bài: " + this.state.topic}</Title>
+              <Title level={5}>Nhập các giá trị:</Title>
+              <Row>
+                {this.state.variable.map((element, i) => {
+                  return (
+                    <Col span={8} className="problem_inputvalue">
+                      <Title level={5} style={{ paddingRight: "6px" }}>
+                        {element.name + " ="}
+                      </Title>
+                      <Form.Item
+                        name={element.name}
+                        style={{ marginBottom: "12px" }}
+                      >
+                        <Input style={{ width: "128px" }} />
+                      </Form.Item>
+                    </Col>
+                  );
+                })}
+              </Row>
+            </Card>
+          </Form>
+        </Col>
         {this.state.isSubmit && (
           <Solution
             result={this.state.result}

@@ -86,14 +86,12 @@ export default function Exercise(data2) {
   ];
 
   useEffect(() => {
-    console.log(data2);
     var poly = "x^4 -8x^2=0";
     if (data2.location.state) {
       if (data2.location.state.polynomial) {
         poly = data2.location.state.polynomial;
       }
     }
-    console.log(data2);
     // setDataRequest(data2.data)
     fetch("http://api.bkmathapp.tk/api/exer_api", {
       method: "POST",
