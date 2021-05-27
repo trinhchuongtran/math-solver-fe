@@ -31,12 +31,12 @@ function Plot(props) {
     //     e.preventDefault();
     useEffect(() => {
 
-        fetch("http://api.bkmathapp.tk/api/plot_api", requestOptions)
-        // fetch("http://127.0.0.1:6900/api/plot_api", requestOptions)
+        // fetch("http://api.bkmathapp.tk/api/plot_api", requestOptions)
+        fetch(`http://127.0.0.1:6900/api/plot_api`, requestOptions)
             .then((res) => {
                 res.json().then((db) => {
                     // console.log(db.detail);
-                    setSurvey(db.detail? true: false)
+                    setSurvey(!!db.detail)
                     if (db.detail) {
                         var result_api = "";
                         let valuesArray = Object.values(db.detail);
@@ -69,8 +69,8 @@ function Plot(props) {
             }).catch(err => {
                 console.log(err);
         });
-    }, [])
-        
+    })
+
     // }
 
 

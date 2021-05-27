@@ -31,7 +31,7 @@ function Graph() {
           color: "#000000",
           fontSize: "20px",
           width: "100%"
-        }}></math-field>
+        }}/>
         </Col>
         <Col span={3}>
           <Col span={22} offset={1}>
@@ -46,7 +46,7 @@ function Graph() {
       
     
       
-      <Plot id="result" tex={input_latex}></Plot>
+      <Plot id="result" tex={input_latex}/>
     </div>
   )
 }
