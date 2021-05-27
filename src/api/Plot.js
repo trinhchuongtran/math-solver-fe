@@ -21,7 +21,9 @@ function Plot(props) {
 
     var requestOptions = {
         method: 'POST',
-        headers: authHeader(),
+        headers: {
+            'Content-Type': 'application/json',
+        },
         body: raw,
         redirect: 'follow'
     };
@@ -31,8 +33,8 @@ function Plot(props) {
     //     e.preventDefault();
     useEffect(() => {
 
-        // fetch("http://api.bkmathapp.tk/api/plot_api", requestOptions)
-        fetch(`http://127.0.0.1:6900/api/plot_api`, requestOptions)
+        fetch("http://api.bkmathapp.tk/api/plot_api", requestOptions)
+        // fetch(`http://127.0.0.1:6900/api/plot_api`, requestOptions)
             .then((res) => {
                 res.json().then((db) => {
                     // console.log(db.detail);
