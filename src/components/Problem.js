@@ -282,7 +282,7 @@ export default function Problem() {
     },
   ];
 
-  const listExample = ["x^2-7x+10 = 0", "2x^2 +5x-7=0", "-7x^2+10x-3=0"];
+  const listExample = ["x^2-7x+10 = 0", "2x^2 +5x-7=0", "x^4-2x^2+1=0"];
 
   const handleClick = (e) => {
     setSelectedType(e.key);
