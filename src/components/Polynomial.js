@@ -487,7 +487,7 @@ export default function Dathuc(data) {
     },
     ptb4_trigo: {
       name: "Phương trình lượng giác bậc 4 trùng phương",
-      list: ["\\sin(x)^4-2\\sin(x)^2+1=0", "3\\cos(x)^4-5cos(x)^2-1=0"],
+      list: ["\\sin(x)^4-2\\sin(x)^2+1=0", "3\\cos(x^2)^4-5\\cos(x^2)^2-1=0"],
     },
     hptb1: {
       name: "Hệ phương trình bậc 1",
