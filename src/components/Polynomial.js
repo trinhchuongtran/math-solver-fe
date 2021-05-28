@@ -448,7 +448,7 @@ export default function Dathuc(data) {
 
   // const [loading, setLoading] = React.useState(false);
 
-  const listExample = ["x^2-7x+10 = 0", "2x^2 +5x-7=0", "-7x^2+10x-3=0"];
+  const listExample = ["x^2-7x+10 = 0", "2x^2 +5x-7=0", "x^4-2x^2+1=0", "x^4-3x^2+2=0"];
   const listPlot = ["x^2-2x+3", "2x^2 -5x-10", "-7x^2+10x-20"];
   const listdathuc = {
     default: {
@@ -487,7 +487,7 @@ export default function Dathuc(data) {
     },
     ptb4_trigo: {
       name: "Phương trình lượng giác bậc 4 trùng phương",
-      list: ["\\sin(x)^4-2\\sin(x)^2+1=0", "3\\cos(x^2)^4-5\\cos(x^2)^2-1=0"],
+      list: ["\\sin(x)^4-2\\sin(x)^2+1=0", "3\\cos(x^2)^4-5\\cos(x^2)^2+2=0"],
     },
     hptb1: {
       name: "Hệ phương trình bậc 1",
@@ -495,7 +495,7 @@ export default function Dathuc(data) {
     },
     ptc: {
       name: "Phương trình căn",
-      list: ["\\sqrt{4x-3}=x", "\\sqrt{3x^2+1} = 3x"],
+      list: ["\\sqrt{4x-3}=x", "\\sqrt{3x^2+1} = 3x", , "\\sqrt{x^2+x}-\\sqrt{3x+1}=0"],
     },
   };
   const listfunc = [
