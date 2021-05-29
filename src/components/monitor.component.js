@@ -1,12 +1,11 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import { Table, Tag, Space, Button } from 'antd';
+import { Table, Tag, Space, Button, Popconfirm } from 'antd';
 import authHeader from "../services/auth-header";
 
 const { Column, ColumnGroup } = Table;
 function MonitorComponent(props) {
     const [data, setData] = useState(undefined);
     const [loading, setLoading] = useState(true);
-
     const requestOptions = {
         method: 'GET',
         headers: authHeader(),
@@ -16,23 +15,26 @@ function MonitorComponent(props) {
                 .then((res) => {
                     res.json().then((db) => {
                         setLoading(false);
-                        for (let value of db) {
-                            value.is_superuser = value.is_superuser ? "Quản trị viên": "Người định nghĩa";
-                        }
+                        // setUpdateLoading(false);
+                        // for (let value of db) {
+                        //     value.is_superuser = value.is_superuser ? "Quản trị viên": "Người định nghĩa";
+                        // }
                         setData(db);
                         console.log(db);
                     });
                 }).catch(err => {
                 console.log(err);
             })
-        }, []
+        }
     );
     function upgrade(id) {
-
-        // fetch(`http://128.0.0.1:6900/api/users/${id}`, {
-        fetch(`http://api.bkmathapp.tk/api/user/${id}`, {
+        fetch(`http://127.0.0.1:6900/api/users/${id}`, {
+        // fetch(`http://api.bkmathapp.tk/api/user/${id}`, {
             method: 'PUT',
             headers: authHeader(),
+            body: JSON.stringify({
+                "is_superuser": true
+            })
         }).then((res) => {
             res.json().then((data) =>{
                 console.log(data);
@@ -43,9 +45,10 @@ function MonitorComponent(props) {
     };
 
     function delete_user(id) {
-        // fetch(`http://128.0.0.1:6900/api/user/${id}`, {
+        setLoading(true);
+        fetch(`http://127.0.0.1:6900/api/users/${id}`, {
 
-        fetch(`http://api.bkmathapp.tk/api/user/${id}`, {
+        // fetch(`http://api.bkmathapp.tk/api/user/${id}`, {
             method: 'DELETE',
             headers: authHeader(),
             // body: JSON.stringify({
@@ -57,7 +60,8 @@ function MonitorComponent(props) {
             })
         }).catch((err) => {
             console.log(err);
-        })
+        });
+        setLoading(false);
     };
 
     function test(text) {
@@ -71,16 +75,23 @@ function MonitorComponent(props) {
                 <Column title="Tên" dataIndex="last_name" key="last_name"/>
             </ColumnGroup>
             <Column title="Email" dataIndex="email" key="email"/>
-            <Column title="Quyền quản lý" dataIndex="is_superuser" key="is_superuser"/>
+            <Column title="Quyền quản lý"
+                    render={(record) => (!!record.is_superuser ? "Quản trị viên" : "Người định nghĩa")}/>
             <Column
                 title="Hành động"
                 key="action"
                 render={(record) => (
-                    <Space size="middle">
+                    <div>
                         {/*<Button onClick={() => test(record.id)}>Test</Button>*/}
-                        {/*<Button onClick={() => upgrade(record.id)}>Nâng cấp quyền</Button>*/}
-                        <Button onClick={() => delete_user(record.id)}>Xoá tài khoản</Button>
+                        {!record.is_superuser ? (
+                    <Space size="middle">
+                                <Button onClick={() => upgrade(record.id)}>Nâng cấp quyền</Button>
+                                <Button onClick={() => delete_user(record.id)}>Xoá tài khoản</Button>
                     </Space>
+                            )
+                            : null}
+                    </div>
+
                     )}/>
         </Table>
     );
