@@ -38,6 +38,15 @@ const initialSchema1 = {
 };
 const Navigation = (props) => {
   console.log({ props });
+  props.state.data ={
+    id: "5",
+    name: "",
+    grade:"",
+    date:"",
+    data: {
+      baitoan:"Baitoan1"
+    }
+  };
   return (
     <div>
       <Row align="center">
@@ -316,13 +325,6 @@ export default class BoardModerator extends Component {
     return (
       <div className="container">
         <header className="jumbotron">
-          <Button onClick={(e) =>
-            this.handleClickNew(
-              e,
-              "1",
-              "2",
-            )
-          }>Định nghĩa bài toán mới</Button>
           <ContentProblem></ContentProblem>
         </header>
       </div>

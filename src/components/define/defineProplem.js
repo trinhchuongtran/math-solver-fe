@@ -1,7 +1,4 @@
-import 'antd/dist/antd.css';
 import React, { useState, useRef, useEffect } from 'react';
-
-
 import Diagram, { createSchema, useSchema } from 'beautiful-react-diagrams';
 import { Button } from 'beautiful-react-ui';
 import 'antd/dist/antd.css';
@@ -116,11 +113,9 @@ function CustomVariableRender({ id, content, data, inputs, outputs }) {
 }
 
 
-function CustomRender({ id, content, content1, data, test, inputs, outputs }) {
+function CustomRender(props) {
     const [isModalVisible, setIsModalVisible] = useState(false);
-    console.log(content1);
     const showModal = () => {
-        console.log("hihi")
         setIsModalVisible(true);
     };
 
@@ -128,9 +123,9 @@ function CustomRender({ id, content, content1, data, test, inputs, outputs }) {
         var Con = event.target.parentElement.parentElement.parentElement.getElementsByClassName("ant-modal-body")[0].children[0].children[0].getElementsByClassName("modelCon")[0].getValue('latex');
         var Cal = event.target.parentElement.parentElement.parentElement.getElementsByClassName("ant-modal-body")[0].children[0].children[0].getElementsByClassName("modelCal")[0].getValue('latex');
         var Des = event.target.parentElement.parentElement.parentElement.getElementsByClassName("ant-modal-body")[0].children[0].children[0].getElementsByClassName("modelDes")[0].value;
-        content.cal = Cal;
-        content.con = Con;
-        content.des = Des;
+        props.id.cal = Cal;
+        props.id.con = Con;
+        props.id.des = Des;
         setIsModalVisible(false);
     };
 
@@ -143,18 +138,18 @@ function CustomRender({ id, content, content1, data, test, inputs, outputs }) {
             borderRadius: "10px"
         }}>
             <div>
-                <math-field class="modelCon1" id="dk" style={{ backgroundColor: "#faefde" }}>{content.con}</math-field>
+                <math-field class="modelCon1" id="dk" style={{ backgroundColor: "#faefde" }}>{props.id.con}</math-field>
             </div>
-            <div id={id} class="Model" style={{ background: '#faefde', borderRadius: '10px' }}>
+            <div id={props.content} class="Model" style={{ background: '#faefde', borderRadius: '10px' }}>
                 <div style={{ textAlign: 'right' }}>
-                    <Button icon="times" size="small" onClick={() => data.onClick(id)} />
+                    <Button icon="times" size="small" onClick={() => props.data.onClick(props.content)} />
                 </div>
                 <div role="button" style={{ padding: '15px' }}>
-                    {id}
+                    {props.content}
                 </div>
                 <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'space-between' }}>
-                    {inputs.map((port) => React.cloneElement(port, { style: { width: '25px', height: '25px', borderRadius: '5px', background: 'green' } }))}
-                    {outputs.map((port) => React.cloneElement(port, { style: { width: '25px', height: '25px', borderRadius: '5px', background: 'red' } }))}
+                    {props.inputs.map((port) => React.cloneElement(port, { style: { width: '25px', height: '25px', borderRadius: '5px', background: 'green' } }))}
+                    {props.outputs.map((port) => React.cloneElement(port, { style: { width: '25px', height: '25px', borderRadius: '5px', background: 'red' } }))}
                 </div>
                 <button type="primary" onClick={showModal}>
                     Chi tiết
@@ -164,11 +159,11 @@ function CustomRender({ id, content, content1, data, test, inputs, outputs }) {
                     <div>
                         <div>
                             <div>Điều kiện thực hiện bước giải</div>
-                            <math-field class="modelCon" id="dk" style={{ backgroundColor: "#faefde" }}>{content.con}</math-field>
+                            <math-field class="modelCon" id="dk" style={{ backgroundColor: "#faefde" }}>{props.id.con}</math-field>
                             <div>Nhập các phép tính toán cần có</div>
-                            <math-field class="modelCal" style={{ backgroundColor: "#faefde" }}>{content.cal}</math-field>
+                            <math-field class="modelCal" style={{ backgroundColor: "#faefde" }}>{props.id.cal}</math-field>
                             <div>Mô tả lời giải</div>
-                            <input class="modelDes" value={content.des} />
+                            <input class="modelDes" value={props.id.des} />
                         </div>
                     </div>
 
@@ -198,10 +193,11 @@ function checkListObject(node, listobj) {
     return false;
 }
 function checkDataObject(node, listobj) {
-
+    console.log(node);
+    console.log(listobj)
     for (let i = 0; i < listobj.length; i++) {
-        console.log(listobj[i].id)
-        if (node == listobj[i].id) {
+        console.log(listobj[i].content)
+        if (node == listobj[i].content) {
             return i;
         }
     }
@@ -209,12 +205,16 @@ function checkDataObject(node, listobj) {
 }
 
 function formatJson(obj, listObj, dataObj) {
+    console.log(obj);
+    console.log(listObj);
+    console.log(dataObj);
     var objTemp = obj;
     var indexRoot = checkDataObject(obj.node, dataObj)
+
     console.log(dataObj[indexRoot])
-    objTemp.cal = dataObj[indexRoot].content.cal;
-    objTemp.con = dataObj[indexRoot].content.con;
-    objTemp.des = dataObj[indexRoot].content.des;
+    objTemp.cal = dataObj[indexRoot].id.cal;
+    objTemp.con = dataObj[indexRoot].id.con;
+    objTemp.des = dataObj[indexRoot].id.des;
 
     for (let i = 0; i < obj.handle.length; i++) {
         var indexList = checkListObject(obj.handle[i], listObj);
@@ -224,7 +224,9 @@ function formatJson(obj, listObj, dataObj) {
             objTemp.handle[i] = formatJson(listObj[indexList], listObj, dataObj)
         } else {
             var indexdata = checkDataObject(obj.handle[i], dataObj);
-            objTemp.handle[i] = dataObj[indexdata].content;
+            delete dataObj[indexdata].id.id1; 
+            objTemp.handle[i] = dataObj[indexdata].id;
+
         }
 
 
@@ -269,94 +271,161 @@ function createData(obj) {
     var tree = formatJson(data[indexRoot], data, obj.nodes)
     console.log(tree)
 }
-const deleteNodeFromSchema = (id) => {
-    const nodeToRemove = this.schema.nodes.find(node => node.id === id);
-    this.removeNode(nodeToRemove);
-};
+
+
+var numberCount = 0;
+var numberCount1 = 0;
+
+var test = {
+    "nodes": [
+        {
+            "id": {
+                "cal": "",
+                "con": "",
+                "des": "",
+                "handle": ""
+            },
+            "content": "node-1",
+            "data": {},
+            "coordinates": [
+                88,
+                176
+            ],
+            "outputs": [
+                {
+                    "id": "node-1",
+                    "alignment": "bottom"
+                }
+            ]
+        },
+        {
+            "id": {
+                "cal": 1,
+                "con": 1,
+                "des": "Day la test",
+                "handle": "",
+                "id1": "nodeDif-2"
+            },
+            "content": "node-2",
+            "coordinates": [
+                190,
+                46
+            ],
+            "data": {},
+            "inputs": [
+                {
+                    "id": "node-2"
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "node-2"
+                }
+            ]
+        },
+        {
+            "id": {
+                "cal": 2,
+                "con": 2,
+                "des": "Day la test",
+                "handle": "",
+                "id1": "nodeDif-3"
+            },
+            "content": "node-3",
+            "coordinates": [
+                247,
+                267
+            ],
+            "data": {},
+            "inputs": [
+                {
+                    "id": "node-3"
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "node-3"
+                }
+            ]
+        },
+        {
+            "id": {
+                "cal": 3,
+                "con": 3,
+                "des": "Day la test",
+                "handle": "",
+                "id1": "nodeDif-4"
+            },
+            "content": "node-4",
+            "coordinates": [
+                443,
+                124
+            ],
+            "data": {},
+            "inputs": [
+                {
+                    "id": "node-4"
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "node-4"
+                }
+            ]
+        },
+        {
+            "id": {
+                "cal": 4,
+                "con": 4,
+                "des": "Day la test",
+                "handle": "",
+                "id1": "nodeDif-5"
+            },
+            "content": "node-5",
+            "coordinates": [
+                429,
+                377
+            ],
+            "data": {},
+            "inputs": [
+                {
+                    "id": "node-5"
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "node-5"
+                }
+            ]
+        }
+    ],
+    "links": [
+        {
+            "input": "node-2",
+            "output": "node-1"
+        },
+        {
+            "input": "node-3",
+            "output": "node-1"
+        },
+        {
+            "input": "node-4",
+            "output": "node-3"
+        },
+        {
+            "input": "node-5",
+            "output": "node-3"
+        }
+    ]
+}
+
+
+
+
+
 function DefineProplem(props) {
-    console.log(props)
-    var schemaTest = props.data;
-    const initialSchema1 = {
-        "nodes": [
-            {
-                "id": "node-1",
-                "content": "baitoangoc",
-                "content1": {
-                    "cal": "123",
-                    "con": "x>2",
-                    "des": "Day la 0",
-                    "handle": ""
-                },
-                "coordinates": [
-                    400,
-                    200
-                ],
-                "outputs": [
-                    {
-                        "id": "node-1",
-                        "alignment": "bottom"
-                    }
-                ]
-            },
-            {
-                "id": "node-2",
-                "content": "bafitoan2",
-                "content1": {
-                    "cal": "123",
-                    "con": "x>2",
-                    "des": "Day la 1",
-                    "handle": ""
-                },
-                "coordinates": [
-                    352,
-                    261
-                ],
-                "render": CustomRender,
-                "data": { onClick: deleteNodeFromSchema },
-                "inputs": [
-                    {
-                        "id": "node-2"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "id": "node-2"
-                    }
-                ]
-            },
-            {
-                "id": "node-3",
-                "content": "Baitoan3",
-                "content1": {
-                    "cal": "123",
-                    "con": "x>2",
-                    "des": "Day la 3",
-                    "handle": ""
-                },
-                "coordinates": [
-                    393,
-                    79
-                ],
-                "render": CustomRender,
-                "data": { onClick: deleteNodeFromSchema },
-                "inputs": [
-                    {
-                        "id": "node-3"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "id": "node-3"
-                    }
-                ]
-            },
 
-        ],
-
-    }
-
-    console.log()
-    const initialSchema = createSchema({
+    var initialSchema = createSchema({
         nodes: [
             {
                 id: 'node-1',
@@ -365,26 +434,39 @@ function DefineProplem(props) {
                 con: "",
                 des: "",
                 handle: "",
-                data: "123",
                 coordinates: [200, 200],
                 outputs: [{ id: 'node-1', alignment: 'bottom' }],
             }
         ]
     });
-    console.log(initialSchema)
-    console.log(props.data)
-    const [schema, { onChange, addNode, removeNode }] = useSchema(initialSchema);
+    console.log(props)
+    var [schema, { onChange, addNode, removeNode }] = useSchema(initialSchema);
 
-    const addNewNode = () => {
+    const deleteNodeFromSchema = (id) => {
+        const nodeToRemove = schema.nodes.find(node => node.content === id);
+        removeNode(nodeToRemove);
+    };
+    for (let i = 0; i < test.nodes.length; i++) {
+        test.nodes[i].render = CustomRender;
+        test.nodes[i].data = {
+            onClick: deleteNodeFromSchema
+        }
+
+    }
+    console.log(test);
+    [schema, { onChange, addNode, removeNode }] = useSchema(test)
+
+    const addNewNode = (number, number1) => {
+        console.log(schema)
         const nextNode = {
-            id: `node-${schema.nodes.length + 1}`,
-            content: {
-                cal: "123",
-                con: "",
+            id: {
+                cal: number1,
+                con: number,
                 des: "Day la test",
                 handle: "",
+                id1: `nodeDif-${schema.nodes.length + 1}`
             },
-            test: "123",
+            content: `node-${schema.nodes.length + 1}`,
             coordinates: [
                 schema.nodes[schema.nodes.length - 1].coordinates[0] + 100,
                 schema.nodes[schema.nodes.length - 1].coordinates[1],
@@ -396,75 +478,42 @@ function DefineProplem(props) {
         };
 
         addNode(nextNode);
-        console.log(schema)
+
     }
 
     const addNewFinalNode = () => {
+        console.log(schema);
         const nextNode = {
-            id: `node-${schema.nodes.length + 1}`,
-            content: {
+            id: {
                 cal: "123",
                 con: "",
                 des: "",
                 handle: "",
+                id1: `node-${schema.nodes.length + 1}`
             },
+            content: `node-${schema.nodes.length + 1}`,
             coordinates: [
                 schema.nodes[schema.nodes.length - 1].coordinates[0] + 100,
                 schema.nodes[schema.nodes.length - 1].coordinates[1],
             ],
             render: CustomFinalRender,
             data: { onClick: deleteNodeFromSchema },
-            inputs: [{ id: `node-${schema.nodes.length + 1}` }],
+            inputs: [{ content: `node-${schema.nodes.length + 1}` }],
         };
 
         addNode(nextNode);
     }
-    const addNewVariableNode = () => {
-        const nextNode = {
-            id: `node-${schema.nodes.length + 1}`,
-            content: {
-                cal: "123",
-                con: "",
-                des: "",
-                handle: "",
-            },
-            coordinates: [
-                schema.nodes[schema.nodes.length - 1].coordinates[0] + 100,
-                schema.nodes[schema.nodes.length - 1].coordinates[1],
-            ],
-            render: CustomVariableRender,
-            data: { onClick: deleteNodeFromSchema },
-        };
-
-        addNode(nextNode);
-    }
-    const addIn = (obj) => {
-        schema.links = obj.links;
-        for (let i = 1; i < obj.nodes.length; i++) {
-            const nextNode = {
-                id: obj.nodes[i].id,
-                content: obj.nodes[i].content,
-                coordinates: obj.nodes[i].coordinates,
-                render: CustomRender,
-                data: { onClick: deleteNodeFromSchema },
-                inputs: [{ id: obj.nodes[i].id }],
-                outputs: [{ id: obj.nodes[i].id }],
-            };
-
-            addNode(nextNode);
-        }
-    }
-
     return (
         <div>
             <div style={{ height: '600px' }}>
-                <Button color="primary" icon="plus" onClick={addNewNode}>Thêm bước giải</Button>
+                <Button color="primary" icon="plus" onClick={() => {
+                    numberCount = numberCount + 1;
+                    numberCount1 = numberCount1 + 1;
+                    addNewNode(numberCount, numberCount1)
+                }}>Thêm bước giải</Button>
                 <Button color="primary" icon="plus" onClick={addNewFinalNode}>Thêm kết quả</Button>
-                <Button id="test111" color="primary" icon="plus" onClick={() => {
-                    addIn(props.data);
-                    console.log(schema)
-                }}>Thêm đừogn dẫn1</Button>
                 <Button onClick={() => {
+                    console.log(schema)
                     createData(schema);
                 }}>Submit</Button>
                 <Button onClick={() => {

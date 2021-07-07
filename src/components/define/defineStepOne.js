@@ -2,7 +2,9 @@ import React from "react";
 import { Input } from "antd";
 
 function defineStepOne(props) {
-    props.getState("title", "Đề bài toán")
+    console.log(props);
+    props.state.data = "hihi";
+    console.log(props);
     return (
         <div>
             <p>
