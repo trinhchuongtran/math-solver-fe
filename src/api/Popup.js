@@ -29,7 +29,7 @@ const tailLayout = {
   },
 };
 
-const Popup = (props) => {
+const PopupProblem = (props) => {
   return (
     <Card className="problem_card">
       <Button
@@ -298,4 +298,4 @@ class Threads extends React.Component {
   }
 }
 
-export default Popup;
+export default PopupProblem;

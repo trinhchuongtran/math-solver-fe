@@ -32,39 +32,41 @@ function Plot(props) {
   // function handleClick(e) {
   //     e.preventDefault();
   useEffect(() => {
-    fetch("http://api.bkmathapp.tk/api/plot_api", requestOptions)
-      // fetch(`http://127.0.0.1:6900/api/plot_api`, requestOptions)
+    // fetch("http://api.bkmathapp.tk/api/plot_api", requestOptions)
+      fetch(`http://127.0.0.1:6900/api/plot_api`, requestOptions)
       .then((res) => {
         res.json().then((db) => {
         //   console.log(db);
           setSurvey(!!db.detail);
-          if (db.detail) {
-            var result_api = "";
-            let valuesArray = Object.values(db.detail);
-            let i = 1;
-            for (let value of valuesArray) {
-              // console.log(value);
-              if (typeof value == "number") {
-                continue;
-              }
-              if (typeof value == "object") {
-                let valuesArray1 = Object.values(value);
+          // if (db.detail) {
+          //   var result_api = "";
+          //   let valuesArray = Object.values(db.detail);
+          //   let i = 1;
+          //   for (let value of valuesArray) {
+          //     // console.log(value);
+          //     if (typeof value == "number") {
+          //       continue;
+          //     }
+          //     if (typeof value == "object") {
+          //       let valuesArray1 = Object.values(value);
 
-                for (let value of valuesArray1) {
-                  result_api = result_api + value + "\\" + "\\";
-                  i++;
-                }
-              } else {
-                result_api = result_api + value + "\\" + "\\";
-                i++;
-              }
-            }
-            setResultDetail(result_api);
-          }
+          //       for (let value of valuesArray1) {
+          //         result_api = result_api + value + "\\" + "\\";
+          //         i++;
+          //       }
+          //     } else {
+          //       result_api = result_api + value + "\\" + "\\";
+          //       i++;
+          //     }
+          //   }
+          //   // setResultDetail(result_api);
+          // }
+          setResultDetail(db.detail);
+
           var x = "data:image/png;base64,";
         //   console.log(result_api);
 
-          setResult(db.result);
+          setResult(db.plot);
           setLoading(true);
         });
       })

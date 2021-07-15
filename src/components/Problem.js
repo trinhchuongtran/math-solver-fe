@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Popup from "../api/Popup";
+import PopupProblem from "../api/Popup";
 import { List, Card } from "antd";
 import { Button } from "antd";
 import { Row, Col } from "antd";
@@ -206,7 +206,7 @@ class ContentProblem extends React.Component {
           </Row>
         </Card>
         {this.state.isOpen && (
-          <Popup
+          <PopupProblem
             idProblem={this.state.idProblem}
             nameProblem={this.state.nameProblem}
             handleClose={this.handleClose}

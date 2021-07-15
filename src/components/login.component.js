@@ -89,6 +89,10 @@ class Login extends Component {
       });
   }
 
+  create_user(){
+    AuthService.register("1", "2", "3")
+  }
+
 
   render() {
     return (
@@ -128,7 +132,7 @@ class Login extends Component {
             type="password"
             placeholder="Mật khẩu"/>
         </Form.Item>
-        
+        <Button onClick={()=>this.create_user()}>Create</Button>
         <Form.Item>
           <Button className="login-form-button" type="primary" htmlType="submit" loading={this.state.loading} >
             Đăng nhập 
