@@ -97,7 +97,7 @@ class ContentProblem extends React.Component {
       data: null
     };
     fetch("http://api.bkmathapp.tk/api/listproblem", {
-      method: "POST",
+      method: "GET",
     }).then((res) => {
       res.json().then((db) => {
         var listSubject = [];

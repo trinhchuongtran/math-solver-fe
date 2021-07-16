@@ -39,7 +39,7 @@ class ContentProblem extends React.Component {
       checkAll: true,
     };
     fetch("http://api.bkmathapp.tk/api/listproblem", {
-      method: "POST",
+      method: "GET",
     }).then((res) => {
       res.json().then((db) => {
         var listSubject = [];
