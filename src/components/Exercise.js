@@ -385,35 +385,3 @@ export default function Exercise(data2) {
     </Row>
   );
 }
-
-// export default class ExerciseComponent extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       data: "",
-//     };
-//   }
-
-//   componentDidMount() {
-//     var datarequest = "x^4 -8x^2=0";
-//     console.log(this.props.location);
-
-//     if (this.props.location.state) {
-//       if (this.props.location.state.polynomial) {
-//         console.log(this.props.location.state.polynomial)
-//         this.setState({ data: this.props.location.state.polynomial });
-//       } else {
-//         this.setState({ data: datarequest });
-//       }
-//     }
-//   }
-
-//   render() {
-//     return (
-//       <Row>
-//         {console.log(this.state.data)}
-//         <Exercise data={this.state.data}></Exercise>
-//       </Row>
-//     );
-//   }
-// }
