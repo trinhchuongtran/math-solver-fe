@@ -1,11 +1,11 @@
 import axios from "axios";
 
-const API_URL = "http://127.0.0.1:8000/auth/";
+const API_URL = "http://api.bkmathapp.tk/auth/";
 
 class AuthService {
   login(email, password) {
     return axios
-      .post(`http://127.0.0.1:6900/api/login/`, {
+      .post(`http://api.bkmathapp.tk/api/login/`, {
         email,
         password
       })
@@ -29,7 +29,7 @@ class AuthService {
     //   email,
     //   password
     // });
-    fetch("http://127.0.0.1:6900/auth/users/user_create", {
+    fetch("http://api.bkmathapp.tk/auth/users/user_create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

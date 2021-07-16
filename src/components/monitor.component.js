@@ -58,6 +58,7 @@ function MonitorComponent(props) {
     // console.log(record);
 
     setEditData(record);
+    // console.log(record)
 
     var dataUpdate = {};
     dataUpdate.id = record.id;
@@ -79,7 +80,7 @@ function MonitorComponent(props) {
   }
 
   function handleDelOk() {
-    setLoading(true)
+    setLoading(true);
     fetch(`http://api.bkmathapp.tk/api/users/${deleteID}`, {
       method: "DELETE",
       // headers: authHeader(),
@@ -180,7 +181,7 @@ function MonitorComponent(props) {
     // } else if (datarequest.is_superuser == "Quản trị viên") {
     //   datarequest.is_superuser = true;
     // }
-    setLoading(true)
+    setLoading(true);
     fetch(`http://api.bkmathapp.tk/api/users/${datarequest.id}`, {
       // fetch(`http://api.bkmathapp.tk/api/user/${id}`, {
       method: "PUT",
@@ -216,6 +217,7 @@ function MonitorComponent(props) {
       .catch((err) => {
         console.log(err);
       });
+    setEditData({})
     setIsModalVisible({});
   };
 
@@ -268,14 +270,37 @@ function MonitorComponent(props) {
   }
   return (
     <>
-      <Table dataSource={data} loading={loading}>
-        <Column title="ID" dataIndex="id" key="id" />
+      <Table dataSource={data} loading={loading} bordered style ={{marginTop: "20px"}}>
+        {/* <Column title="ID" dataIndex="id" key="id" sorter = {(a, b) => {return a.id - b.id}} /> */}
         <ColumnGroup title={"Tên"}>
-          <Column title="Họ" dataIndex="first_name" key="first_name" />
-          <Column title="Tên" dataIndex="last_name" key="last_name" />
+          <Column title="Tên" dataIndex="first_name" key="first_name" sorter = {(a, b) => {return a.first_name.length - b.first_name.length}}/>
+          <Column title="Họ" dataIndex="last_name" key="last_name" sorter = {(a, b) => {return a.last_name.length - b.last_name.length}}/>
         </ColumnGroup>
         <Column title="Email" dataIndex="email" key="email" />
-        <Column title="Quyền quản lý" dataIndex="role" key="role" />
+        <Column
+          title="Quyền quản lý"
+          dataIndex="role"
+          key="role"
+          defaultSortOrder = "ascend"
+          sorter = {(a, b) => {
+            var key = {
+              admin: 1,
+              definer: 2,
+              user: 3
+            }  
+            return key[a.role] - key[b.role]
+          
+          }}
+          render={(record) => {
+            if (record == "admin") {
+              return <>Quản trị viên</>;
+            } else if (record == "definer") {
+              return <>Người định nghĩa</>;
+            } else if (record == "user") {
+              return <>Người dùng</>;
+            }
+          }}
+        />
         <Column
           title="Hành động"
           key="action"
@@ -327,7 +352,7 @@ function MonitorComponent(props) {
                 ></Input>
                 Quyền quản lí:
                 <br></br>
-                <Select defaultValue={editData.role} onChange={handleChange}>
+                <Select defaultValue={editData.role} onChange={handleChange} style={{width: "40%"}}>
                   <Option value="admin">Quản trị viên</Option>
                   <Option value="definer">Người định nghĩa</Option>
                   <Option value="user">Người dùng</Option>
@@ -347,7 +372,7 @@ function MonitorComponent(props) {
         okText="Xóa"
         cancelText="Hủy"
       >
-        Xác nhận xóa chứ?
+        Xác nhận xóa?
       </Modal>
     </>
   );

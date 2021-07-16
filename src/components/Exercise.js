@@ -20,6 +20,10 @@ export default function Exercise(data2) {
   const [isLoad, setIsLoad] = React.useState(true);
   const [showbuttoncontent, setShowbuttoncontent] =
     React.useState("Hiện kết quả");
+  // const [checkbuttonpopup, setCheckbuttonpopup] =
+  //   React.useState(false);
+  const [checkbuttoncontent, setCheckbuttoncontent] =
+    React.useState("Kiểm tra tất cả");
   const [selectedType, setSelectedType] = React.useState("default");
 
   const listfunc = [
@@ -131,7 +135,9 @@ export default function Exercise(data2) {
   }
 
   function checkSingleResult(name) {
+    // setCheckSubmit({})
     var lst = [];
+    setCheckbuttoncontent("Ẩn kiểm tra");
     var key = "";
     for (var i = 0; i < dataRequest.handle.length; i++) {
       if (dataRequest.handle[i].name == name) {
@@ -203,6 +209,14 @@ export default function Exercise(data2) {
     });
   }
 
+  function popup(check) {
+    if (check == undefined) {
+      return false;
+    } else {
+      return check;
+    }
+  }
+
   const onFinish = (e) => {
     var lst = [];
     for (var i = 0; i < Object.keys(e).length; i++) {
@@ -216,11 +230,17 @@ export default function Exercise(data2) {
     }
     setDataInput(e);
     checkfunc(lst);
-    var checkpopup = {};
-    for (var i = 0; i < dataRequest.handle.length; i++) {
-      checkpopup[dataRequest.handle[i].name] = true;
+    if (Object.keys(checkSubmit).length != 0) {
+      setCheckSubmit({});
+      setCheckbuttoncontent("Kiểm tra tất cả");
+    } else {
+      var checkpopup = {};
+      for (var i = 0; i < dataRequest.handle.length; i++) {
+        checkpopup[dataRequest.handle[i].name] = true;
+      }
+      setCheckSubmit(checkpopup);
+      setCheckbuttoncontent("Ẩn kiểm tra");
     }
-    setCheckSubmit(checkpopup);
   };
   return (
     <Row
@@ -259,6 +279,64 @@ export default function Exercise(data2) {
       </Col>
       <Col span={18}>
         <Row>
+          <Col span={16}>
+            <Row style={{ paddingBottom: "16px" }}>
+              <Col span={21}>
+                <math-field
+                  id="formula1"
+                  virtual-keyboard-mode="onfocus"
+                  smart-mode={true}
+                  smart-fence={true}
+                  virtual-keyboard-theme="apple"
+                  smart-superscript={true}
+                  use-shared-virtual-keyboard={true}
+                  style={{
+                    width: "100%",
+                    backgroundColor: "#ffffff",
+                    height: "45px",
+                    borderRadius: "8px",
+                    color: "#000000",
+                    fontSize: "20px",
+                  }}
+                >x^2-7x+10=0</math-field>
+              </Col>
+              <Col span={3} style={{ margin: "auto" }}>
+                <Col span={22} offset={1}>
+                  <Button
+                    type="primary"
+                    block
+                    style={{ height: "40px" }}
+                    onClick={() => {
+                      var testASC = document
+                        .getElementById("formula1")
+                        .getValue("ASCIIMath");
+                      var inputLatex = document
+                        .getElementById("formula1")
+                        .getValue("latex");
+
+                      // if (inputLatex != "") {
+                      //   console.log(inputLatex);
+                      //   handleClickOpen(inputLatex);
+                      // } else if (testASC != "") {
+                      //   console.log(testASC);
+                      //   handleClickOpen(testASC);
+                      // }
+                    }}
+                  >
+                    Xác nhận
+                  </Button>
+                  {/* <SimpleDialog
+                value={valueDialog}
+                onOpen={handleClickOpen}
+                selectedValue={selectedValue}
+                selectedValue={selectedValue}
+                open={open}
+                onClose={handleClose}
+              /> */}
+                </Col>
+              </Col>
+            </Row>
+          </Col>
           <Col span={16}>
             <Card
               style={{ borderRadius: "8px" }}
@@ -303,7 +381,9 @@ export default function Exercise(data2) {
                                   >
                                     <Popover
                                       trigger=""
-                                      visible={checkSubmit[item.name]}
+                                      visible={() =>
+                                        popup(checkSubmit[item.name])
+                                      }
                                       content={popoverContent(item.name)}
                                       placement="right"
                                     >
@@ -369,7 +449,7 @@ export default function Exercise(data2) {
                             // style={{ color: "white", background: "blue" }}
                             htmlType="submit"
                           >
-                            Kiểm tra tất cả
+                            {checkbuttoncontent}
                           </Button>
                         </Col>
                       </Row>

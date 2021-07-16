@@ -7,6 +7,8 @@ import { Menu } from "antd";
 import { Switch, Route, Link } from "react-router-dom";
 
 import "../css/style.css";
+import listdathuc from "../staticdata/polydata.json";
+import listfunc from "../staticdata/listmenu.json";
 
 const { SubMenu } = Menu;
 
@@ -14,69 +16,6 @@ const { SubMenu } = Menu;
 export default function Graph(data) {
   const [selectedType, setSelectedType] = React.useState("default");
   const [input_latex, setInputLatex] = useState("x^2 -6x +3");
-
-  const listfunc = [
-    {
-      key: "dathuc",
-      title: "Đa thức",
-      sub: [
-        {
-          key: "ptb1",
-          title: "PT bậc 1",
-        },
-        {
-          key: "ptb2",
-          title: "PT bậc 2",
-        },
-        {
-          key: "ptb4",
-          title: "PT bậc 4 trùng phương",
-        },
-        {
-          key: "ptbc",
-          title: "PT bậc cao",
-        },
-      ],
-    },
-    {
-      key: "trigo",
-      title: "Lượng giác",
-      sub: [
-        {
-          key: "ptb1_trigo",
-          title: "PT bậc 1",
-        },
-        {
-          key: "ptb2_trigo",
-          title: "PT bậc 2",
-        },
-        {
-          key: "ptb4_trigo",
-          title: "PT bậc 4 trùng phương",
-        },
-      ],
-    },
-    {
-      key: "hpt",
-      title: "Hệ PT",
-      sub: [
-        {
-          key: "hptb1",
-          title: "Hệ PT bậc 1",
-        },
-      ],
-    },
-    {
-      key: "ptc",
-      title: "PT căn",
-      sub: [
-        {
-          key: "ptc",
-          title: "PT căn",
-        },
-      ],
-    },
-  ];
   const listExample = ["x^2-7x+10 = 0", "2x^2 +5x-7=0", "-7x^2+10x-3=0"];
 
   // useEffect(() => {
@@ -132,7 +71,7 @@ export default function Graph(data) {
         <Row>
           <Col span={24} style={{ marginBottom: "8px" }}>
             <Row>
-              <Col span={20}>
+              <Col span={21}>
                 <math-field
                   id="formula"
                   style={{
@@ -145,12 +84,11 @@ export default function Graph(data) {
                   }}
                 />
               </Col>
-              <Col span={4}>
+              <Col span={3} style={{ margin: "auto" }}>
                 <Col span={22} offset={1}>
                   <Button
-                    style={{
-                      marginTop: "10px",
-                    }}
+                    block
+                    style={{ height: "40px" }}
                     type="primary"
                     onClick={() => {
                       setInputLatex(
@@ -159,14 +97,17 @@ export default function Graph(data) {
                     }}
                     id="submit"
                   >
-                    Submit
+                    Khảo sát
                   </Button>
                 </Col>
               </Col>
             </Row>
           </Col>
         </Row>
-        <Row gutter={12}>
+        <Row>
+          <Plot id="result" tex={input_latex} />
+        </Row>
+        {/* <Row gutter={12}>
           <Col span={16}>
             <Row gutter={8}>
               <Col span={24}>
@@ -215,7 +156,7 @@ export default function Graph(data) {
               </Col>
             </Row>
           </Col>
-        </Row>
+        </Row> */}
       </Col>
     </Row>
   );

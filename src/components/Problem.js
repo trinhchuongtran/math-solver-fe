@@ -124,6 +124,7 @@ class ContentProblem extends React.Component {
                       style={{ padding: "4px 0" }}
                       value={this.state.checkedList}
                       onChange={(e) => this.onChange(e)}
+                      style = {{width: "100%"}}
                     >
                       <Row>
                         {this.state.listSubject.map((value) => {

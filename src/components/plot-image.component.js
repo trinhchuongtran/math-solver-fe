@@ -4,7 +4,7 @@ import "../css/style.css";
 
 function PlotImage(props) {
     return (
-        <Card title="Đồ thị" className="graph_img_card">
+        <Card title="Đồ thị">
             {/* {props.result ? */}
             <Image
             width={'100%'}
