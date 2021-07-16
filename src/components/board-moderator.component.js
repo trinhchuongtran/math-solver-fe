@@ -10,7 +10,8 @@ import { Layout } from "antd";
 import { Menu } from "antd";
 import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
-import defineStepOne from "./define/defineStepOne";
+import DefineInfo from "./define/defineInfo"
+import DefineStepOne from "./define/defineStepOne";
 import defineStepTwo from "./define/defineStepTwo";
 import DefineProplem from "./define/defineProplem";
 const { Option } = Select;
@@ -38,16 +39,7 @@ const initialSchema1 = {
 };
 const Navigation = (props) => {
   console.log({ props });
-  props.state.data = {
-    id: "5",
-    name: "",
-    grade: "",
-    date: "",
-    data: {
-      baitoan: "Baitoan1"
-    },
 
-  };
 
   return (
     <div>
@@ -290,7 +282,8 @@ class ContentProblem extends React.Component {
         </Card>
         {this.state.isOpen && (
           <Steps style={{ height: "1000px" }} config={config}>
-            <Step style={{ height: "100%" }} component={defineStepOne} title="Bước 1: Định nghĩa đề bài" />
+            <Step style={{ height: "100%" }} component={DefineInfo} title="Bước 1: Nhập thông tin bài toán " />
+            <Step style={{ height: "100%" }} component={DefineStepOne} title="Bước 1: Định nghĩa đề bài" />
             <Step style={{ height: "100%" }} component={defineStepTwo} title="Định nghĩa biến số " />
             <Step style={{ height: "100%" }} component={DefineProplem} title="Định nghĩa bài giải" />
           </Steps>
