@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import 'antd/dist/antd.css';
 import { Form, Input, Button, Space } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { Formik, Field, Form, ErrorMessage, FieldArray } from 'formik';
 
 function CustomizedForm({ fields1, value, onChange, setState }) {
     const onFinish = (values) => {
