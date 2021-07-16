@@ -38,7 +38,7 @@ class ContentProblem extends React.Component {
       indeterminate: true,
       checkAll: true,
     };
-    fetch("http://api.bkmathapp.tk/api/list_problem", {
+    fetch("http://api.bkmathapp.tk/api/listproblem", {
       method: "POST",
     }).then((res) => {
       res.json().then((db) => {

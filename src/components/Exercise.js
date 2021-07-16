@@ -93,7 +93,7 @@ export default function Exercise(data2) {
       }
     }
     // setDataRequest(data2.data)
-    fetch("http://api.bkmathapp.tk/api/exer_api", {
+    fetch("http://api.bkmathapp.tk/api/exercises", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -188,7 +188,7 @@ export default function Exercise(data2) {
 
   function checkfunc(lst) {
     console.log(lst);
-    fetch("http://api.bkmathapp.tk/api/check_api", {
+    fetch("http://api.bkmathapp.tk/api/checkresult_exercises", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -210,7 +210,7 @@ function Exercise(data2) {
 
   function checkfunc(lst) {
     console.log(lst);
-    fetch("http://api.bkmathapp.tk/api/check_api", {
+    fetch("http://api.bkmathapp.tk/api/checkresult_exercises", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -413,7 +413,7 @@ export default class ExerciseComponent extends Component {
     if (props.location.state != undefined) {
       datarequest = props.location.state.state;
     }
-    fetch("http://api.bkmathapp.tk/api/exer_api", {
+    fetch("http://api.bkmathapp.tk/api/exercies", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -10,7 +10,7 @@ import MathJax from 'react-mathjax2'
 function Results(prop) {
     var [result, setResult] = useState("");
     var [isLoading, setIsLoading] = useState(true);
-    fetch("http://api.bkmathapp.tk/api/combine", {
+    fetch("http://api.bkmathapp.tk/api/polynomial_vnkey", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
