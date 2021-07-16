@@ -28,7 +28,7 @@ function MonitorComponent(props) {
     // headers: authHeader(),
   };
   useEffect(() => {
-    fetch("http://127.0.0.1:6900/api/users", requestOptions)
+    fetch("http://api.bkmathapp.tk/api/users", requestOptions)
       .then((res) => {
         res.json().then((db) => {
           setLoading(false);
@@ -80,7 +80,7 @@ function MonitorComponent(props) {
 
   function handleDelOk() {
     setLoading(true)
-    fetch(`http://127.0.0.1:6900/api/users/${deleteID}`, {
+    fetch(`http://api.bkmathapp.tk/api/users/${deleteID}`, {
       method: "DELETE",
       // headers: authHeader(),
       headers: {
@@ -94,7 +94,7 @@ function MonitorComponent(props) {
         res.json().then((data) => {
           console.log(data);
         });
-        fetch("http://127.0.0.1:6900/api/users", requestOptions)
+        fetch("http://api.bkmathapp.tk/api/users", requestOptions)
           .then((res) => {
             res.json().then((db) => {
               setLoading(false);
@@ -181,7 +181,7 @@ function MonitorComponent(props) {
     //   datarequest.is_superuser = true;
     // }
     setLoading(true)
-    fetch(`http://127.0.0.1:6900/api/users/${datarequest.id}`, {
+    fetch(`http://api.bkmathapp.tk/api/users/${datarequest.id}`, {
       // fetch(`http://api.bkmathapp.tk/api/user/${id}`, {
       method: "PUT",
       // headers: authHeader(),
@@ -196,7 +196,7 @@ function MonitorComponent(props) {
         res.json().then((data) => {
           console.log(data);
         });
-        fetch("http://127.0.0.1:6900/api/users", requestOptions)
+        fetch("http://api.bkmathapp.tk/api/users", requestOptions)
           .then((res) => {
             res.json().then((db) => {
               setLoading(false);
@@ -242,7 +242,7 @@ function MonitorComponent(props) {
   // }
 
   function delete_user(id) {
-    fetch(`http://127.0.0.1:6900/api/users/${id}`, {
+    fetch(`http://api.bkmathapp.tk/api/users/${id}`, {
       // fetch(`http://api.bkmathapp.tk/api/user/${id}`, {
       method: "DELETE",
       // headers: authHeader(),

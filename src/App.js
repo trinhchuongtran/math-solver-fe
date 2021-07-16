@@ -17,6 +17,9 @@ import Problem from "./components/Problem";
 import MathSolver from "./components/breadcrumb.component";
 import Graph from "./components/graph.component";
 import MonitorComponent from "./components/monitor.component";
+import FooterContent from "./footer/footer"
+
+
 import { withRouter } from "react-router";
 
 import { Layout, Menu, Breadcrumb, Row, Col, Drawer, Button } from "antd";
@@ -105,6 +108,7 @@ class App extends Component {
       this.state;
     const { pathname } = this.props.location;
     return (
+      <>
       <Layout className="layout">
         <Menu
           onClick={this.handleClick}
@@ -227,8 +231,9 @@ class App extends Component {
           </Content>
           {/* } */}
         </Layout>
-        <Footer style={{ textAlign: "center" }}>Math</Footer>
       </Layout>
+      <FooterContent></FooterContent>
+      </>
     );
   }
 }

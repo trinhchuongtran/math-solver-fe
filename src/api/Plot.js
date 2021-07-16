@@ -14,9 +14,10 @@ function Plot(props) {
 
   // var myHeaders = new Headers();
   // myHeaders.append("Content-Type", "application/json");
-
+  
   var raw = JSON.stringify({
     input: props.tex,
+    // input: "x^3+x^2-5x+1",
     variable: "x",
   });
 
@@ -32,35 +33,12 @@ function Plot(props) {
   // function handleClick(e) {
   //     e.preventDefault();
   useEffect(() => {
+    console.log(requestOptions)
     // fetch("http://api.bkmathapp.tk/api/plot_api", requestOptions)
-      fetch(`http://api.bkmathapp.tk/api/plot`, requestOptions)
+      fetch(`http://api.bkmathapp.tk/api/plot_vnkey`, requestOptions)
       .then((res) => {
         res.json().then((db) => {
-        //   console.log(db);
           setSurvey(!!db.detail);
-          // if (db.detail) {
-          //   var result_api = "";
-          //   let valuesArray = Object.values(db.detail);
-          //   let i = 1;
-          //   for (let value of valuesArray) {
-          //     // console.log(value);
-          //     if (typeof value == "number") {
-          //       continue;
-          //     }
-          //     if (typeof value == "object") {
-          //       let valuesArray1 = Object.values(value);
-
-          //       for (let value of valuesArray1) {
-          //         result_api = result_api + value + "\\" + "\\";
-          //         i++;
-          //       }
-          //     } else {
-          //       result_api = result_api + value + "\\" + "\\";
-          //       i++;
-          //     }
-          //   }
-          //   // setResultDetail(result_api);
-          // }
           setResultDetail(db.detail);
 
           var x = "data:image/png;base64,";
@@ -73,7 +51,7 @@ function Plot(props) {
       .catch((err) => {
         console.log(err);
       });
-  });
+  }, []);
 
   // }
 

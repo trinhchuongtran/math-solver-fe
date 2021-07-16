@@ -33,10 +33,10 @@ export default class Home extends Component {
 
   render() {
     return (
-      <div style={{textAlign: 'center'}}>
+      <div style={{textAlign: 'center', minHeight: "100vh"}}>
         <Title type="primary">MATHSOLVER</Title>
         <Title level={5}>Công cụ giải toán cung cấp lời giải từng bước.</Title>
-        <Row  >
+        <Row>
           {/* <Col span={8}> */}
             <HomeCard
             title="ĐA THỨC"

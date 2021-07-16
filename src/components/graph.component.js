@@ -13,7 +13,7 @@ const { SubMenu } = Menu;
 // export default class General2 extends Component {
 export default function Graph(data) {
   const [selectedType, setSelectedType] = React.useState("default");
-  const [input_latex, setInputLatex] = useState("");
+  const [input_latex, setInputLatex] = useState("x^2 -6x +3");
 
   const listfunc = [
     {
@@ -79,15 +79,15 @@ export default function Graph(data) {
   ];
   const listExample = ["x^2-7x+10 = 0", "2x^2 +5x-7=0", "-7x^2+10x-3=0"];
 
-  useEffect(() => {
-    var poly = "x^2 -6x +3";
-    if (data.location.state) {
-      if (data.location.state.plot) {
-        poly = data.location.state.plot;
-      }
-    }
-    setInputLatex(poly);
-  }, []);
+  // useEffect(() => {
+  //   var poly = "x^2 -6x +3";
+  //   if (data.location.state) {
+  //     if (data.location.state.plot) {
+  //       poly = data.location.state.plot;
+  //     }
+  //   }
+  //   setInputLatex(poly);
+  // }, []);
 
   const handleClick = (e) => {
     setSelectedType(e.key);
