@@ -763,7 +763,7 @@ export default function Dathuc(data) {
                 }}
               ></math-field>
             </Col>
-            <Col span={3}>
+            <Col span={3} style = {{margin: "auto"}}>
               <Col span={22} offset={1}>
                 <Button
                   type="primary"
@@ -786,7 +786,7 @@ export default function Dathuc(data) {
                     }
                   }}
                 >
-                  Submit
+                  Giải
                 </Button>
                 <SimpleDialog
                   value={valueDialog}
