@@ -38,17 +38,23 @@ const initialSchema1 = {
 };
 const Navigation = (props) => {
   console.log({ props });
-  props.state.data ={
+  props.state.data = {
     id: "5",
     name: "",
-    grade:"",
-    date:"",
+    grade: "",
+    date: "",
     data: {
-      baitoan:"Baitoan1"
-    }
+      baitoan: "Baitoan1"
+    },
+
   };
+
   return (
     <div>
+      <Row align="center">
+        <div>{props.title}</div>
+        <div>{props.allSteps[props.current - 1].title}</div>
+      </Row>
       <Row align="center">
         <Col>
           <Button type="primary" onClick={props.prev} style={{ marginRight: 10 }}>
@@ -60,10 +66,6 @@ const Navigation = (props) => {
             Tiếp theo
           </Button>
         </Col>
-      </Row>
-      <Row>
-        <div>{props.title}</div>
-        <div>{props.allSteps[props.current - 1].title}</div>
       </Row>
     </div>
 
@@ -287,10 +289,10 @@ class ContentProblem extends React.Component {
           </Row>
         </Card>
         {this.state.isOpen && (
-          <Steps config={config}>
-            <Step component={defineStepOne} title="Bước 1: Định nghĩa đề bài" />
-            <Step component={defineStepTwo} title="Định nghĩa biến số " />
-            <Step component={DefineProplem} title="Định nghĩa bài giải" />
+          <Steps style={{ height: "1000px" }} config={config}>
+            <Step style={{ height: "100%" }} component={defineStepOne} title="Bước 1: Định nghĩa đề bài" />
+            <Step style={{ height: "100%" }} component={defineStepTwo} title="Định nghĩa biến số " />
+            <Step style={{ height: "100%" }} component={DefineProplem} title="Định nghĩa bài giải" />
           </Steps>
         )
         }
