@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Diagram, { createSchema, useSchema } from 'beautiful-react-diagrams';
 import { Button } from 'beautiful-react-ui';
 import 'antd/dist/antd.css';
@@ -50,7 +50,7 @@ function CustomFinalRender(props) {
                     Chi tiết kết quả
                 </button>
 
-                <Modal title="Thông tin bước giải" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                <Modal title="Thông tin kết quả" cancelText="Quay lại" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
                     <div>
                         <div>
                             <div>Nhập kết quả</div>
@@ -119,7 +119,8 @@ function CustomRender(props) {
                     Chi tiết bước giải
                 </button>
 
-                <Modal title="Thông tin bước giải" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                <Modal title="Thông tin bước giải" visible={isModalVisible}
+                    cancelText="Quay lại" onOk={handleOk} onCancel={handleCancel}>
                     <div>
                         <div>
                             <div>Điều kiện thực hiện bước giải</div>
@@ -141,103 +142,6 @@ function CustomRender(props) {
     );
 }
 
-function checkIvalid(test, array) {
-    for (let value of array) {
-        if (test == value) {
-            return true;
-        }
-    }
-    return false;
-}
-function checkListObject(node, listobj) {
-
-    for (let i = 0; i < listobj.length; i++) {
-        if (node == listobj[i].node) {
-            return i;
-        }
-    }
-    return false;
-}
-function checkDataObject(node, listobj) {
-    console.log(node);
-    console.log(listobj)
-    for (let i = 0; i < listobj.length; i++) {
-        console.log(listobj[i].id.id1)
-        if (node == listobj[i].id.id1) {
-            return i;
-        }
-    }
-    return false;
-}
-
-function formatJson(obj, listObj, dataObj) {
-    console.log(obj);
-    console.log(listObj);
-    console.log(dataObj);
-    var objTemp = obj;
-    var indexRoot = checkDataObject(obj.node, dataObj)
-
-    console.log(dataObj[indexRoot])
-    objTemp.cal = dataObj[indexRoot].id.cal;
-    objTemp.con = dataObj[indexRoot].id.con;
-    objTemp.des = dataObj[indexRoot].id.des;
-
-    for (let i = 0; i < obj.handle.length; i++) {
-        var indexList = checkListObject(obj.handle[i], listObj);
-        console.log(indexList)
-        if (indexList != false) {
-
-            objTemp.handle[i] = formatJson(listObj[indexList], listObj, dataObj)
-        } else {
-            var indexdata = checkDataObject(obj.handle[i], dataObj);
-            delete dataObj[indexdata].id.id1;
-            objTemp.handle[i] = dataObj[indexdata].id;
-
-        }
-
-
-
-    }
-    delete objTemp.node;
-    return objTemp
-}
-
-function createData(obj) {
-    var data = [
-
-    ]
-    var indexRoot = null;
-    let link = [];
-    var didCheck = []
-    for (let i = 0; i < obj.links.length; i++) {
-
-        var temp1 = obj.links[i];
-
-        if (checkIvalid(temp1.output, didCheck) == false) {
-            if (temp1.output == "node-1") {
-                indexRoot = i;
-            }
-            var tempData = {
-                "node": temp1.output,
-                "handle": [
-                    temp1.input
-                ]
-            }
-            didCheck.push(temp1.output)
-            for (let j = i + 1; j < obj.links.length; j++) {
-                var temp2 = obj.links[j];
-                if (temp2.output == temp1.output) {
-                    tempData.handle.push(temp2.input)
-                }
-            }
-            data.push(tempData)
-        }
-    }
-
-    var tree = formatJson(data[indexRoot], data, obj.nodes)
-    console.log(tree)
-}
-
 
 
 
@@ -251,10 +155,8 @@ function DefineProplem(props) {
         "nodes": [
             {
                 "id": {
-                    "cal": "",
-                    "con": "",
-                    "des": "",
-                    "handle": ""
+                    "handle": "",
+                    "id1": "node-1"
                 },
                 "content": "Bắt đầu",
                 "data": {},
@@ -280,9 +182,6 @@ function DefineProplem(props) {
             {
                 id: 'node-1',
                 content: 'Bài giải',
-                cal: "",
-                con: "",
-                des: "",
                 handle: "",
                 coordinates: [200, 200],
                 outputs: [{ id: 'node-1', alignment: 'bottom' }],
@@ -290,7 +189,7 @@ function DefineProplem(props) {
         ]
     });
     console.log(props)
-    var [schema, { onChange, addNode, removeNode }] = useSchema(initialSchema);
+    var [schema, { onChange, addNode, removeNode, connect }] = useSchema(initialSchema);
 
     const deleteNodeFromSchema = (id) => {
         const nodeToRemove = schema.nodes.find(node => node.id.id1 === id);
@@ -329,7 +228,7 @@ function DefineProplem(props) {
     }
 
     [schema, { onChange, addNode, removeNode }] = useSchema(test)
-
+    console.log(onChange);
     const addNewNode = (number, number1) => {
         var count = `node-${schema.nodes.length + 1}`;
         for (let node of schema.nodes) {
@@ -389,18 +288,26 @@ function DefineProplem(props) {
     }
     return (
         <div>
-            <div style={{ height: '600px' }}>
+            <div style={{ height: '900px', paddingTop: "50px" }}>
+                <div style={{
+                    textAlign: "center",
+                    fontSize: "30px",
+                    color: "#147f8f"
+                }}>
+                    Bước 3: Nhập thông tin các bước giải
+                </div>
                 <Button color="primary" icon="plus" onClick={() => {
                     numberCount = numberCount + 1;
                     numberCount1 = numberCount1 + 1;
                     addNewNode(numberCount, numberCount1)
                 }}>Thêm bước giải</Button>
+                <Button color="primary" icon="plus" onClick={() => {
+                    console.log(schema);
+                }}>Thêm bước giải</Button>
                 <Button color="primary" icon="plus" onClick={addNewFinalNode}>Thêm kết quả</Button>
-                <Button onClick={() => {
-                    console.log(schema)
-                    // createData(schema);
-                }}>Submit</Button>
-                <Diagram schema={schema} onChange={onChange} />
+                <Diagram schema={schema} onChange={onChange} onClick={() => {
+                    props.setState("schema", schema);
+                }} />
             </div>
 
         </div>

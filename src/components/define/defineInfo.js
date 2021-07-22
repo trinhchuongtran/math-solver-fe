@@ -3,7 +3,7 @@ import { Form, Input, Button, Space, Select } from 'antd';
 import { Row, Col } from "antd";
 const { TextArea } = Input;
 function DefineInfo(props) {
-
+    console.log(props);
     useEffect(() => {
         if (props.state.Info != undefined) {
             document.getElementById("nameProplem").value = props.state.Info.name;
@@ -37,17 +37,32 @@ function DefineInfo(props) {
     }
     return (
         <div style={{ height: "400px", paddingTop: "50px" }}>
+            <div style={{
+                textAlign: "center",
+                fontSize: "30px",
+                color: "#147f8f"
+            }}>
+                Bước 1: Nhập thông tin bài tập
+            </div>
             <Form name="register" id="te" onChange={onChange}>
                 <Form.Item
 
                 >
-                    <div>Tên bài toán</div>
+                    <div style={{
+
+                        fontSize: "20px",
+                        color: "#147f8f"
+                    }}>Tên bài toán</div>
                     <Input addonBefore="Tên bài tập" id="nameProplem" rows={4} />
                 </Form.Item>
                 <Form.Item
 
                 >
-                    <div>Môn học</div>
+                    <div style={{
+
+                        fontSize: "20px",
+                        color: "#147f8f"
+                    }}>Môn học</div>
                     <select
                         style={style}
                         placeholder="Chọn môn học"
@@ -63,7 +78,11 @@ function DefineInfo(props) {
                 <Form.Item
 
                 >
-                    <div>Lớp</div>
+                    <div style={{
+
+                        fontSize: "20px",
+                        color: "#147f8f"
+                    }}>Lớp</div>
                     <select
                         style={style}
                         placeholder="Chọn môn học"
