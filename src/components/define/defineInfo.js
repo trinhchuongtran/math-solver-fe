@@ -3,7 +3,20 @@ import { Form, Input, Button, Space, Select } from 'antd';
 import { Row, Col } from "antd";
 const { TextArea } = Input;
 function DefineInfo(props) {
+
     console.log(props);
+    console.log(props.state)
+    if (props.state.Info == undefined) {
+        if (props.data != null) {
+            props.state.Info = {
+                name: props.data.name,
+                subject: props.data.subject,
+                grade: props.data.grade
+            }
+            props.state.topic = props.data.data.baitoan.description;
+            props.state.Variable = props.data.data.Variable;
+        }
+    }
     useEffect(() => {
         if (props.state.Info != undefined) {
             document.getElementById("nameProplem").value = props.state.Info.name;
@@ -70,7 +83,7 @@ function DefineInfo(props) {
                         onChange={onChange}
                         id="Subject"
                     >   <option value="">Chọn môn học</option>
-                        <option value="Toán học">Toán học</option>
+                        <option value="Toán">Toán</option>
                         <option value="Hoá học">Hoá học</option>
                         <option value="Vật lý">Vật lý</option>
                     </select>
