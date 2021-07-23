@@ -1,30 +1,31 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import MathJax from "react-mathjax2";
 import { Button, Popover } from "antd";
-import { List, Card, Form } from "antd";
+import { Card, Form } from "antd";
 import { Input } from "antd";
 import { Row, Col } from "antd";
 import { Menu } from "antd";
-import { Switch, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import "../css/style.css";
 
 const { SubMenu } = Menu;
 
-export default function Exercise(data2) {
+export default function Exercise(data2 = undefined) {
   const [check, setCheck] = React.useState({});
   const [checkSubmit, setCheckSubmit] = React.useState({});
   const [showResultpopup, setShowResultpopup] = React.useState(false);
   const [dataInput, setDataInput] = React.useState({});
   const [dataRequest, setDataRequest] = React.useState("");
   const [isLoad, setIsLoad] = React.useState(true);
+  var [input_latex, setInputLatex] = React.useState("x^4 -8x^2=0");
   const [showbuttoncontent, setShowbuttoncontent] =
     React.useState("Hiện kết quả");
   // const [checkbuttonpopup, setCheckbuttonpopup] =
   //   React.useState(false);
   const [checkbuttoncontent, setCheckbuttoncontent] =
     React.useState("Kiểm tra tất cả");
-  const [selectedType, setSelectedType] = React.useState("default");
+  // const [selectedType, setSelectedType] = React.useState("default");
 
   const listfunc = [
     {
@@ -91,9 +92,10 @@ export default function Exercise(data2) {
 
   useEffect(() => {
     var poly = "x^4 -8x^2=0";
+    // console.log(data2)
     if (data2.location.state) {
       if (data2.location.state.polynomial) {
-        poly = data2.location.state.polynomial;
+        setInputLatex(data2.location.state.polynomial);
       }
     }
     // setDataRequest(data2.data)
@@ -103,22 +105,42 @@ export default function Exercise(data2) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        input: poly,
+        input: input_latex,
         variable: "x",
       }),
     }).then((res) => {
       res.json().then((db) => {
-        console.log(db);
+        // console.log(152831258352)
         // this.setState({ data: db.result, isLoad: true });
         setDataRequest(db.result);
         setIsLoad(false);
       });
     });
-  }, []);
+  }, [data2]);
 
-  const handleClick = (e) => {
-    setSelectedType(e.key);
-  };
+  function getdata(input, variable){
+    fetch("http://api.bkmathapp.tk/api/exercises", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        input: input,
+        variable: variable,
+      }),
+    }).then((res) => {
+      res.json().then((db) => {
+        console.log(152831258352)
+        // this.setState({ data: db.result, isLoad: true });
+        setDataRequest(db.result);
+        setIsLoad(false);
+      });
+    });
+  }
+
+  // const handleClick = (e) => {
+  //   setSelectedType(e.key);
+  // };
 
   // setData(data2);
   function popoverContent(data4) {
@@ -140,7 +162,7 @@ export default function Exercise(data2) {
     setCheckbuttoncontent("Ẩn kiểm tra");
     var key = "";
     for (var i = 0; i < dataRequest.handle.length; i++) {
-      if (dataRequest.handle[i].name == name) {
+      if (dataRequest.handle[i].name === name) {
         key = dataRequest.handle[i].key;
         break;
       }
@@ -169,7 +191,7 @@ export default function Exercise(data2) {
   function showResult(name) {
     var content = "";
     for (var i = 0; i < dataRequest.handle.length; i++) {
-      if (dataRequest.handle[i].name == name) {
+      if (dataRequest.handle[i].name === name) {
         content = dataRequest.handle[i].key;
         break;
       }
@@ -183,7 +205,7 @@ export default function Exercise(data2) {
   }
 
   function showResultEvent() {
-    if (showResultpopup == true) {
+    if (showResultpopup === true) {
       setShowResultpopup(false);
       setShowbuttoncontent("Hiện kết quả");
     } else {
@@ -193,7 +215,6 @@ export default function Exercise(data2) {
   }
 
   function checkfunc(lst) {
-    console.log(lst);
     fetch("http://api.bkmathapp.tk/api/checkresult_exercises", {
       method: "POST",
       headers: {
@@ -210,7 +231,7 @@ export default function Exercise(data2) {
   }
 
   function popup(check) {
-    if (check == undefined) {
+    if (check === undefined) {
       return false;
     } else {
       return check;
@@ -220,7 +241,7 @@ export default function Exercise(data2) {
   const onFinish = (e) => {
     var lst = [];
     for (var i = 0; i < Object.keys(e).length; i++) {
-      if (e[Object.keys(e)[i]] != undefined) {
+      if (e[Object.keys(e)[i]] !== undefined) {
         lst.push({
           name: Object.keys(e)[i],
           key: dataRequest.handle[i].key,
@@ -230,13 +251,13 @@ export default function Exercise(data2) {
     }
     setDataInput(e);
     checkfunc(lst);
-    if (Object.keys(checkSubmit).length != 0) {
+    if (Object.keys(checkSubmit).length !== 0) {
       setCheckSubmit({});
       setCheckbuttoncontent("Kiểm tra tất cả");
     } else {
       var checkpopup = {};
-      for (var i = 0; i < dataRequest.handle.length; i++) {
-        checkpopup[dataRequest.handle[i].name] = true;
+      for (var j = 0; j < dataRequest.handle.length; j++) {
+        checkpopup[dataRequest.handle[j].name] = true;
       }
       setCheckSubmit(checkpopup);
       setCheckbuttoncontent("Ẩn kiểm tra");
@@ -249,7 +270,7 @@ export default function Exercise(data2) {
     >
       <Col span={6}>
         <Menu
-          onClick={handleClick}
+          // onClick={handleClick}
           defaultSelectedKeys={["1"]}
           defaultOpenKeys={["sub1"]}
           mode="inline"
@@ -257,10 +278,12 @@ export default function Exercise(data2) {
         >
           {listfunc.map((item) => {
             return (
-              <SubMenu key={item.key} title={item.title}>
+              <React.Fragment key={item.key}>
+              <SubMenu title={item.title}>
                 {item.sub.map((subitem) => {
                   return (
-                    <Menu.Item key={subitem.key}>
+                    <React.Fragment key={subitem.key}>
+                    <Menu.Item >
                       <Link
                         to={{
                           pathname: "/polynomial",
@@ -270,9 +293,11 @@ export default function Exercise(data2) {
                         {subitem.title}
                       </Link>
                     </Menu.Item>
+                    </React.Fragment>
                   );
                 })}
               </SubMenu>
+              </React.Fragment>
             );
           })}
         </Menu>
@@ -298,7 +323,7 @@ export default function Exercise(data2) {
                     color: "#000000",
                     fontSize: "20px",
                   }}
-                >x^2-7x+10=0</math-field>
+                ></math-field>
               </Col>
               <Col span={3} style={{ margin: "auto" }}>
                 <Col span={22} offset={1}>
@@ -307,32 +332,20 @@ export default function Exercise(data2) {
                     block
                     style={{ height: "40px" }}
                     onClick={() => {
-                      var testASC = document
-                        .getElementById("formula1")
-                        .getValue("ASCIIMath");
+                      // var testASC = document
+                      //   .getElementById("formula1")
+                      //   .getValue("ASCIIMath");
+
                       var inputLatex = document
                         .getElementById("formula1")
                         .getValue("latex");
-
-                      // if (inputLatex != "") {
-                      //   console.log(inputLatex);
-                      //   handleClickOpen(inputLatex);
-                      // } else if (testASC != "") {
-                      //   console.log(testASC);
-                      //   handleClickOpen(testASC);
-                      // }
+                        setIsLoad(true)
+                        getdata(inputLatex, "x")
                     }}
                   >
                     Xác nhận
                   </Button>
-                  {/* <SimpleDialog
-                value={valueDialog}
-                onOpen={handleClickOpen}
-                selectedValue={selectedValue}
-                selectedValue={selectedValue}
-                open={open}
-                onClose={handleClose}
-              /> */}
+                  
                 </Col>
               </Col>
             </Row>
@@ -364,6 +377,7 @@ export default function Exercise(data2) {
                       <Row>
                         {dataRequest.handle.map((item) => {
                           return (
+                            <React.Fragment key={item.name}>
                             <Col className="exercise_item" span={24}>
                               <Row
                                 style={{ minWidth: "100%", minHeight: "100%" }}
@@ -425,6 +439,7 @@ export default function Exercise(data2) {
                                 </Col>
                               </Row>
                             </Col>
+                            </React.Fragment>
                           );
                         })}
                       </Row>

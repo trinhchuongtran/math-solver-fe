@@ -1,13 +1,11 @@
 // import React from "react"
-import React from "react";
+import React  from "react";
 import MathJax from "react-mathjax2";
 import { LeftOutlined } from "@ant-design/icons";
 
-import { List, Card, Form } from "antd";
+import { Card, Form } from "antd";
 import { Button } from "antd";
 import { Row, Col } from "antd";
-import { Checkbox, Divider } from "antd";
-import { Select } from "antd";
 import { Input } from "antd";
 
 import { Typography } from "antd";
@@ -22,14 +20,17 @@ const layout = {
     span: 16,
   },
 };
-const tailLayout = {
-  wrapperCol: {
-    offset: 8,
-    span: 16,
-  },
-};
 
 const PopupProblem = (props) => {
+
+  // const [idProblem, setIdProblem] = React.useState(props.idProblem )
+
+  // React.useEffect(() => {
+  //   setIdProblem(props.idProblem)
+  //   console.log(props.idProblem)
+  //   console.log(idProblem)
+  // }, [])
+
   return (
     <Card className="problem_card">
       <Button
@@ -40,14 +41,14 @@ const PopupProblem = (props) => {
       >
         Trở lại
       </Button>
-      <Threads idProblem={props.idProblem} />
+      <Threads problemData={props.problemData} />
     </Card>
   );
 };
 
 function getcontent(data) {
   let valuesArray = Object.values(data);
-  let i = 1;
+  // let i = 1;
   var result_api = "";
   for (let value of valuesArray) {
     if (typeof value == "number") {
@@ -56,24 +57,18 @@ function getcontent(data) {
     if (typeof value == "object") {
       result_api = result_api + getcontent(value) + "\\\\";
     } else {
-      result_api = result_api + value + "\\" + "\\";
-      i++;
+      result_api = result_api + value + "\\\\";
+      // i++;
     }
   }
   return result_api;
 }
 
-function arrayRemove(arr, value) {
-  return arr.filter(function (ele) {
-    return ele != value;
-  });
-}
-
-const styleSubmit = {
-  marginLeft: "10px",
-  height: "40px",
-  borderRadius: "10px",
-};
+// function arrayRemove(arr, value) {
+//   return arr.filter(function (ele) {
+//     return ele !== value;
+//   });
+// }
 
 function Solution(props) {
   const { result, isloading } = props;
@@ -109,59 +104,150 @@ function Solution(props) {
   );
 }
 
+// class Threads extends React.Component {
+//   constructor(props) {
+//         super(props);
+        
+//         this.state = {idProblem: this.props.idProblem,
+//           value: {},
+//           defaultTopic: "",
+//           topic: "",
+//           variable: [],
+//           result: "",
+//           isOpenSolution: false,
+//           isRender: false,
+//           isSubmit: false,
+//           name: "",
+//         };
+//       }
+
+//   componentDidMount(){
+//     var inputJson = "";
+//     fetch("http://api.bkmathapp.tk/api/problem_detail", {
+
+//           method: "POST",
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//           body: JSON.stringify({
+//             //   id: 0
+//             id: this.state.idProblem,
+//           }),
+//         }).then((res) => {
+//           res.json().then((db) => {
+//             // console.log(db);
+//             inputJson = db.data.baitoan.description;
+//             this.setState({
+//               defaultTopic: inputJson,
+//               topic: inputJson,
+//               variable: db.data.Variable,
+//               name: db.name,
+//             });
+//             var findVar = this.state.value;
+//             var listvar = [];
+//             for (var i = 0; i < this.state.variable.length; i++) {
+//               listvar.push(this.state.variable[i].name);
+//             }
+//             var valueVar = arrayRemove(listvar, findVar);
+//             var topic = this.state.defaultTopic;
+    
+//             if (topic.search("{" + findVar + "}") != -1) {
+//               topic = topic.replace("{" + findVar + "}", findVar);
+//               this.setState({ topic: topic });
+//             }
+//             this.setState({ isRender: true });
+//           });
+//         });
+        
+    
+//         // this.setState({ topic: this.state.defaultTopic });
+//   }
+
+//   render() {
+//     return (
+//       "sdbkfkjsdfkjsd"
+//     )
+//   }
+// }
+
 class Threads extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    // console.log(this.props.problemData.id)
+    this.state = {
+      idProblem: this.props.problemData.id,
+      problemData: this.props.problemData.data,
+      value: {},
+      defaultTopic: "",
+      topic: "",
+      variable: [],
+      result: "",
+      isOpenSolution: false,
+      isRender: false,
+      isSubmit: false,
+      name: this.props.problemData.name
+    };
+  }
+
+  componentDidMount(){
     var inputJson = "";
-    fetch("http://api.bkmathapp.tk/api/problem_detail", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        //   id: 0
-        id: this.props.idProblem,
-      }),
-    }).then((res) => {
-      res.json().then((db) => {
-        // console.log(db);
-        inputJson = db.data.baitoan.description;
+    // fetch("http://api.bkmathapp.tk/api/problem_detail", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     //   id: 0
+    //     id: this.state.idProblem,
+    //   }),
+    // }).then((res) => {
+    //   res.json().then((db) => {
+    //     // console.log(db);
+    //     inputJson = db.data.baitoan.description;
+    //     this.setState({
+    //       defaultTopic: inputJson,
+    //       topic: inputJson,
+    //       variable: db.data.Variable,
+    //       name: db.name,
+    //     });
+    //     var findVar = this.state.value;
+    //     var listvar = [];
+    //     for (var i = 0; i < this.state.variable.length; i++) {
+    //       listvar.push(this.state.variable[i].name);
+    //     }
+    //     // var valueVar = arrayRemove(listvar, findVar);
+    //     var topic = this.state.defaultTopic;
+
+    //     if (topic.search("{" + findVar + "}") !== -1) {
+    //       topic = topic.replace("{" + findVar + "}", findVar);
+    //       this.setState({ topic: topic });
+    //     }
+    //     this.setState({ isRender: true });
+    //   });
+    // });
+    console.log(this.state.problemData)
+        inputJson = this.state.problemData.baitoan.description;
         this.setState({
           defaultTopic: inputJson,
           topic: inputJson,
-          variable: db.data.Variable,
-          name: db.name,
+          variable: this.state.problemData.Variable,
+          name: this.state.name,
         });
         var findVar = this.state.value;
         var listvar = [];
         for (var i = 0; i < this.state.variable.length; i++) {
           listvar.push(this.state.variable[i].name);
         }
-        var valueVar = arrayRemove(listvar, findVar);
+        // var valueVar = arrayRemove(listvar, findVar);
         var topic = this.state.defaultTopic;
 
-        if (topic.search("{" + findVar + "}") != -1) {
+        if (topic.search("{" + findVar + "}") !== -1) {
           topic = topic.replace("{" + findVar + "}", findVar);
           this.setState({ topic: topic });
         }
         this.setState({ isRender: true });
-      });
-    });
-    this.state = {
-      value: {},
-      defaultTopic: inputJson,
-      topic: inputJson,
-      variable: [],
-      result: "",
-      isOpenSolution: false,
-      isRender: false,
-      isSubmit: false,
-      name: "",
-    };
-
-    this.setState({ topic: this.state.defaultTopic });
   }
 
   // handleChange(event) {
@@ -199,7 +285,7 @@ class Threads extends React.Component {
   }
 
   onFinish = (values) => {
-    // console.log("Success:", values);
+    // console.log("Success:", this.state.idProblem);
     // this.setState({ value: values });
     this.setState({ isSubmit: true, isOpenSolution: false });
     fetch("http://api.bkmathapp.tk/api/problem", {
@@ -208,7 +294,7 @@ class Threads extends React.Component {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id: this.props.idProblem,
+        id: this.state.idProblem,
         parameter: values,
       }),
     }).then((res) => {
@@ -268,8 +354,9 @@ class Threads extends React.Component {
               <Title level={5}>{"Đề bài: " + this.state.topic}</Title>
               <Title level={5}>Nhập các giá trị:</Title>
               <Row>
-                {this.state.variable.map((element, i) => {
+                {this.state.variable.map((element) => {
                   return (
+                    <React.Fragment key={element.name}>
                     <Col span={8} className="problem_inputvalue">
                       <Title level={5} style={{ paddingRight: "6px" }}>
                         {element.name + " ="}
@@ -281,6 +368,7 @@ class Threads extends React.Component {
                         <Input style={{ width: "128px" }} />
                       </Form.Item>
                     </Col>
+                    </React.Fragment>
                   );
                 })}
               </Row>

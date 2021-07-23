@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
-import MathJax from "react-mathjax2";
+// import MathJax from "react-mathjax2";
 import Plot from "../api/Plot";
-import { List, Button, Row, Col, Card } from "antd";
+import { Button, Row, Col } from "antd";
 import { Menu } from "antd";
-import { Switch, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import "../css/style.css";
-import listdathuc from "../staticdata/polydata.json";
+// import listdathuc from "../staticdata/polydata.json";
 import listfunc from "../staticdata/listmenu.json";
 
 const { SubMenu } = Menu;
 
 // export default class General2 extends Component {
 export default function Graph(data) {
-  const [selectedType, setSelectedType] = React.useState("default");
+  // const [selectedType, setSelectedType] = React.useState("default");
   const [input_latex, setInputLatex] = useState("x^2 -6x +3");
-  const listExample = ["x^2-7x+10 = 0", "2x^2 +5x-7=0", "-7x^2+10x-3=0"];
+  // const listExample = ["x^2-7x+10 = 0", "2x^2 +5x-7=0", "-7x^2+10x-3=0"];
 
   // useEffect(() => {
   //   var poly = "x^2 -6x +3";
@@ -28,9 +28,9 @@ export default function Graph(data) {
   //   setInputLatex(poly);
   // }, []);
 
-  const handleClick = (e) => {
-    setSelectedType(e.key);
-  };
+  // const handleClick = (e) => {
+  //   setSelectedType(e.key);
+  // };
 
   return (
     <Row
@@ -39,7 +39,7 @@ export default function Graph(data) {
     >
       <Col span={6}>
         <Menu
-          onClick={handleClick}
+          // onClick={handleClick}
           defaultSelectedKeys={["1"]}
           defaultOpenKeys={["sub1"]}
           mode="inline"

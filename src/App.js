@@ -4,36 +4,37 @@ import "./App.css";
 
 import AuthService from "./services/auth.service";
 
-import Login from "./components/login.component";
-import Home from "./components/home.component";
+import Login from "./components/Login";
+import Logup from "./components/Logup";
+import Home from "./components/Home";
 import Profile from "./components/profile.component";
-import BoardUser from "./components/board-user.component";
+// import BoardUser from "./components/board-user.component";
 import BoardModerator from "./components/board-moderator.component";
-import BoardAdmin from "./components/board-admin.component";
-import General1 from "./components/general-1.component";
+// import BoardAdmin from "./components/board-admin.component";
+// import General1 from "./components/general-1.component";
 import ExerciseComponent from "./components/Exercise";
 import Polynomial from "./components/Polynomial";
 import Problem from "./components/Problem";
-import MathSolver from "./components/breadcrumb.component";
-import Graph from "./components/graph.component";
-import MonitorComponent from "./components/monitor.component";
+// import MathSolver from "./components/breadcrumb.component";
+import Graph from "./components/Graph";
+import MonitorComponent from "./components/Monitor";
 import FooterContent from "./footer/footer"
 
 
 import { withRouter } from "react-router";
 
-import { Layout, Menu, Breadcrumb, Row, Col, Drawer, Button } from "antd";
+import { Layout, Menu, Drawer, Button } from "antd";
 
 import {
-  HomeOutlined,
-  FunctionOutlined,
-  EditOutlined,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
+  // HomeOutlined,
+  // FunctionOutlined,
+  // EditOutlined,
+  // MenuUnfoldOutlined,
+  // MenuFoldOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 
-const { Content, Sider, Header, Footer } = Layout;
+const { Content } = Layout;
 const { SubMenu } = Menu;
 
 const keyMap = {
@@ -56,13 +57,20 @@ class App extends Component {
       currentUser: undefined,
       current: undefined,
       loginVisible: false,
-      profileVisible: false
+      profileVisible: false,
+      logupVisible: false
     };
   }
 
   showLogin = () => {
     this.setState({
       loginVisible: true,
+    });
+  }; 
+
+  showLogup = () => {
+    this.setState({
+      logupVisible: true,
     });
   }; 
 
@@ -75,6 +83,7 @@ class App extends Component {
   onclose = () => {
     this.setState({
       loginVisible: false,
+      logupVisible: false,
       profileVisible: false
     });
   };
@@ -104,7 +113,7 @@ class App extends Component {
 
 
   render() {
-    const { currentUser, showModeratorBoard, showAdminBoard, current } =
+    const { currentUser, showModeratorBoard, showAdminBoard } =
       this.state;
     const { pathname } = this.props.location;
     return (
@@ -158,16 +167,29 @@ class App extends Component {
               Đăng xuất
             </Button>
           ) : (
+            <>
             <Button
               className="nav-button"
               shape="round"
               type="primary"
-              onClick={this.showLogin}
+              onClick={this.showLogup}
             >
               {/* <Link to={"/login"}> */}
-              Đăng nhập
+              Đăng Ký
               {/* </Link> */}
             </Button>
+
+            <Button
+            className="nav-button"
+            shape="round"
+            type="primary"
+            onClick={this.showLogin}
+            >
+            {/* <Link to={"/login"}> */}
+            Đăng nhập
+            {/* </Link> */}
+            </Button>
+            </>
           )}
           {currentUser && (
             <Button
@@ -194,6 +216,16 @@ class App extends Component {
           >
             <Login></Login>
           </Drawer>
+
+          <Drawer
+            title="Đăng ký"
+            width={480}
+            onClose={this.onclose}
+            visible={this.state.logupVisible}
+          >
+            <Logup></Logup>
+          </Drawer>
+
           <Drawer
             title="Thông tin người dùng"
             width={480}

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import 'antd/dist/antd.css';
-import { Card, Row, Col } from 'antd';
+import { Card } from 'antd';
 // import { Divider } from 'antd';
 // import { Typography } from "antd";
 import MathJax from 'react-mathjax2'
@@ -25,7 +25,7 @@ function Results(prop) {
 
             var result_api = "";
             let valuesArray = Object.values(db.result);
-            let i = 1;
+            // let i = 1;
             for (let value of valuesArray) {
 
                 if (typeof value == "number") {
@@ -36,12 +36,12 @@ function Results(prop) {
 
                     for (let value of valuesArray1) {
 
-                        result_api = result_api + value + "\\" + "\\";
-                        i++;
+                        result_api = result_api + value + "\\\\";
+                        // i++;
                     }
                 } else {
-                    result_api = result_api + value + "\\" + "\\";
-                    i++;
+                    result_api = result_api + value + "\\\\";
+                    // i++;
                 }
             }
             setResult(result_api)
@@ -51,10 +51,10 @@ function Results(prop) {
 
         console.log("test1");
     })
-    let logicJS = (brd) => {
-        var c = brd.create('functiongraph', [function (x) { return x + 1; }, -4, 4], { strokeColor: '#000000', strokeWidth: 3 });
-        brd.unsuspendUpdate();
-    }
+    // let logicJS = (brd) => {
+    //     var c = brd.create('functiongraph', [function (x) { return x + 1; }, -4, 4], { strokeColor: '#000000', strokeWidth: 3 });
+    //     brd.unsuspendUpdate();
+    // }
     return (
         <Card loading={isLoading} title="Lời giải chi tiết">
             

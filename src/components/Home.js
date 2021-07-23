@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Typography, Col, Row } from 'antd';
+import { Typography, Row } from 'antd';
 import HomeCard from './home-card.component';
 import UserService from "../services/user.service";
 

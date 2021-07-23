@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MathJax from "react-mathjax2";
-import authHeader from "../services/auth-header";
-import PlotImage from "../components/plot-image.component";
+// import authHeader from "../services/auth-header";
+import PlotImage from "../components/plot-Image";
 import { Row, Col, Card } from "antd";
 
 import "../css/style.css";
@@ -33,7 +33,7 @@ function Plot(props) {
   // function handleClick(e) {
   //     e.preventDefault();
   useEffect(() => {
-    console.log(requestOptions);
+    // console.log(requestOptions);
     // fetch("http://api.bkmathapp.tk/api/plot_api", requestOptions)
     fetch(`http://api.bkmathapp.tk/api/plot_vnkey`, requestOptions)
       .then((res) => {
@@ -41,7 +41,7 @@ function Plot(props) {
           setSurvey(!!db.detail);
           setResultDetail(db.detail);
 
-          var x = "data:image/png;base64,";
+          // var x = "data:image/png;base64,";
           //   console.log(result_api);
 
           setResult(db.plot);
@@ -51,7 +51,7 @@ function Plot(props) {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [requestOptions]);
 
   // }
 

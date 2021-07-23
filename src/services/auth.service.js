@@ -1,6 +1,7 @@
 import axios from "axios";
+import React from "react";
 
-const API_URL = "http://api.bkmathapp.tk/auth/";
+// const API_URL = "http://api.bkmathapp.tk/auth/";
 
 class AuthService {
   login(email, password) {
@@ -22,22 +23,37 @@ class AuthService {
     localStorage.removeItem("user");
   }
 
-  register(username, email, password) {
+  register(email, first_name, last_name, password, re_password) {
     // return axios.get(API_URL + "users/user_create", {
     //   // return axios.post(API_URL + "signup", {
     //   username,
     //   email,
     //   password
     // });
-    fetch("http://api.bkmathapp.tk/auth/users/user_create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        // "Access-Control-Allow-Origin": "http://127.0.0.1:6900"
-      },
-      body: JSON.stringify({
-        
-      }),
+
+    var requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // "Access-Control-Allow-Origin": "http://127.0.0.1:6899"
+        },
+        body: JSON.stringify({
+          email: email,
+          first_name: first_name,
+          last_name: last_name,
+          password: password,
+          role: "user",
+          re_password: re_password,
+          is_superuser: false
+          
+        }),
+    }
+
+    console.log(requestOptions)
+    fetch("http://api.bkmathapp.tk/auth/users/", requestOptions).then(response => {
+      console.log(response)
+
+      return response
     })
   }
 

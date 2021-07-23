@@ -375,7 +375,7 @@ export default function Dathuc(data) {
                 <Button
                   type="primary"
                   block
-                  style={{ height: "40px" }}
+                  style={{ height: "90px" }}
                   onClick={() => {
                     var testASC = document
                       .getElementById("formula1")

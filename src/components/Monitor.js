@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Table, Space, Button, Modal } from "antd";
-import authHeader from "../services/auth-header";
+// import authHeader from "../services/auth-header";
 // import { Icon } from 'antd';
 import {
   EditOutlined,
@@ -38,13 +38,12 @@ function MonitorComponent(props) {
           //     : "Người định nghĩa";
           // }
           setData(db);
-          console.log(db);
         });
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [requestOptions]);
 
   function editclick(record) {
     // let temp = record;
@@ -58,7 +57,7 @@ function MonitorComponent(props) {
     // console.log(record);
 
     setEditData(record);
-    // console.log(record)
+    console.log(record)
 
     var dataUpdate = {};
     dataUpdate.id = record.id;
@@ -116,7 +115,7 @@ function MonitorComponent(props) {
         console.log(err);
       });
     setIsModalVisibleDelete(false);
-    const x = data;
+    // const x = data;
 
     // for (var i = 0; i < data.length; i++){
     //   if (data[i]["id"] == deleteID){
@@ -147,13 +146,13 @@ function MonitorComponent(props) {
     setIsModalVisibleDelete(false);
   }
 
-  function ModalVisible(value) {
-    if (value == editData.id) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  // function ModalVisible(value) {
+  //   if (value == editData.id) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   function handleChangeName(key, value) {
     var dataUpdate = datarequest;
@@ -163,7 +162,7 @@ function MonitorComponent(props) {
 
   function handleChange(value) {
     var dataUpdate = datarequest;
-    if (value == "admin") {
+    if (value === "admin") {
       dataUpdate.is_superuser = true;
     } else {
       dataUpdate.is_superuser = false;
@@ -243,44 +242,40 @@ function MonitorComponent(props) {
   //     });
   // }
 
-  function delete_user(id) {
-    fetch(`http://api.bkmathapp.tk/api/users/${id}`, {
-      // fetch(`http://api.bkmathapp.tk/api/user/${id}`, {
-      method: "DELETE",
-      // headers: authHeader(),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id: id,
-      }),
-    })
-      .then((res) => {
-        res.json().then((data) => {
-          console.log(data);
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+  // function delete_user(id) {
+  //   fetch(`http://api.bkmathapp.tk/api/users/${id}`, {
+  //     // fetch(`http://api.bkmathapp.tk/api/user/${id}`, {
+  //     method: "DELETE",
+  //     // headers: authHeader(),
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       id: id,
+  //     }),
+  //   })
+  //     .then((res) => {
+  //       res.json().then((data) => {
+  //         console.log(data);
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }
 
-  function test(text) {
-    console.log(text);
-  }
   return (
     <>
-      <Table dataSource={data} loading={loading} bordered style ={{marginTop: "20px"}}>
+      <Table rowKey={(record) => {return record.id}} dataSource={data} loading={loading} bordered style ={{marginTop: "20px"}}>
         {/* <Column title="ID" dataIndex="id" key="id" sorter = {(a, b) => {return a.id - b.id}} /> */}
         <ColumnGroup title={"Tên"}>
-          <Column title="Tên" dataIndex="first_name" key="first_name" sorter = {(a, b) => {return a.first_name.length - b.first_name.length}}/>
-          <Column title="Họ" dataIndex="last_name" key="last_name" sorter = {(a, b) => {return a.last_name.length - b.last_name.length}}/>
+          <Column title="Tên" dataIndex="first_name" sorter = {(a, b) => {return a.first_name.length - b.first_name.length}}/>
+          <Column title="Họ" dataIndex="last_name" sorter = {(a, b) => {return a.last_name.length - b.last_name.length}}/>
         </ColumnGroup>
-        <Column title="Email" dataIndex="email" key="email" />
+        <Column title="Email" dataIndex="email"/>
         <Column
           title="Quyền quản lý"
           dataIndex="role"
-          key="role"
           defaultSortOrder = "ascend"
           sorter = {(a, b) => {
             var key = {
@@ -292,23 +287,20 @@ function MonitorComponent(props) {
           
           }}
           render={(record) => {
-            if (record == "admin") {
+            if (record === "admin") {
               return <>Quản trị viên</>;
-            } else if (record == "definer") {
+            } else if (record === "definer") {
               return <>Người định nghĩa</>;
-            } else if (record == "user") {
+            } else if (record === "user") {
               return <>Người dùng</>;
             }
           }}
         />
         <Column
           title="Hành động"
-          key="action"
           render={(record) => (
             <>
               <Space size="middle">
-                {/*<Button onClick={() => test(record.id)}>Test</Button>*/}
-                {/* <Button onClick={() => upgrade(record.id)}>Nâng cấp quyền</Button> */}
                 <Button
                   icon={<EditOutlined />}
                   onClick={() => {

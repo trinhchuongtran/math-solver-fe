@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Card, Divider } from 'antd';
+import { Image, Card } from 'antd';
 import "../css/style.css";
 
 function PlotImage(props) {

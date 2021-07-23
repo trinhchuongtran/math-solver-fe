@@ -1,11 +1,10 @@
-import React, { Component } from "react";
+import React from "react";
 import PopupProblem from "../api/Popup";
 import { List, Card } from "antd";
 import { Button } from "antd";
 import { Row, Col } from "antd";
 import { Checkbox, Divider } from "antd";
 import { Select } from "antd";
-import { Layout } from "antd";
 import { Menu } from "antd";
 import { Link } from "react-router-dom";
 import MathJax from "react-mathjax2";
@@ -15,9 +14,7 @@ import "../css/style.css";
 
 const { SubMenu } = Menu;
 
-const CheckboxGroup = Checkbox.Group;
 const { Option } = Select;
-const { Header, Footer, Sider, Content } = Layout;
 
 class ContentProblem extends React.Component {
   constructor(props) {
@@ -27,16 +24,20 @@ class ContentProblem extends React.Component {
       listProblem: [],
       idProblem: "",
       nameProblem: "",
-      listSubject: [],
-      selectedSubject: [],
+      
       checkedAll: true,
       checked: [],
       grade: [],
       selectedGrade: "",
       isLoad: false,
       checkedList: [],
+
+      
       indeterminate: true,
+
       checkAll: true,
+      listSubject: [],
+      selectedSubject: []
     };
     fetch("http://api.bkmathapp.tk/api/listproblem", {
       method: "GET",
@@ -68,15 +69,15 @@ class ContentProblem extends React.Component {
     document.getElementById("listProblem").style.display = null;
   };
 
-  handleClick = (event, id, nameProblem) => {
+  handleClick = (event, problemData) => {
     this.setState({
       isOpen: !this.state.isOpen,
-      idProblem: id,
-      nameProblem: nameProblem,
+      // idProblem: id,
+      // problemData: problemData,
+      // nameProblem: nameProblem
+      problemData: problemData
     });
-    console.log(nameProblem);
-    this.setState({ nameProblem: nameProblem });
-    console.log(this.state.nameProblem);
+    // this.setState({ nameProblem: nameProblem });
     document.getElementById("listProblem").style.display = "none";
   };
 
@@ -92,7 +93,7 @@ class ContentProblem extends React.Component {
   onCheckAllChange = (e) => {
     this.setState({
       checkedList: e.target.checked ? this.state.listSubject : [],
-      indeterminate: false,
+      // indeterminate: false,
       checkAll: e.target.checked,
     });
   };
@@ -111,27 +112,37 @@ class ContentProblem extends React.Component {
                 <Col span={18} style={{ paddingBottom: "8px" }}>
                   <Col span={24}>
                     <Divider>Môn học</Divider>
+                    {/* <React.Fragment key="allsubject"> */}
                     <Checkbox
-                      indeterminate={this.state.indeterminate}
+                      // indeterminate={this.state.indeterminate}
                       onChange={(list) => this.onCheckAllChange(list)}
                       checked={this.state.checkAll}
                     >
                       Tất cả
                     </Checkbox>
+                    {/* </React.Fragment> */}
                   </Col>
                   <Col span={24}>
                     <Checkbox.Group
-                      style={{ padding: "4px 0" }}
+                      style={{ padding: "4px 0", width: "100%" }}
                       value={this.state.checkedList}
                       onChange={(e) => this.onChange(e)}
-                      style = {{width: "100%"}}
                     >
                       <Row>
+                        {console.log(this.state.listSubject)}
                         {this.state.listSubject.map((value) => {
                           return (
-                            <Col span={6} style={{ padding: "4px 0" }}>
-                              <Checkbox value={value}>{value}</Checkbox>
-                            </Col>
+                            <React.Fragment key={value}>
+                              <Col span={6} style={{ padding: "4px 0" }}>
+
+                                <Checkbox value={value}>
+                                  {value}
+                                </Checkbox>
+
+                                </Col>
+                            </React.Fragment>
+
+                              
                           );
                         })}
                       </Row>
@@ -149,9 +160,18 @@ class ContentProblem extends React.Component {
                         this.setState({ selectedGrade: event });
                       }}
                     >
+                      <React.Fragment key="all">
                       <Option value="">Tất cả</Option>
+                      </React.Fragment>
                       {this.state.grade.map((value) => {
-                        return <Option value={value}>{"Lớp " + value}</Option>;
+                        return (
+                          <React.Fragment key={value}>
+                            <Option value={value}>
+                              {"Lớp " + value}
+                            </Option>
+                            ;
+                          </React.Fragment>
+                        );
                       })}
                     </Select>
                   </Row>
@@ -161,18 +181,18 @@ class ContentProblem extends React.Component {
             <Col span={24}>
               <div>
                 <List>
-                  {this.state.listProblem.map((element, i) => {
+                  {this.state.listProblem.map((element) => {
                     var selectedSubject = this.state.checkedList;
                     if (this.state.checkAll) {
                       selectedSubject = this.state.listSubject;
                     }
                     if (
                       selectedSubject.includes(element.subject) &&
-                      (this.state.selectedGrade == "" ||
-                        this.state.selectedGrade == element.grade)
+                      (this.state.selectedGrade === "" ||
+                        this.state.selectedGrade === element.grade)
                     ) {
                       return (
-                        <>
+                        <React.Fragment key={element.id}>
                           <List.Item
                             className="problen_listitem"
                             style={{ display: "block" }}
@@ -185,8 +205,7 @@ class ContentProblem extends React.Component {
                                   onClick={(e) =>
                                     this.handleClick(
                                       e,
-                                      element.id,
-                                      element.name
+                                      element
                                     )
                                   }
                                 >
@@ -194,11 +213,16 @@ class ContentProblem extends React.Component {
                                 </Button>
                               }
                             >
-                              {element.description}
+                              {element.data.baitoan.description}
                             </Card>
                           </List.Item>
-                        </>
+                        </React.Fragment>
                       );
+                    }
+                    else{
+                      return(
+                        <></>
+                      )
                     }
                   })}
                 </List>
@@ -208,8 +232,9 @@ class ContentProblem extends React.Component {
         </Card>
         {this.state.isOpen && (
           <PopupProblem
-            idProblem={this.state.idProblem}
-            nameProblem={this.state.nameProblem}
+          problemData={this.state.problemData}
+            // problemData = {this.state.problemData}
+            // nameProblem={this.state.nameProblem}
             handleClose={this.handleClose}
           />
         )}
@@ -219,7 +244,6 @@ class ContentProblem extends React.Component {
 }
 
 export default function Problem() {
-  const [selectedType, setSelectedType] = React.useState("default");
   const listfunc = [
     {
       key: "dathuc",
@@ -283,11 +307,12 @@ export default function Problem() {
     },
   ];
 
-  const listExample = ["x^2-7x+10 = 0", "2x^2 +5x-7=0", "x^4-2x^2+1=0", "x^4-3x^2+2=0"];
-
-  const handleClick = (e) => {
-    setSelectedType(e.key);
-  };
+  const listExample = [
+    "x^2-7x+10 = 0",
+    "2x^2 +5x-7=0",
+    "x^4-2x^2+1=0",
+    "x^4-3x^2+2=0",
+  ];
 
   return (
     <Row
@@ -298,7 +323,6 @@ export default function Problem() {
         <Row>
           <Col span={24}>
             <Menu
-              onClick={handleClick}
               defaultSelectedKeys={["1"]}
               defaultOpenKeys={["sub1"]}
               mode="inline"
@@ -306,10 +330,10 @@ export default function Problem() {
             >
               {listfunc.map((item) => {
                 return (
-                  <SubMenu key={item.key} title={item.title}>
+                  <SubMenu title={item.title}>
                     {item.sub.map((subitem) => {
                       return (
-                        <Menu.Item key={subitem.key}>
+                        <Menu.Item>
                           <Link
                             to={{
                               pathname: "/polynomial",
@@ -355,7 +379,7 @@ export default function Problem() {
         </Row>
       </Col>
       <Col span={18} className="problem_contentproblem">
-        <ContentProblem></ContentProblem>
+        <ContentProblem />
       </Col>
     </Row>
   );

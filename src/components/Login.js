@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 
-import { Form, Input, Button, Typography, message, notificationt, notification } from "antd";
+import { Form, Input, Button, message } from "antd";
 import { UserOutlined, KeyOutlined } from "@ant-design/icons";
 
 
 import AuthService from "../services/auth.service";
 import { withRouter } from "react-router";
 
-const { Text } = Typography;
+// const { Text } = Typography;
 
 
 class Login extends Component {
@@ -57,8 +57,8 @@ class Login extends Component {
           let resMessage;
           //   error.response.status == 401? "Email hoặc mật khẩu không đúng!":
           //   error.toString();
-          if (error.response.status == 401) resMessage = "E-mail hoặc mật khẩu không chính xác!";
-          else if (error.response.status == 500) resMessage = "Không thể kết nối đến máy chủ!";
+          if (error.response.status === 401) resMessage = "E-mail hoặc mật khẩu không chính xác!";
+          else if (error.response.status === 500) resMessage = "Không thể kết nối đến máy chủ!";
           else resMessage = error.toString();
           this.setState({
             loading: false,
@@ -132,7 +132,7 @@ class Login extends Component {
             type="password"
             placeholder="Mật khẩu"/>
         </Form.Item>
-        <Button onClick={()=>this.create_user()}>Create</Button>
+        {/* <Button onClick={()=>this.create_user()}>Create</Button> */}
         <Form.Item>
           <Button className="login-form-button" type="primary" htmlType="submit" loading={this.state.loading} >
             Đăng nhập 
