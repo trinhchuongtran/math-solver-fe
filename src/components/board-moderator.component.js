@@ -205,7 +205,7 @@ const Navigation = (props) => {
   if (x != 3) {
     return (
       <div>
-        <Row align="center">
+        <Row align="center" style={{ paddingBottom: "100px" }}>
           <Col>
             <Button type="primary" onClick={props.prev} style={{ marginRight: 10 }}>
               Quay lại
@@ -223,7 +223,7 @@ const Navigation = (props) => {
   } else {
     return (
       <div>
-        <Row align="center">
+        <Row align="center" style={{ paddingBottom: "100px" }}>
           <Col>
             <Button type="primary" onClick={props.prev} style={{ marginRight: 10 }}>
               Quay lại

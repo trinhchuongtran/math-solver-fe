@@ -8,6 +8,7 @@ import MathJax from 'react-mathjax2'
 // const { Title } = Typography;
 
 function Results(prop) {
+    console.log(prop);
     var [result, setResult] = useState("");
     var [isLoading, setIsLoading] = useState(true);
     fetch("http://api.bkmathapp.tk/api/polynomial_vnkey", {
@@ -57,7 +58,7 @@ function Results(prop) {
     // }
     return (
         <Card loading={isLoading} title="Lời giải chi tiết">
-            
+
             <MathJax.Context input='tex'
                 options={{
                     displayAlign: 'left',

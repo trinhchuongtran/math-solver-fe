@@ -15,7 +15,7 @@ function CustomFinalRender(props) {
     };
 
     const handleOk = (event) => {
-        var equa = event.target.parentElement.parentElement.parentElement.getElementsByClassName("ant-modal-body")[0].children[0].children[0].getElementsByClassName("modelEqua")[0].getValue('latex');
+        var equa = event.target.parentElement.parentElement.parentElement.getElementsByClassName("ant-modal-body")[0].children[0].children[0].getElementsByClassName("modelEqua")[0].value;
         var intro = event.target.parentElement.parentElement.parentElement.getElementsByClassName("ant-modal-body")[0].children[0].children[0].getElementsByClassName("modelIntro")[0].value;
         props.id.equation = equa;
         props.id.introduction = intro;
@@ -288,7 +288,7 @@ function DefineProplem(props) {
     }
     return (
         <div>
-            <div style={{ height: '900px', paddingTop: "50px" }}>
+            <div style={{ height: "900px", paddingTop: "50px" }}>
                 <div style={{
                     textAlign: "center",
                     fontSize: "30px",
@@ -300,9 +300,6 @@ function DefineProplem(props) {
                     numberCount = numberCount + 1;
                     numberCount1 = numberCount1 + 1;
                     addNewNode(numberCount, numberCount1)
-                }}>Thêm bước giải</Button>
-                <Button color="primary" icon="plus" onClick={() => {
-                    console.log(schema);
                 }}>Thêm bước giải</Button>
                 <Button color="primary" icon="plus" onClick={addNewFinalNode}>Thêm kết quả</Button>
                 <Diagram schema={schema} onChange={onChange} onClick={() => {

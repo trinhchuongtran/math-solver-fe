@@ -1,62 +1,84 @@
 [
-    {
-      "key": "dathuc",
-      "title": "Đa thức",
-      "sub": [
-        {
-          "key": "ptb1",
-          "title": "PT bậc 1"
-        },
-        {
-          "key": "ptb2",
-          "title": "PT bậc 2"
-        },
-        {
-          "key": "ptb4",
-          "title": "PT bậc 4 trùng phương"
-        },
-        {
-          "key": "ptbc",
-          "title": "PT bậc cao"
-        }
-      ]
-    },
-    {
-      "key": "trigo",
-      "title": "Lượng giác",
-      "sub": [
-        {
-          "key": "ptb1_trigo",
-          "title": "PT bậc 1"
-        },
-        {
-          "key": "ptb2_trigo",
-          "title": "PT bậc 2"
-        },
-        {
-          "key": "ptb4_trigo",
-          "title": "PT bậc 4 trùng phương"
-        }
-      ]
-    },
-    {
-      "key": "hpt",
-      "title": "Hệ PT",
-      "sub": [
-        {
-          "key": "hptb1",
-          "title": "Hệ PT bậc 1"
-        }
-      ]
-    },
-    {
-      "key": "ptc",
-      "title": "PT căn",
-      "sub": [
-        {
-          "key": "ptc",
-          "title": "PT căn"
-        }
-      ]
-    }
-  ]
+  {
+    "key": "calculater",
+    "title": "Máy tính cơ bản",
+    "sub": [
+      {
+        "key": "ptb1",
+        "title": "PT bậc 1"
+      },
+      {
+        "key": "ptb2",
+        "title": "PT bậc 2"
+      },
+      {
+        "key": "ptb4",
+        "title": "PT bậc 4 trùng phương"
+      },
+      {
+        "key": "ptbc",
+        "title": "PT bậc cao"
+      }
+    ]
+  },
+  {
+    "key": "dathuc",
+    "title": "Đa thức",
+    "sub": [
+      {
+        "key": "ptb1",
+        "title": "PT bậc 1"
+      },
+      {
+        "key": "ptb2",
+        "title": "PT bậc 2"
+      },
+      {
+        "key": "ptb4",
+        "title": "PT bậc 4 trùng phương"
+      },
+      {
+        "key": "ptbc",
+        "title": "PT bậc cao"
+      }
+    ]
+  },
+  {
+    "key": "trigo",
+    "title": "Lượng giác",
+    "sub": [
+      {
+        "key": "ptb1_trigo",
+        "title": "PT bậc 1"
+      },
+      {
+        "key": "ptb2_trigo",
+        "title": "PT bậc 2"
+      },
+      {
+        "key": "ptb4_trigo",
+        "title": "PT bậc 4 trùng phương"
+      }
+    ]
+  },
+  {
+    "key": "hpt",
+    "title": "Hệ PT",
+    "sub": [
+      {
+        "key": "hptb1",
+        "title": "Hệ PT bậc 1"
+      }
+    ]
+  },
+  {
+    "key": "ptc",
+    "title": "PT căn",
+    "sub": [
+      {
+        "key": "ptc",
+        "title": "PT căn"
+      }
+    ]
+  }
+]

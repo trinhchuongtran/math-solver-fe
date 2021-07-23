@@ -15,6 +15,7 @@ function DefineInfo(props) {
             }
             props.state.topic = props.data.data.baitoan.description;
             props.state.Variable = props.data.data.Variable;
+            props.state.schema = props.data.schema;
         }
     }
     useEffect(() => {
@@ -49,7 +50,7 @@ function DefineInfo(props) {
         padding: "5px"
     }
     return (
-        <div style={{ height: "400px", paddingTop: "50px" }}>
+        <div style={{ minHeight: "600px", paddingTop: "50px" }}>
             <div style={{
                 textAlign: "center",
                 fontSize: "30px",
