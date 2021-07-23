@@ -89,7 +89,7 @@ class App extends Component {
   };
 
   handleClick = e => {
-    console.log('click ', e);
+    // console.log('click ', e);
     this.setState({ current: e.key });
   };
 
@@ -155,57 +155,61 @@ class App extends Component {
               <Link to={"/monitor"}>Quản lý</Link>
             </Menu.Item>
           )}
+          
           {currentUser ? (
+            <Menu.Item key="logout" className="app_unhover" style = {{float: "right", margin: "0px 0px"}}>
             <Button
               className="nav-button"
               shape="round"
               type="primary"
               href="/"
               onClick={this.logOut}
+              
             >
-              {/* <a href="/" onClick={this.logOut}></a> */}
               Đăng xuất
             </Button>
+            </Menu.Item>
           ) : (
             <>
+            <Menu.Item key="logup" className="app_unhover" style = {{float: "right", margin: "0px 0px"}}>
             <Button
               className="nav-button"
               shape="round"
               type="primary"
               onClick={this.showLogup}
+              key = "logup"
             >
-              {/* <Link to={"/login"}> */}
               Đăng Ký
-              {/* </Link> */}
             </Button>
-
+            </Menu.Item>
+            <Menu.Item key="login" className="app_unhover" style = {{float: "right", margin: "0px 0px"}}>
             <Button
             className="nav-button"
             shape="round"
             type="primary"
             onClick={this.showLogin}
             >
-            {/* <Link to={"/login"}> */}
             Đăng nhập
-            {/* </Link> */}
             </Button>
+            </Menu.Item>
             </>
           )}
           {currentUser && (
+            <Menu.Item key="profile" className="app_unhover" style = {{float: "right", margin: "0px 0px"}}>
             <Button
               className="nav-button"
               shape="round"
               type="dashed"
               onClick={this.showProfile}
               icon={<UserOutlined />}
+              
             >
-              {/* <Link to={"/profile"}> */}
               {currentUser.email}
-              {/* </Link> */}
             </Button>
+            </Menu.Item>
           )}
         </Menu>
-
+       
         <Layout className="body" style={{ padding: "0 150px" }}>
           {/* <MathSolver style={{margin: "16px"}}></MathSolver> */}
           <Drawer

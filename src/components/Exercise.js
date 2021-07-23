@@ -18,7 +18,6 @@ export default function Exercise(data2 = undefined) {
   const [dataInput, setDataInput] = React.useState({});
   const [dataRequest, setDataRequest] = React.useState("");
   const [isLoad, setIsLoad] = React.useState(true);
-  var [input_latex, setInputLatex] = React.useState("x^4 -8x^2=0");
   const [showbuttoncontent, setShowbuttoncontent] =
     React.useState("Hiện kết quả");
   // const [checkbuttonpopup, setCheckbuttonpopup] =
@@ -95,7 +94,7 @@ export default function Exercise(data2 = undefined) {
     // console.log(data2)
     if (data2.location.state) {
       if (data2.location.state.polynomial) {
-        setInputLatex(data2.location.state.polynomial);
+        poly = data2.location.state.polynomial;
       }
     }
     // setDataRequest(data2.data)
@@ -105,7 +104,7 @@ export default function Exercise(data2 = undefined) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        input: input_latex,
+        input: poly,
         variable: "x",
       }),
     }).then((res) => {
@@ -116,6 +115,11 @@ export default function Exercise(data2 = undefined) {
         setIsLoad(false);
       });
     });
+
+    // return () => {
+    //   setIsLoad(true)
+    //   setDataRequest({})
+    // };
   }, [data2]);
 
   function getdata(input, variable){

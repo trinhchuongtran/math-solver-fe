@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 
 // import MathJax from "react-mathjax2";
-import Plot from "../api/Plot";
 import { Button, Row, Col } from "antd";
 import { Menu } from "antd";
 import { Link } from "react-router-dom";
 
+import MathJax from "react-mathjax2";
+import PlotImage from "../components/plot-Image";
+import { Card } from "antd";
+
 import "../css/style.css";
-// import listdathuc from "../staticdata/polydata.json";
 import listfunc from "../staticdata/listmenu.json";
 
 const { SubMenu } = Menu;
@@ -15,22 +17,84 @@ const { SubMenu } = Menu;
 // export default class General2 extends Component {
 export default function Graph(data) {
   // const [selectedType, setSelectedType] = React.useState("default");
-  const [input_latex, setInputLatex] = useState("x^2 -6x +3");
-  // const listExample = ["x^2-7x+10 = 0", "2x^2 +5x-7=0", "-7x^2+10x-3=0"];
+  // const [input_latex, setInputLatex] = useState("");
+  var [result, setResult] = useState("");
+  var [result_detail, setResultDetail] = useState("");
+  const [loading, setLoading] = useState(true)
 
-  // useEffect(() => {
-  //   var poly = "x^2 -6x +3";
-  //   if (data.location.state) {
-  //     if (data.location.state.plot) {
-  //       poly = data.location.state.plot;
-  //     }
-  //   }
-  //   setInputLatex(poly);
-  // }, []);
+  React.useEffect(() => {
+    var poly = "x^4 -2x^2";
+    // console.log(data2)
+    if (data.location.state) {
+      if (data.location.state.polynomial) {
+        poly = data.location.state.polynomial;
+      }
+    }
+    // setInputLatex(poly)
+    var raw = JSON.stringify({
+      input: poly,
+      variable: "x",
+    });
 
-  // const handleClick = (e) => {
-  //   setSelectedType(e.key);
-  // };
+    var requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: raw,
+      redirect: "follow",
+    };
+    fetch(`http://api.bkmathapp.tk/api/plot_vnkey`, requestOptions)
+      .then((res) => {
+        res.json().then((db) => {
+          if (db.detail) {
+            setResultDetail(db.detail);
+          } else {
+            setResultDetail("\\textrm{Đồ thị: }" + poly);
+          }
+
+          setLoading(false);
+          setResult(db.plot);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const clickSubmit = (input) => {
+    setLoading(true)
+
+    var raw = JSON.stringify({
+      input: input,
+      // input: "x^3+x^2-5x+1",
+      variable: "x",
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: raw,
+      redirect: "follow",
+    };
+    fetch(`http://api.bkmathapp.tk/api/plot_vnkey`, requestOptions)
+      .then((res) => {
+        res.json().then((db) => {
+          if (db.detail) {
+            setResultDetail(db.detail);
+          } else {
+            setResultDetail("\\textrm{Đồ thị: }" + input);
+          }
+          setLoading(false);
+          setResult(db.plot);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <Row
@@ -39,7 +103,6 @@ export default function Graph(data) {
     >
       <Col span={6}>
         <Menu
-          // onClick={handleClick}
           defaultSelectedKeys={["1"]}
           defaultOpenKeys={["sub1"]}
           mode="inline"
@@ -91,7 +154,7 @@ export default function Graph(data) {
                     style={{ height: "40px" }}
                     type="primary"
                     onClick={() => {
-                      setInputLatex(
+                      clickSubmit(
                         document.getElementById("formula").getValue("latex")
                       );
                     }}
@@ -103,60 +166,38 @@ export default function Graph(data) {
               </Col>
             </Row>
           </Col>
-        </Row>
-        <Row>
-          <Plot id="result" tex={input_latex} />
-        </Row>
-        {/* <Row gutter={12}>
-          <Col span={16}>
-            <Row gutter={8}>
-              <Col span={24}>
-                <Plot id="result" tex={input_latex} />
-              </Col>
-            </Row>
-          </Col>
-          <Col span={8}>
-            <Row>
-              <Col span={24}>
-                <Card
-                  title="Vẽ đồ thị"
-                  className="polynomial_plot_card"
-                  style={{ borderRadius: "8px" }}
-                >
-                  <MathJax.Context>
-                    <MathJax.Node>{input_latex}</MathJax.Node>
+          <Col style={{width: "100%"}}>
+            <Row gutter={12}>
+              <Col span={16}>
+                <Card title="Khảo sát đồ thị" className="graph_plot_card" loading={loading}>
+                  <MathJax.Context
+                    input="tex"
+                    options={{
+                      displayAlign: "left",
+                      mathmlSpacing: false,
+                      displayIndent: "0",
+                      paddingLeft: true,
+                      skipHtmlTags: ["+"],
+                      inlineMath: [
+                        ["$", "$"],
+                        ["\\(", "\\)"],
+                      ],
+                      processEscapes: true,
+                      tex: {
+                        packages: { "[+]": ["color"] },
+                      },
+                    }}
+                  >
+                    <MathJax.Node>{result_detail}</MathJax.Node>
                   </MathJax.Context>
                 </Card>
               </Col>
-              <Col span={24}>
-                <Card title="Bài tập" className="polynomial_exer_card">
-                  <List>
-                    <Row>
-                      {listExample.map((item) => {
-                        return (
-                          <Col span={24} className="polynomial_poly_item">
-                            <Link
-                              to={{
-                                pathname: "/exercise",
-                                state: { polynomial: item },
-                              }}
-                            >
-                              <Button className="polynomial_poly_button" block>
-                                <MathJax.Context>
-                                  <MathJax.Node>{item}</MathJax.Node>
-                                </MathJax.Context>
-                              </Button>
-                            </Link>
-                          </Col>
-                        );
-                      })}
-                    </Row>
-                  </List>
-                </Card>
+              <Col span={8}>
+                <PlotImage result={result} loading = {loading} style={{ width: "100%" }} />
               </Col>
             </Row>
           </Col>
-        </Row> */}
+        </Row>
       </Col>
     </Row>
   );

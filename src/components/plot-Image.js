@@ -3,8 +3,10 @@ import { Image, Card } from 'antd';
 import "../css/style.css";
 
 function PlotImage(props) {
-    return (
-        <Card title="Đồ thị">
+    return (<>
+        {/* {console.log(props)} */}
+
+        <Card title="Đồ thị" loading = {props.loading}>
             {/* {props.result ? */}
             <Image
             width={'100%'}
@@ -14,6 +16,7 @@ function PlotImage(props) {
             null
             } */}
         </Card>
+        </>
     )
 };
 

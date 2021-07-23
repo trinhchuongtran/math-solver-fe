@@ -14,6 +14,8 @@ import virtualKeyboard from '../staticdata/virtualKeyboard.json';
 
 import listdathuc from '../staticdata/polydata.json';
 import listfunc from '../staticdata/listmenu.json';
+import listPlot from '../staticdata/plotdata.json';
+import listExer from '../staticdata/exercisedata.json';
 
 import { Switch, Route, Link } from "react-router-dom";
 
@@ -165,8 +167,7 @@ export default function Dathuc(data) {
     }
   }, []);
 
-  const listExample = ["x^2-7x+10 = 0", "2x^2 +5x-7=0", "x^4-2x^2+1=0", "x^4-3x^2+2=0"];
-  const listPlot = ["x^2-2x+3", "2x^2 -5x-10", "-7x^2+10x-20"];
+  
 
   const handleClick = (e) => {
     console.log(e)
@@ -370,7 +371,7 @@ export default function Dathuc(data) {
                 }}
               ></math-field>
             </Col>
-            <Col span={3} style={{ margin: "auto" }}>
+            <Col span={3} style = {{margin: "auto"}}>
               <Col span={22} offset={1}>
                 <Button
                   type="primary"
@@ -418,17 +419,20 @@ export default function Dathuc(data) {
                       <Row gutter={8}>
                         {listdathuc[selectedType].list.map((item) => {
                           return (
+                            <React.Fragment key={item.key}>
                             <Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={24} className="polynomial_poly_item">
+                              {/* {console.log(item)} */}
                               <Button
                                 block
                                 className="polynomial_poly_button"
-                                onClick={() => clickExer(item)}
+                                onClick={() => clickExer(item.value)}
                               >
                                 <MathJax.Context>
-                                  <MathJax.Node>{item}</MathJax.Node>
+                                  <MathJax.Node>{item.value}</MathJax.Node>
                                 </MathJax.Context>
                               </Button>
                             </Col>
+                            </React.Fragment>
                           );
                         })}
                       </Row>
@@ -440,20 +444,22 @@ export default function Dathuc(data) {
                       <Row gutter={8}>
                         {listPlot.map((item) => {
                           return (
+                            <React.Fragment key={item.key}>
                             <Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={12} className="polynomial_plot_item">
                               <Link
-                                to={{
-                                  pathname: "/graph",
-                                  state: { plot: item },
-                                }}
-                              >
-                                <Button className="polynomial_plot_button" block>
-                                  <MathJax.Context>
-                                    <MathJax.Node>{item}</MathJax.Node>
-                                  </MathJax.Context>
-                                </Button>
+                                    to={{
+                                      pathname: "/graph",
+                                      state: { plot: item.value },
+                                    }}
+                                  >
+                              <Button className="polynomial_plot_button" block>
+                                <MathJax.Context>
+                                  <MathJax.Node>{item.value}</MathJax.Node>
+                                </MathJax.Context>
+                              </Button>
                               </Link>
                             </Col>
+                            </React.Fragment>
                           );
                         })}
                       </Row>
@@ -463,7 +469,7 @@ export default function Dathuc(data) {
                 <Col span={8}>
                   <Row>
                     <Col span={24}>
-                      <Card title="Vẽ đồ thị" className="polynomial_plot_card" style={{ borderRadius: "8px" }}>
+                      <Card title="Vẽ đồ thị" className="polynomial_plot_card" style={{ borderRadius: "8px"}}>
                         <MathJax.Context>
                           <MathJax.Node>{input_latex}</MathJax.Node>
                         </MathJax.Context>
@@ -473,22 +479,24 @@ export default function Dathuc(data) {
                       <Card title="Bài tập" className="polynomial_exer_card">
                         <List>
                           <Row>
-                            {listExample.map((item) => {
+                            {listExer.map((item) => {
                               return (
+                                <React.Fragment key={item.key}>
                                 <Col span={24} className="polynomial_poly_item">
                                   <Link
                                     to={{
                                       pathname: "/exercise",
-                                      state: { polynomial: item },
+                                      state: { polynomial: item.value },
                                     }}
                                   >
                                     <Button className="polynomial_poly_button" block>
                                       <MathJax.Context>
-                                        <MathJax.Node>{item}</MathJax.Node>
+                                        <MathJax.Node>{item.value}</MathJax.Node>
                                       </MathJax.Context>
                                     </Button>
                                   </Link>
                                 </Col>
+                                </React.Fragment>
                               );
                             })}
                           </Row>
@@ -502,12 +510,13 @@ export default function Dathuc(data) {
             {openResult && (
               <>
                 <Col span={16}>
-                  <Result tex={input_latex} var={selectedValue}></Result>
+                  {console.log(input_latex)}
+                    <Result tex={input_latex} var={selectedValue}></Result>
                 </Col>
                 <Col span={8}>
-                  <Row>
+                <Row>
                     <Col span={24}>
-                      <Card title="Vẽ đồ thị" className="polynomial_plot_card" style={{ borderRadius: "8px" }}>
+                      <Card title="Vẽ đồ thị" className="polynomial_plot_card" style={{ borderRadius: "8px"}}>
                         <MathJax.Context>
                           <MathJax.Node>{input_latex}</MathJax.Node>
                         </MathJax.Context>
@@ -517,22 +526,24 @@ export default function Dathuc(data) {
                       <Card title="Bài tập" className="polynomial_exer_card">
                         <List>
                           <Row>
-                            {listExample.map((item) => {
+                            {listExer.map((item) => {
                               return (
+                                <React.Fragment key={item.key}>
                                 <Col span={24} className="polynomial_poly_item">
                                   <Link
                                     to={{
                                       pathname: "/exercise",
-                                      state: { polynomial: item },
+                                      state: { polynomial: item.value },
                                     }}
                                   >
                                     <Button className="polynomial_poly_button" block>
                                       <MathJax.Context>
-                                        <MathJax.Node>{item}</MathJax.Node>
+                                        <MathJax.Node>{item.value}</MathJax.Node>
                                       </MathJax.Context>
                                     </Button>
                                   </Link>
                                 </Col>
+                                </React.Fragment>
                               );
                             })}
                           </Row>

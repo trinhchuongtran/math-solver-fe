@@ -1,0 +1,5 @@
+[
+  { "key": "plot_ex_1", "value": "x^2-2x+3" },
+  { "key": "plot_ex_2", "value": "2x^2 -5x-10" },
+  { "key": "plot_ex_3", "value": "-7x^2+10x-20" }
+]

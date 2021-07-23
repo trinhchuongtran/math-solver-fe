@@ -5,7 +5,7 @@ import AuthService from "../services/auth.service";
 import { Popover, Button, Avatar, Row, Col, Typography, Divider } from "antd";
 import { UserOutlined, MailOutlined, EnvironmentOutlined, UnlockOutlined } from "@ant-design/icons";
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 export default class Profile extends Component {
   constructor(props) {
     super(props);
