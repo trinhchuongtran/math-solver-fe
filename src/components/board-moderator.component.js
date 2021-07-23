@@ -192,7 +192,6 @@ const Navigation = (props) => {
 
 
 
-
     setIsModalVisible(false);
   };
 

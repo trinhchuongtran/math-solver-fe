@@ -22,7 +22,7 @@ function SaveProplem(props) {
     fetch("http://api.bkmathapp.tk/api/defineproblem", requestOptions)
         .then((response) => {
             response.json().then((db) => {
-                console.log(db);
+                console.log(db)
             })
         })
         .then(result => console.log(result))
