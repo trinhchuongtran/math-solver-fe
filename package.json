@@ -20,6 +20,7 @@
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-mathjax2": "0.0.2",
+    "react-mathlive": "^3.0.5-preview.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "react-step-builder": "^2.0.10",

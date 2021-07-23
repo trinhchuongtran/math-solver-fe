@@ -370,7 +370,7 @@ export default function Dathuc(data) {
                 }}
               ></math-field>
             </Col>
-            <Col span={3} style = {{margin: "auto"}}>
+            <Col span={3} style={{ margin: "auto" }}>
               <Col span={22} offset={1}>
                 <Button
                   type="primary"
@@ -442,16 +442,16 @@ export default function Dathuc(data) {
                           return (
                             <Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={12} className="polynomial_plot_item">
                               <Link
-                                    to={{
-                                      pathname: "/graph",
-                                      state: { plot: item },
-                                    }}
-                                  >
-                              <Button className="polynomial_plot_button" block>
-                                <MathJax.Context>
-                                  <MathJax.Node>{item}</MathJax.Node>
-                                </MathJax.Context>
-                              </Button>
+                                to={{
+                                  pathname: "/graph",
+                                  state: { plot: item },
+                                }}
+                              >
+                                <Button className="polynomial_plot_button" block>
+                                  <MathJax.Context>
+                                    <MathJax.Node>{item}</MathJax.Node>
+                                  </MathJax.Context>
+                                </Button>
                               </Link>
                             </Col>
                           );
@@ -463,7 +463,7 @@ export default function Dathuc(data) {
                 <Col span={8}>
                   <Row>
                     <Col span={24}>
-                      <Card title="Vẽ đồ thị" className="polynomial_plot_card" style={{ borderRadius: "8px"}}>
+                      <Card title="Vẽ đồ thị" className="polynomial_plot_card" style={{ borderRadius: "8px" }}>
                         <MathJax.Context>
                           <MathJax.Node>{input_latex}</MathJax.Node>
                         </MathJax.Context>
@@ -502,12 +502,12 @@ export default function Dathuc(data) {
             {openResult && (
               <>
                 <Col span={16}>
-                    <Result tex={input_latex} var={selectedValue}></Result>
+                  <Result tex={input_latex} var={selectedValue}></Result>
                 </Col>
                 <Col span={8}>
-                <Row>
+                  <Row>
                     <Col span={24}>
-                      <Card title="Vẽ đồ thị" className="polynomial_plot_card" style={{ borderRadius: "8px"}}>
+                      <Card title="Vẽ đồ thị" className="polynomial_plot_card" style={{ borderRadius: "8px" }}>
                         <MathJax.Context>
                           <MathJax.Node>{input_latex}</MathJax.Node>
                         </MathJax.Context>

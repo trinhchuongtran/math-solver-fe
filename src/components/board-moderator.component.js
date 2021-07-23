@@ -1,5 +1,6 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import AuthService from "../services/auth.service";
+import { Switch, Route, Link, BrowserRouter as Router, } from "react-router-dom";
 import { List, Card } from "antd";
 import { Steps, Step } from "react-step-builder";
 import { Button } from "antd";
@@ -8,12 +9,12 @@ import { Checkbox, Divider } from "antd";
 import { Select } from "antd";
 import { Layout } from "antd";
 import { Menu } from "antd";
-import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 import DefineInfo from "./define/defineInfo"
-import DefineStepOne from "./define/defineStepOne";
 import defineStepTwo from "./define/defineStepTwo";
 import DefineProplem from "./define/defineProplem";
+import SaveProplem from "../api/SaveProplem"
+import { Modal } from 'antd';
 const { Option } = Select;
 const initialSchema1 = {
   "nodes": [
@@ -37,31 +38,212 @@ const initialSchema1 = {
     }
   ]
 };
+
+
+
+function checkIvalid(test, array) {
+  for (let value of array) {
+    if (test == value) {
+      return true;
+    }
+  }
+  return false;
+}
+function checkListObject(node, listobj) {
+
+  for (let i = 0; i < listobj.length; i++) {
+    if (node == listobj[i].node) {
+      return i;
+    }
+  }
+  return false;
+}
+function checkDataObject(node, listobj) {
+  console.log(node);
+  console.log(listobj)
+  for (let i = 0; i < listobj.length; i++) {
+    console.log(listobj[i].id.id1)
+    if (node == listobj[i].id.id1) {
+      return i;
+    }
+  }
+  return false;
+}
+
+function formatJson(obj, listObjPara, dataObjPara) {
+  console.log(obj);
+  console.log(listObj);
+  console.log(dataObj);
+  var objTemp = obj;
+  var listObj = listObjPara;
+  var dataObj = dataObjPara;
+  var indexRoot = checkDataObject(obj.node, dataObj)
+  console.log(indexRoot);
+  console.log(dataObj[indexRoot])
+  objTemp.cal = dataObj[indexRoot].id.cal;
+  objTemp.con = dataObj[indexRoot].id.con;
+  objTemp.des = dataObj[indexRoot].id.des;
+
+  for (let i = 0; i < obj.handle.length; i++) {
+    var indexList = checkListObject(obj.handle[i], listObj);
+    console.log(indexList)
+    if (indexList != false) {
+
+      objTemp.handle[i] = formatJson(listObj[indexList], listObj, dataObj)
+    } else {
+      var indexdata = checkDataObject(obj.handle[i], dataObj);
+      console.log(indexdata);
+      // delete dataObj[indexdata].id.id1;
+      var test = {
+        equation: dataObj[indexdata].id.equation,
+        introduction: dataObj[indexdata].id.introduction
+      }
+      objTemp.handle[i] = test
+
+    }
+
+
+
+  }
+  delete objTemp.node;
+  return objTemp
+}
+
+function createData(obj1) {
+  var obj = obj1;
+  console.log(obj);
+  var data = [
+
+  ]
+  var indexRoot = null;
+  let link = [];
+  var didCheck = []
+  for (let i = 0; i < obj.links.length; i++) {
+
+    var temp1 = obj.links[i];
+
+    if (checkIvalid(temp1.output, didCheck) == false) {
+      if (temp1.output == "node-1") {
+        indexRoot = i;
+      }
+      var tempData = {
+        "node": temp1.output,
+        "handle": [
+          temp1.input
+        ]
+      }
+      didCheck.push(temp1.output)
+      for (let j = i + 1; j < obj.links.length; j++) {
+        var temp2 = obj.links[j];
+        if (temp2.output == temp1.output) {
+          tempData.handle.push(temp2.input)
+        }
+      }
+      data.push(tempData)
+    }
+  }
+
+
+  var tree = formatJson(data[indexRoot], data, obj.nodes)
+  console.log(tree);
+  return tree;
+}
+
+
 const Navigation = (props) => {
-  console.log({ props });
 
 
-  return (
-    <div>
-      <Row align="center">
-        <div>{props.title}</div>
-        <div>{props.allSteps[props.current - 1].title}</div>
-      </Row>
-      <Row align="center">
-        <Col>
-          <Button type="primary" onClick={props.prev} style={{ marginRight: 10 }}>
-            Quay lại
-          </Button>
-        </Col>
-        <Col>
-          <Button type="primary" onClick={props.next}>
-            Tiếp theo
-          </Button>
-        </Col>
-      </Row>
-    </div>
 
-  );
+
+  console.log(props);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = (event) => {
+    console.log(props.state.schema);
+    createData(props.state.schema);
+    setIsModalVisible(false);
+  };
+  const handleOk1 = (event) => {
+    console.log(props)
+    var ListCondition = createData(props.state.schema);
+
+    var dataSend = {
+      "name": props.state.Info.name,
+      "user": "123",
+      "subject": props.state.Info.subject,
+      "grade": props.state.Info.grade,
+      "date": "10/08/2020",
+      "data": {
+        "baitoan": {
+          "description": props.state.topic
+        },
+        "Variable": props.state.Variable,
+        "ListCondition": ListCondition.handle
+      },
+      "schema": props.state.schema
+    }
+
+    SaveProplem(dataSend);
+
+
+
+
+
+
+    setIsModalVisible(false);
+  };
+
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+
+  var x = props.current;
+  if (x != 3) {
+    return (
+      <div>
+        <Row align="center">
+          <Col>
+            <Button type="primary" onClick={props.prev} style={{ marginRight: 10 }}>
+              Quay lại
+            </Button>
+          </Col>
+          <Col>
+            <Button type="primary" onClick={props.next}>
+              Tiếp theo
+            </Button>
+          </Col>
+        </Row>
+      </div>
+
+    )
+  } else {
+    return (
+      <div>
+        <Row align="center">
+          <Col>
+            <Button type="primary" onClick={props.prev} style={{ marginRight: 10 }}>
+              Quay lại
+            </Button>
+          </Col>
+          <Col>
+            <Button type="primary" onClick={showModal}>
+              Lưu bài toán
+            </Button>
+          </Col>
+          <Modal title="Thông tin kết quả" cancelText="Huỷ bỏ" okText="Lưu" visible={isModalVisible} onOk={handleOk1} onCancel={handleCancel}>
+            Xac nhan luu bai toan
+          </Modal>
+        </Row>
+      </div>
+
+    )
+  }
+
 };
 const config = {
   navigation: {
@@ -69,6 +251,7 @@ const config = {
     location: "after" // or before
   }
 };
+
 
 class ContentProblem extends React.Component {
   constructor(props) {
@@ -94,6 +277,7 @@ class ContentProblem extends React.Component {
       method: "GET",
     }).then((res) => {
       res.json().then((db) => {
+        console.log(db);
         var listSubject = [];
         var listGrade = [];
         db.result.forEach((element) => {
@@ -256,12 +440,15 @@ class ContentProblem extends React.Component {
                               extra={
                                 <Button
                                   type="primary"
-                                  onClick={(e) =>
+                                  onClick={(e) => {
+                                    console.log(element);
                                     this.handleClick(
                                       e,
                                       element.id,
                                       element.name
                                     )
+                                  }
+
                                   }
                                 >
                                   Chọn
@@ -281,10 +468,9 @@ class ContentProblem extends React.Component {
           </Row>
         </Card>
         {this.state.isOpen && (
-          <Steps style={{ height: "1000px" }} config={config}>
+          <Steps style={{ height: "1000px" }} config={config} >
             <Step style={{ height: "100%" }} component={DefineInfo} title="Bước 1: Nhập thông tin bài toán " />
-            <Step style={{ height: "100%" }} component={DefineStepOne} title="Bước 1: Định nghĩa đề bài" />
-            <Step style={{ height: "100%" }} component={defineStepTwo} title="Định nghĩa biến số " />
+            <Step style={{ height: "100%" }} component={defineStepTwo} title="Định nghĩa đề bài và biến số " />
             <Step style={{ height: "100%" }} component={DefineProplem} title="Định nghĩa bài giải" />
           </Steps>
         )
