@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MathJax from "react-mathjax2";
 import authHeader from "../services/auth-header";
-import PlotImage from "../components/plot-image.component";
+import PlotImage from "../components/plot-Image";
 import { Row, Col, Card } from "antd";
 import { Redirect } from "react-router-dom";
 
