@@ -7,6 +7,8 @@ import { Row, Col } from "antd";
 import { Menu } from "antd";
 import { Link } from "react-router-dom";
 
+import listfunc from '../staticdata/listmenu.json'
+
 import "../css/style.css";
 
 const { SubMenu } = Menu;
@@ -25,69 +27,6 @@ export default function Exercise(data2 = undefined) {
   const [checkbuttoncontent, setCheckbuttoncontent] =
     React.useState("Kiểm tra tất cả");
   // const [selectedType, setSelectedType] = React.useState("default");
-
-  const listfunc = [
-    {
-      key: "dathuc",
-      title: "Đa thức",
-      sub: [
-        {
-          key: "ptb1",
-          title: "PT bậc 1",
-        },
-        {
-          key: "ptb2",
-          title: "PT bậc 2",
-        },
-        {
-          key: "ptb4",
-          title: "PT bậc 4 trùng phương",
-        },
-        {
-          key: "ptbc",
-          title: "PT bậc cao",
-        },
-      ],
-    },
-    {
-      key: "trigo",
-      title: "Lượng giác",
-      sub: [
-        {
-          key: "ptb1_trigo",
-          title: "PT bậc 1",
-        },
-        {
-          key: "ptb2_trigo",
-          title: "PT bậc 2",
-        },
-        {
-          key: "ptb4_trigo",
-          title: "PT bậc 4 trùng phương",
-        },
-      ],
-    },
-    {
-      key: "hpt",
-      title: "Hệ PT",
-      sub: [
-        {
-          key: "hptb1",
-          title: "Hệ PT bậc 1",
-        },
-      ],
-    },
-    {
-      key: "ptc",
-      title: "PT căn",
-      sub: [
-        {
-          key: "ptc",
-          title: "PT căn",
-        },
-      ],
-    },
-  ];
 
   useEffect(() => {
     var poly = "x^4 -8x^2=0";

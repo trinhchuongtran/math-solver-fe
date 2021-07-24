@@ -306,10 +306,10 @@ export default function Dathuc(data) {
     setOpen(true);
   };
 
-  const clickExer = (item) => {
+  const clickExer = (item, variable) => {
     document.getElementById("formula1").value = item;
     setInputLatex(item);
-    setSelectedValue("x");
+    setSelectedValue(variable);
     setOpenResult(true);
   };
 
@@ -425,7 +425,7 @@ export default function Dathuc(data) {
                               <Button
                                 block
                                 className="polynomial_poly_button"
-                                onClick={() => clickExer(item.value)}
+                                onClick={() => clickExer(item.value, listdathuc[selectedType].variable)}
                               >
                                 <MathJax.Context>
                                   <MathJax.Node>{item.value}</MathJax.Node>

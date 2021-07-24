@@ -24,10 +24,10 @@ export default function Graph(data) {
 
   React.useEffect(() => {
     var poly = "x^4 -2x^2";
-    // console.log(data2)
+    // console.log(data)
     if (data.location.state) {
-      if (data.location.state.polynomial) {
-        poly = data.location.state.polynomial;
+      if (data.location.state.plot) {
+        poly = data.location.state.plot;
       }
     }
     // setInputLatex(poly)

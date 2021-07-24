@@ -56,7 +56,7 @@ function Results(prop) {
     //     brd.unsuspendUpdate();
     // }
     return (
-        <Card loading={isLoading} title="Lời giải chi tiết">
+        <Card loading={isLoading} className="poly_result_card" title="Lời giải chi tiết">
             
             <MathJax.Context input='tex'
                 options={{

@@ -59,6 +59,7 @@
 .polynomial_poly_button {
   text-align: left;
   border-radius: 8px;
+  height: 50px;
 }
 
 .polynomial_poly_button > span {
@@ -69,7 +70,6 @@
 .polynomial_poly_item {
   padding-top: 4px;
   padding-bottom: 4px;
-  height: 50px;
 }
 
 .menu {
@@ -101,6 +101,10 @@
   border-radius: 8px;
 }
 
+.poly_result_card > .ant-card-body{
+  padding-top: 0px;
+}
+
 .problem_inputvalue{
   display: flex;
 }
@@ -115,6 +119,10 @@
    min-width: 100%;
    border-radius: 8px; 
    /* margin-top: 8px; */
+}
+
+.graph_plot_card > .ant-card-body{
+  padding-top: 0px;
 }
 
 .graph_img_card{

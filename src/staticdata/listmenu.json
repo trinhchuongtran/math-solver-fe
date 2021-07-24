@@ -1,4 +1,30 @@
 [
+  {
+    "key": "simplemath",
+    "title": "Tính toán cơ bản",
+    "sub": [
+      {
+        "key": "add",
+        "title": "Phép cộng"
+      },
+      {
+        "key": "sub",
+        "title": "Phép trừ"
+      },
+      {
+        "key": "mul",
+        "title": "Phép nhân"
+      },
+      {
+        "key": "div",
+        "title": "Phép chia"
+      },
+      {
+        "key": "exp",
+        "title": "Lũy thừa"
+      }
+    ]
+  },
     {
       "key": "dathuc",
       "title": "Đa thức",
@@ -36,16 +62,6 @@
         {
           "key": "ptb4_trigo",
           "title": "PT bậc 4 trùng phương"
-        }
-      ]
-    },
-    {
-      "key": "hpt",
-      "title": "Hệ PT",
-      "sub": [
-        {
-          "key": "hptb1",
-          "title": "Hệ PT bậc 1"
         }
       ]
     },

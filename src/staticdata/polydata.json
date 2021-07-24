@@ -7,14 +7,16 @@
       { "key": "example_3", "value":"3x^4-5x^2-1=0"},
       { "key": "example_4", "value":"3\\tan(x)=2"},
       { "key": "example_5", "value":"2\\cos(x)^2-3\\cos(x)+1=0"}
-    ]
+    ],
+    "variable": "x"
   },
   "ptb1": {
     "name": "Phương trình bậc 1",
     "list": [
       { "key": "ptb1_1", "value": "x-3=1" },
       { "key": "ptb1_2", "value": "2x+7=0" }
-    ]
+    ],
+    "variable": "x"
   },
   "ptb2": {
     "name": "Phương trình bậc 2",
@@ -22,43 +24,50 @@
       { "key": "ptb2_1", "value": "x^2-2x+3 = 0" },
       { "key": "ptb2_2", "value": "2x^2 -5x-10=0" },
       { "key": "ptb2_3", "value": "-7x^2+10x-20=0" }
-    ]
+    ],
+    "variable": "x"
   },
   "ptb4": {
     "name": "Phương trình bậc 4 trùng phương",
     "list": [
       { "key": "ptb4_1", "value": "x^4-2x^2+1=0" },
       { "key": "ptb4_2", "value": "3x^4-5x^2-1=0" }
-    ]
+    ],
+    "variable": "x"
   },
   "ptbc": {
     "name": "Phương trình bậc cao",
-    "list": [{ "key": "ptbc_1", "value": "x^5-4x^4-7x^3+14x^2-44x+120=0" }]
+    "list": [{ "key": "ptbc_1", "value": "x^5-4x^4-7x^3+14x^2-44x+120=0" }],
+    "variable": "x"
   },
   "ptb1_trigo": {
     "name": "Phương trình bậc lượng giác 1",
     "list": [
       { "key": "ptb1lg_1", "value": "2\\sin(x)+1=0" },
       { "key": "ptb1lg_2", "value": "3\\tan(x)=2" }
-    ]
+    ],
+    "variable": "x"
   },
   "ptb2_trigo": {
     "name": "Phương trình lượng giác bậc 2",
     "list": [
       { "key": "ptb2lg_1", "value": "2\\cos(x)^2-3\\cos(x)+1=0" },
       { "key": "ptb2lg_2", "value": "3\\cot(x)^2=2" }
-    ]
+    ],
+    "variable": "x"
   },
   "ptb4_trigo": {
     "name": "Phương trình lượng giác bậc 4 trùng phương",
     "list": [
       { "key": "ptb4lg_1", "value": "\\sin(x)^4-2\\sin(x)^2+1=0" },
       { "key": "ptb4lg_2", "value": "3\\cos(x^2)^4-5\\cos(x^2)^2+2=0" }
-    ]
+    ],
+    "variable": "x"
   },
   "hptb1": {
     "name": "Hệ phương trình bậc 1",
-    "list": [{ "key": "hptb1_1", "value": "\\begin{cases}x+y=1 \\\\ 2x-3y=3 \\end{cases}"}]
+    "list": [{ "key": "hptb1_1", "value": "\\begin {cases} x+y=1 \\\\ 2x-3y=3 \\end{cases}"}],
+    "variable": "x,y"
   },
   "ptc": {
     "name": "Phương trình căn",
@@ -66,6 +75,54 @@
       { "key": "ptc_1", "value": "\\sqrt{4x-3}=x" },
       { "key": "ptc_2", "value": "\\sqrt{3x^2+1} = 3x" },
       { "key": "ptc_3", "value": "\\sqrt{x^2+x}-\\sqrt{3x+1}=0" }
-    ]
+    ],
+    "variable": "x"
+  },
+  "add": {
+    "name": "Phép cộng",
+    "list": [
+      { "key": "add_1", "value": "3+5" },
+      { "key": "add_2", "value": "7+4" },
+      { "key": "add_3", "value": "2x + 3x" },
+      { "key": "add_4", "value": "4y+3y" }
+    ],
+    "variable": ""
+  },
+  "sub": {
+    "name": "Phép trừ",
+    "list": [
+      { "key": "sub_1", "value": "6-3" },
+      { "key": "sub_2", "value": "11-5" },
+      { "key": "sub_3", "value": "x-4x" },
+      { "key": "sub_4", "value": "3x^2-2x^2" }
+    ],
+    "variable": ""
+  },
+  "mul": {
+    "name": "Phép nhân",
+    "list": [
+      { "key": "mul_1", "value": "2*4" },
+      { "key": "mul_2", "value": "5*10" },
+      { "key": "mul_3", "value": "x*2x" }
+    ],
+    "variable": ""
+  },
+  "div": {
+    "name": "Phép trừ",
+    "list": [
+      { "key": "div_1", "value": "4:2" },
+      { "key": "div_4", "value": "9x:3" },
+      { "key": "div_2", "value": "x^4:x" }
+    ],
+    "variable": ""
+  },
+  "exp": {
+    "name": "Lũy thừa",
+    "list": [
+      { "key": "exp_1", "value": "3^2" },
+      { "key": "exp_2", "value": "5^3" },
+      { "key": "exp_3", "value": "(x^2)^3" }
+    ],
+    "variable": ""
   }
 }

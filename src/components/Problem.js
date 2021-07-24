@@ -2,7 +2,6 @@ import React from "react";
 import { List, Card } from "antd";
 import { Button } from "antd";
 import { Row, Col } from "antd";
-import { Select } from "antd";
 import { Menu } from "antd";
 import { Link } from "react-router-dom";
 import MathJax from "react-mathjax2";
