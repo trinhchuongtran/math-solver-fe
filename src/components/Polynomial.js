@@ -278,7 +278,7 @@ export default function Dathuc(data) {
                         {listdathuc[selectedType].list.map((item) => {
                           return (
                             <React.Fragment key={item.key}>
-                            <Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={24} className="polynomial_poly_item">
+                            <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={12} className="polynomial_poly_item">
                               {/* {console.log(item)} */}
                               <Button
                                 block
@@ -326,13 +326,13 @@ export default function Dathuc(data) {
                 </Col>
                 <Col span={8}>
                   <Row>
-                    <Col span={24}>
+                    {/* <Col span={24}>
                       <Card title="Vẽ đồ thị" className="polynomial_plot_card" style={{ borderRadius: "8px" }}>
                         <MathJax.Context>
                           <MathJax.Node>{input_latex}</MathJax.Node>
                         </MathJax.Context>
                       </Card>
-                    </Col>
+                    </Col> */}
                     <Col span={24}>
                       <Card title="Bài tập" className="polynomial_exer_card">
                         <List>
@@ -373,13 +373,13 @@ export default function Dathuc(data) {
                 </Col>
                 <Col span={8}>
                   <Row>
-                    <Col span={24}>
+                    {/* <Col span={24}>
                       <Card title="Vẽ đồ thị" className="polynomial_plot_card" style={{ borderRadius: "8px" }}>
                         <MathJax.Context>
                           <MathJax.Node>{input_latex}</MathJax.Node>
                         </MathJax.Context>
                       </Card>
-                    </Col>
+                    </Col> */}
                     <Col span={24}>
                       <Card title="Bài tập" className="polynomial_exer_card">
                         <List>

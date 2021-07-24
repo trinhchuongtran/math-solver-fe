@@ -7,7 +7,8 @@ import { Row, Col } from "antd";
 import { Menu } from "antd";
 import { Link } from "react-router-dom";
 
-import listfunc from '../staticdata/listmenu.json'
+import listfunc from "../staticdata/listmenu.json";
+import listPlot from "../staticdata/plotdata.json";
 
 import "../css/style.css";
 
@@ -61,7 +62,7 @@ export default function Exercise(data2 = undefined) {
     // };
   }, [data2]);
 
-  function getdata(input, variable){
+  function getdata(input, variable) {
     fetch("http://api.bkmathapp.tk/api/exercises", {
       method: "POST",
       headers: {
@@ -73,7 +74,7 @@ export default function Exercise(data2 = undefined) {
       }),
     }).then((res) => {
       res.json().then((db) => {
-        console.log(152831258352)
+        console.log(152831258352);
         // this.setState({ data: db.result, isLoad: true });
         setDataRequest(db.result);
         setIsLoad(false);
@@ -222,31 +223,31 @@ export default function Exercise(data2 = undefined) {
           {listfunc.map((item) => {
             return (
               <React.Fragment key={item.key}>
-              <SubMenu title={item.title}>
-                {item.sub.map((subitem) => {
-                  return (
-                    <React.Fragment key={subitem.key}>
-                    <Menu.Item >
-                      <Link
-                        to={{
-                          pathname: "/polynomial",
-                          state: { selectedType: subitem.key },
-                        }}
-                      >
-                        {subitem.title}
-                      </Link>
-                    </Menu.Item>
-                    </React.Fragment>
-                  );
-                })}
-              </SubMenu>
+                <SubMenu title={item.title}>
+                  {item.sub.map((subitem) => {
+                    return (
+                      <React.Fragment key={subitem.key}>
+                        <Menu.Item>
+                          <Link
+                            to={{
+                              pathname: "/polynomial",
+                              state: { selectedType: subitem.key },
+                            }}
+                          >
+                            {subitem.title}
+                          </Link>
+                        </Menu.Item>
+                      </React.Fragment>
+                    );
+                  })}
+                </SubMenu>
               </React.Fragment>
             );
           })}
         </Menu>
       </Col>
       <Col span={18}>
-        <Row>
+        <Row gutter={12}>
           <Col span={16}>
             <Row style={{ paddingBottom: "16px" }}>
               <Col span={21}>
@@ -282,13 +283,12 @@ export default function Exercise(data2 = undefined) {
                       var inputLatex = document
                         .getElementById("formula1")
                         .getValue("latex");
-                        setIsLoad(true)
-                        getdata(inputLatex, "x")
+                      setIsLoad(true);
+                      getdata(inputLatex, "x");
                     }}
                   >
                     Xác nhận
                   </Button>
-                  
                 </Col>
               </Col>
             </Row>
@@ -321,67 +321,75 @@ export default function Exercise(data2 = undefined) {
                         {dataRequest.handle.map((item) => {
                           return (
                             <React.Fragment key={item.name}>
-                            <Col className="exercise_item" span={24}>
-                              <Row
-                                style={{ minWidth: "100%", minHeight: "100%" }}
-                              >
-                                <Col span={21} className="exercise_span">
-                                  <MathJax.Context>
-                                    <MathJax.Node>{item.before}</MathJax.Node>
-                                  </MathJax.Context>
-                                  <Popover
-                                    trigger=""
-                                    // visible={checkSubmit[item.name]}
-                                    visible={showResultpopup}
-                                    content={showResult(item.name)}
-                                    // placement="right"
-                                  >
-                                    <Popover
-                                      trigger=""
-                                      visible={() =>
-                                        popup(checkSubmit[item.name])
-                                      }
-                                      content={popoverContent(item.name)}
-                                      placement="right"
-                                    >
-                                      <Form.Item
-                                        name={item.name}
-                                        style={{
-                                          display: "inline-block",
-                                          alignItems: "center",
-                                          margin: "auto 0px",
-                                        }}
-                                      >
-                                        <Input
-                                          onChange={(e) =>
-                                            onchangeInput(e, item.name)
-                                          }
-                                          style={{ width: "128px" }}
-                                        />
-                                      </Form.Item>
-                                    </Popover>
-                                  </Popover>
-                                  <MathJax.Context>
-                                    <MathJax.Node>{item.after}</MathJax.Node>
-                                  </MathJax.Context>
-                                </Col>
-                                <Col
-                                  span={3}
+                              <Col className="exercise_item" span={24}>
+                                <Row
                                   style={{
-                                    display: "flex",
-                                    alignItems: "center",
+                                    minWidth: "100%",
+                                    minHeight: "100%",
                                   }}
                                 >
-                                  <Button
-                                    type="primary"
-                                    style={{ margin: "auto 0px", right: "0px" }}
-                                    onClick={() => checkSingleResult(item.name)}
+                                  <Col span={21} className="exercise_span">
+                                    <MathJax.Context>
+                                      <MathJax.Node>{item.before}</MathJax.Node>
+                                    </MathJax.Context>
+                                    <Popover
+                                      trigger=""
+                                      // visible={checkSubmit[item.name]}
+                                      visible={showResultpopup}
+                                      content={showResult(item.name)}
+                                      // placement="right"
+                                    >
+                                      <Popover
+                                        trigger=""
+                                        visible={() =>
+                                          popup(checkSubmit[item.name])
+                                        }
+                                        content={popoverContent(item.name)}
+                                        placement="right"
+                                      >
+                                        <Form.Item
+                                          name={item.name}
+                                          style={{
+                                            display: "inline-block",
+                                            alignItems: "center",
+                                            margin: "auto 0px",
+                                          }}
+                                        >
+                                          <Input
+                                            onChange={(e) =>
+                                              onchangeInput(e, item.name)
+                                            }
+                                            style={{ width: "128px" }}
+                                          />
+                                        </Form.Item>
+                                      </Popover>
+                                    </Popover>
+                                    <MathJax.Context>
+                                      <MathJax.Node>{item.after}</MathJax.Node>
+                                    </MathJax.Context>
+                                  </Col>
+                                  <Col
+                                    span={3}
+                                    style={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                    }}
                                   >
-                                    Kiểm tra
-                                  </Button>
-                                </Col>
-                              </Row>
-                            </Col>
+                                    <Button
+                                      type="primary"
+                                      style={{
+                                        margin: "auto 0px",
+                                        right: "0px",
+                                      }}
+                                      onClick={() =>
+                                        checkSingleResult(item.name)
+                                      }
+                                    >
+                                      Kiểm tra
+                                    </Button>
+                                  </Col>
+                                </Row>
+                              </Col>
                             </React.Fragment>
                           );
                         })}
@@ -417,7 +425,36 @@ export default function Exercise(data2 = undefined) {
               )}
             </Card>
           </Col>
-          <Col span={8}></Col>
+          <Col span={8}>
+            <Card
+              title="Vẽ đồ thị"
+              className="polynomial_plot_card"
+              style={{ borderRadius: "8px" }}
+            >
+              <Row gutter={8}>
+                {listPlot.map((item) => {
+                  return (
+                    <React.Fragment key={item.key}>
+                      <Col span={24} className="polynomial_plot_item">
+                        <Link
+                          to={{
+                            pathname: "/graph",
+                            state: { plot: item.value },
+                          }}
+                        >
+                          <Button className="polynomial_plot_button" block>
+                            <MathJax.Context>
+                              <MathJax.Node>{item.value}</MathJax.Node>
+                            </MathJax.Context>
+                          </Button>
+                        </Link>
+                      </Col>
+                    </React.Fragment>
+                  );
+                })}
+              </Row>
+            </Card>
+          </Col>
         </Row>
       </Col>
     </Row>

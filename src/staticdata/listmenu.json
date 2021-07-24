@@ -4,20 +4,8 @@
     "title": "Tính toán cơ bản",
     "sub": [
       {
-        "key": "add",
-        "title": "Phép cộng"
-      },
-      {
-        "key": "sub",
-        "title": "Phép trừ"
-      },
-      {
-        "key": "mul",
-        "title": "Phép nhân"
-      },
-      {
-        "key": "div",
-        "title": "Phép chia"
+        "key": "cal",
+        "title": "Phép tính cơ bản"
       },
       {
         "key": "exp",
@@ -31,8 +19,12 @@
   },
   {
     "key": "diff_integral",
-    "title": "Nguyên hàm, Đạo hàm",
+    "title": "Giới hạn, Nguyên hàm",
     "sub": [
+      {
+        "key": "lim",
+        "title": "Giới hạn"
+      },
       {
         "key": "integral",
         "title": "Nguyên hàm"

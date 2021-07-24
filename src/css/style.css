@@ -59,7 +59,7 @@
 .polynomial_poly_button {
   text-align: left;
   border-radius: 8px;
-  height: 50px;
+  height: 70px;
 }
 
 .polynomial_poly_button > span {
@@ -94,15 +94,20 @@
 
 .polynomial_exer_card{
   border-radius: 8px;
-  margin-top: 8px;
+  /* margin-top: 8px; */
 }
 
 .polynomial_plot_card{
   border-radius: 8px;
 }
 
-.poly_result_card > .ant-card-body{
-  padding-top: 0px;
+.poly_result_card{
+  min-height: 60vh;
+}
+
+.poly_result_card > .ant-card-body > div > span > .MJXc-display{
+  /* padding-top: 0px; */
+  margin: 0;
 }
 
 .problem_inputvalue{
@@ -121,8 +126,8 @@
    /* margin-top: 8px; */
 }
 
-.graph_plot_card > .ant-card-body{
-  padding-top: 0px;
+.graph_plot_card > .ant-card-body > span > .MJXc-display{
+  margin: 0;
 }
 
 .graph_img_card{
