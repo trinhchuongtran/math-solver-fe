@@ -9,75 +9,14 @@ import MathJax from "react-mathjax2";
 import "antd/dist/antd.css";
 import "../css/style.css";
 import listExer from '../staticdata/exercisedata.json';
+import listfunc from '../staticdata/listmenu.json';
+
 import ContentProblem from "../components/ContentProblem";
 
 
 const { SubMenu } = Menu;
 
 export default function Problem() {
-  const listfunc = [
-    {
-      key: "dathuc",
-      title: "Đa thức",
-      sub: [
-        {
-          key: "ptb1",
-          title: "PT bậc 1",
-        },
-        {
-          key: "ptb2",
-          title: "PT bậc 2",
-        },
-        {
-          key: "ptb4",
-          title: "PT bậc 4 trùng phương",
-        },
-        {
-          key: "ptbc",
-          title: "PT bậc cao",
-        },
-      ],
-    },
-    {
-      key: "trigo",
-      title: "Lượng giác",
-      sub: [
-        {
-          key: "ptb1_trigo",
-          title: "PT bậc 1",
-        },
-        {
-          key: "ptb2_trigo",
-          title: "PT bậc 2",
-        },
-        {
-          key: "ptb4_trigo",
-          title: "PT bậc 4 trùng phương",
-        },
-      ],
-    },
-    {
-      key: "hpt",
-      title: "Hệ PT",
-      sub: [
-        {
-          key: "hptb1",
-          title: "Hệ PT bậc 1",
-        },
-      ],
-    },
-    {
-      key: "ptc",
-      title: "PT căn",
-      sub: [
-        {
-          key: "ptc",
-          title: "PT căn",
-        },
-      ],
-    },
-  ];
-
   return (
     <Row
       gutter={12}
@@ -85,7 +24,7 @@ export default function Problem() {
     >
       <Col span={6}>
         <Row>
-          <Col span={24}>
+          <Col span={24} className="problem_menu">
             <Menu
               defaultSelectedKeys={["1"]}
               defaultOpenKeys={["sub1"]}

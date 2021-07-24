@@ -114,6 +114,10 @@
   display: flex;
 }
 
+.problem_menu{
+  margin-bottom: 8px;
+}
+
 .problem_card{
   border-radius: 8px;
   /* margin-top: 8px; */
