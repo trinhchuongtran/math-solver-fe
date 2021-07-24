@@ -55,7 +55,7 @@ const DefineStepTwo = (props) => {
 
             var temp = {
                 name: Name[i].getValue('latex'),
-                unit: Unit[i].value,
+                unit: Unit[i].getValue('latex'),
                 condition: Con[i].getValue('latex')
             }
             console.log(temp);
@@ -66,8 +66,21 @@ const DefineStepTwo = (props) => {
         props.state.topic = topic;
         console.log(props);
     }
+    const styleInput = {
+        backgroundColor: "#ffffff",
+        border: "1px solid #d9d9d9"
+    }
+
+
+
+
+
+
+
+
+
     return (
-        <div style={{ height: "400px", paddingTop: "50px" }}>
+        <div style={{ minHeight: "600px", paddingTop: "50px" }}>
             <div style={{
                 textAlign: "center",
                 fontSize: "30px",
@@ -93,6 +106,11 @@ const DefineStepTwo = (props) => {
 
                         </TextArea>
                     </Form.Item>
+                    <div style={{
+
+                        fontSize: "20px",
+                        color: "#147f8f"
+                    }}>Danh sách biến số</div>
                     <Form.List name="Variable" id="listVar" >
                         {(fields, { add, remove }) => {
                             console.log(fields)
@@ -112,7 +130,8 @@ const DefineStepTwo = (props) => {
 
                                                         rules={[{ required: true, message: 'Thiếu tên biến' }]}
                                                     >
-                                                        <math-field onKeyUp={onChangeValue} class="VarName" style={{ backgroundColor: "#faefde" }}></math-field>
+                                                        <math-field placeholder="x^2" onKeyUp={onChangeValue} class="VarName" style={styleInput}></math-field>
+
                                                     </Form.Item>
                                                     <Form.Item
                                                         style={{
@@ -123,7 +142,8 @@ const DefineStepTwo = (props) => {
                                                         fieldKey={[props.fieldKey, 'unit']}
                                                         rules={[{ required: true, message: 'Thiếu đơn vị của biến' }]}
                                                     >
-                                                        <input class="unitDefineVar" onKeyUp={onChangeValue} placeholder="Đơn vị" />
+                                                        <math-field smart-superscript onKeyUp={onChangeValue} class="unitDefineVar" style={styleInput}></math-field>
+
                                                     </Form.Item>
                                                     <Form.Item
                                                         style={{
@@ -133,7 +153,7 @@ const DefineStepTwo = (props) => {
                                                         fieldKey={[props.fieldKey, 'condition']}
                                                         rules={[{ required: true, message: 'Thiếu điều kiện của biến' }]}
                                                     >
-                                                        <math-field onKeyUp={onChangeValue} class="VarCon" style={{ backgroundColor: "#faefde" }}></math-field>
+                                                        <math-field onKeyUp={onChangeValue} class="VarCon" style={styleInput}></math-field>
 
 
 

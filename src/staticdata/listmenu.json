@@ -22,9 +22,37 @@
       {
         "key": "exp",
         "title": "Lũy thừa"
+      },
+      {
+        "key": "radical",
+        "title": "Căn"
       }
     ]
   },
+  {
+    "key": "diff_integral",
+    "title": "Nguyên hàm, Đạo hàm",
+    "sub": [
+      {
+        "key": "integral",
+        "title": "Nguyên hàm"
+      },
+      {
+        "key": "diff",
+        "title": "Đạo hàm"
+      }
+    ]
+  },
+  {
+     "key": "hpt",
+     "title": "Hệ PT",
+     "sub": [
+       {
+         "key": "hptb1",
+         "title": "Hệ PT bậc 1"
+       }
+     ]
+   },
     {
       "key": "dathuc",
       "title": "Đa thức",
