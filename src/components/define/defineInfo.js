@@ -18,6 +18,9 @@ function DefineInfo(props) {
             props.state.schema = props.data.schema;
         }
     }
+    if (props.state.handleClose == undefined) {
+        props.state.handleClose = props.handleClose;
+    }
     useEffect(() => {
         if (props.state.Info != undefined) {
             document.getElementById("nameProplem").value = props.state.Info.name;
@@ -51,6 +54,9 @@ function DefineInfo(props) {
     }
     return (
         <div style={{ minHeight: "600px", paddingTop: "50px" }}>
+            <Button type="primary" onClick={props.state.handleClose} style={{ marginRight: 10 }}>
+                Trở về
+            </Button>
             <div style={{
                 textAlign: "center",
                 fontSize: "30px",

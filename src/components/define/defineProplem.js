@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Diagram, { createSchema, useSchema } from 'beautiful-react-diagrams';
-import { Button } from 'beautiful-react-ui';
+import { Button } from 'antd';
 import 'antd/dist/antd.css';
 import 'beautiful-react-diagrams/styles.css';
-import { Modal } from 'antd';
-
-
+import { Modal, Checkbox } from 'antd';
+import { PlusCircleOutlined } from '@ant-design/icons';
+import { MinusCircleOutlined } from '@ant-design/icons';
 
 
 function CustomFinalRender(props) {
@@ -14,11 +14,29 @@ function CustomFinalRender(props) {
         setIsModalVisible(true);
     };
 
+    const [unitValue, setUnitValue] = useState(props.id.unit);
+    var unitHidden = "none";
+    var unitHiddenCheck = false;
+    if (props.id.unit != "" && props.id.unit != null) {
+        unitHidden = "block";
+        unitHiddenCheck = true;
+    }
+    const [hiddenUnit, setHiddenUnit] = useState(unitHidden);
+    const [unitCheck, setUnitCheck] = useState(unitHiddenCheck);
+
     const handleOk = (event) => {
-        var equa = event.target.parentElement.parentElement.parentElement.getElementsByClassName("ant-modal-body")[0].children[0].children[0].getElementsByClassName("modelEqua")[0].value;
+        var Unit = "";
+        if (unitCheck == true) {
+            Unit = event.target.parentElement.parentElement.parentElement.getElementsByClassName("ant-modal-body")[0].children[0].children[0].getElementsByClassName("modelUnit")[0].value;
+        } else {
+            Unit = null;
+        }
+
+        var equa = event.target.parentElement.parentElement.parentElement.getElementsByClassName("ant-modal-body")[0].children[0].children[0].getElementsByClassName("modelEqua")[0].getValue('ASCIIMath');
         var intro = event.target.parentElement.parentElement.parentElement.getElementsByClassName("ant-modal-body")[0].children[0].children[0].getElementsByClassName("modelIntro")[0].value;
         props.id.equation = equa;
         props.id.introduction = intro;
+        props.id.unit = Unit;
         setIsModalVisible(false);
     };
 
@@ -34,7 +52,7 @@ function CustomFinalRender(props) {
 
             <div id={props.content} class="Model" style={{ background: '#faefde', borderRadius: '10px' }}>
                 <div style={{ textAlign: 'right' }}>
-                    <Button icon="times" size="small" onClick={() => props.data.onClick(props.id.id1)} />
+                    <Button icon={<MinusCircleOutlined />} size="small" onClick={() => props.data.onClick(props.id.id1)} />
                 </div>
 
                 <div role="button" style={{ padding: '15px', textAlign: "center" }}>
@@ -54,7 +72,29 @@ function CustomFinalRender(props) {
                     <div>
                         <div>
                             <div>Nhập kết quả</div>
-                            <math-field class="modelEqua" style={{ backgroundColor: "#faefde" }}>{props.id.equation}</math-field>
+                            <math-field smartFence class="modelEqua" style={{ backgroundColor: "#faefde" }}>{props.id.equation}</math-field>
+                            <div style={{
+                                display: hiddenUnit
+                            }}>
+
+                                <div>Đơn vị</div>
+                                <input defaultValue={props.id.unit} class="modelUnit" style={{
+                                    width: "100%",
+                                    height: "40px",
+                                    backgroundColor: "#ffffff",
+                                    border: "1px solid #d9d9d9"
+                                }} />
+                            </div>
+                            <Checkbox checked={unitCheck} onChange={(event) => {
+                                if (event.target.checked == true) {
+                                    setUnitCheck(true);
+                                    setHiddenUnit("block");
+                                } else {
+                                    setUnitCheck(false);
+                                    setHiddenUnit("none");
+                                }
+                            }
+                            }>Đơn vị</Checkbox>
                             <div>Mô tả lời giải</div>
                             <textarea style={{ width: "100%" }} class="modelIntro" id="w3review" name="w3review" rows="4" cols="20">
                                 {props.id.introduction}
@@ -73,18 +113,50 @@ function CustomFinalRender(props) {
 
 
 function CustomRender(props) {
+    console.log(props)
     const [isModalVisible, setIsModalVisible] = useState(false);
+    var conHidden = "none";
+    var unitHidden = "none";
+    var conHiddenCheck = false;
+    var unitHiddenCheck = false;
+    if (props.id.con != "" && props.id.con != null) {
+        conHidden = "block";
+        conHiddenCheck = true;
+    }
+    if (props.id.unit != "" && props.id.unit != null) {
+        unitHidden = "block";
+        unitHiddenCheck = true;
+    }
+    const [hiddenCon, setHiddenCon] = useState(conHidden);
+    const [hiddenUnit, setHiddenUnit] = useState(unitHidden);
+    const [conCheck, setConCheck] = useState(conHiddenCheck);
+    const [unitCheck, setUnitCheck] = useState(unitHiddenCheck);
     const showModal = () => {
         setIsModalVisible(true);
     };
 
+
     const handleOk = (event) => {
-        var Con = event.target.parentElement.parentElement.parentElement.getElementsByClassName("ant-modal-body")[0].children[0].children[0].getElementsByClassName("modelCon")[0].getValue('latex');
+        var Unit = "";
+        var Con = "";
+        if (conCheck == true) {
+            Con = event.target.parentElement.parentElement.parentElement.getElementsByClassName("ant-modal-body")[0].children[0].children[0].getElementsByClassName("modelCon")[0].getValue('latex');
+        } else {
+            Con = null;
+        }
+        if (unitCheck == true) {
+            Unit = event.target.parentElement.parentElement.parentElement.getElementsByClassName("ant-modal-body")[0].children[0].children[0].getElementsByClassName("modelUnit")[0].value;
+        } else {
+            Unit = null;
+        }
+
+
         var Cal = event.target.parentElement.parentElement.parentElement.getElementsByClassName("ant-modal-body")[0].children[0].children[0].getElementsByClassName("modelCal")[0].getValue('latex');
         var Des = event.target.parentElement.parentElement.parentElement.getElementsByClassName("ant-modal-body")[0].children[0].children[0].getElementsByClassName("modelDes")[0].value;
         props.id.cal = Cal;
         props.id.con = Con;
         props.id.des = Des;
+        props.id.unit = Unit;
         setIsModalVisible(false);
     };
 
@@ -103,7 +175,7 @@ function CustomRender(props) {
                     <math-field read-only class="modelCon1" id="dk" style={{ backgroundColor: "#faefde", textAlign: "center" }}>{props.id.con}</math-field>
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                    <Button icon="times" size="small" onClick={() => props.data.onClick(props.id.id1)} />
+                    <Button icon={<MinusCircleOutlined />} size="small" onClick={() => props.data.onClick(props.id.id1)} />
                 </div>
 
                 <div role="button" style={{ padding: '15px', textAlign: "center" }}>
@@ -123,10 +195,48 @@ function CustomRender(props) {
                     cancelText="Quay lại" onOk={handleOk} onCancel={handleCancel}>
                     <div>
                         <div>
-                            <div>Điều kiện thực hiện bước giải</div>
-                            <math-field class="modelCon" id="dk" style={{ backgroundColor: "#faefde" }}>{props.id.con}</math-field>
+                            <div style={{
+                                display: hiddenCon
+                            }}>
+
+                                <div>Điều kiện thực hiện bước giải</div>
+                                <math-field class="modelCon" id="dk" style={{ backgroundColor: "#faefde" }}>{props.id.con}</math-field>
+                            </div>
                             <div>Nhập các phép tính toán cần có</div>
                             <math-field class="modelCal" style={{ backgroundColor: "#faefde" }}>{props.id.cal}</math-field>
+                            <div style={{
+                                display: hiddenUnit
+                            }}>
+
+                                <div>Đơn vị</div>
+
+                                <input defaultValue={props.id.unit} class="modelUnit" style={{
+                                    width: "100%",
+                                    height: "40px",
+                                    backgroundColor: "#ffffff",
+                                    border: "1px solid #d9d9d9"
+                                }} />
+                            </div>
+                            <div></div>
+                            <Checkbox checked={unitCheck} onChange={(event) => {
+                                if (event.target.checked == true) {
+                                    setUnitCheck(true);
+                                    setHiddenUnit("block");
+                                } else {
+                                    setUnitCheck(false);
+                                    setHiddenUnit("none");
+                                }
+                            }
+                            }>Đơn vị</Checkbox>
+                            <Checkbox checked={conCheck} onChange={(event) => {
+                                if (event.target.checked == true) {
+                                    setConCheck(true);
+                                    setHiddenCon("block");
+                                } else {
+                                    setConCheck(false);
+                                    setHiddenCon("none");
+                                }
+                            }}>Điều kiện</Checkbox>
                             <div>Mô tả lời giải</div>
                             <textarea style={{ width: "100%" }} class="modelDes" id="w3review" name="w3review" rows="4" cols="30">
                                 {props.id.des}
@@ -243,6 +353,7 @@ function DefineProplem(props) {
                 cal: "",
                 con: "",
                 des: "",
+                unit: "",
                 handle: "",
                 id1: count
             },
@@ -288,7 +399,10 @@ function DefineProplem(props) {
     }
     return (
         <div>
-            <div style={{ height: "900px", paddingTop: "50px" }}>
+            <div style={{ height: "700px", paddingTop: "50px" }}>
+                <Button type="primary" onClick={props.state.handleClose} style={{ marginRight: 10 }}>
+                    Trở về
+                </Button>
                 <div style={{
                     textAlign: "center",
                     fontSize: "30px",
@@ -296,12 +410,20 @@ function DefineProplem(props) {
                 }}>
                     Bước 3: Nhập thông tin các bước giải
                 </div>
-                <Button color="primary" icon="plus" onClick={() => {
+                <Button icon={<PlusCircleOutlined />} type="primary" onClick={() => {
                     numberCount = numberCount + 1;
                     numberCount1 = numberCount1 + 1;
                     addNewNode(numberCount, numberCount1)
                 }}>Thêm bước giải</Button>
-                <Button color="primary" icon="plus" onClick={addNewFinalNode}>Thêm kết quả</Button>
+                <Button icon={<PlusCircleOutlined />} type="primary" onClick={addNewFinalNode} style={{ marginLeft: "10px" }}>Thêm kết quả</Button>
+                {/* <Button style={
+                    {
+                        float: "right"
+                    }
+                }>Danh sách biến số</Button> */}
+                <div>
+
+                </div>
                 <Diagram schema={schema} onChange={onChange} onClick={() => {
                     props.setState("schema", schema);
                 }} />

@@ -13,7 +13,6 @@ import { Redirect } from "react-router-dom";
 import DefineInfo from "./define/defineInfo"
 import defineStepTwo from "./define/defineStepTwo";
 import DefineProplem from "./define/defineProplem";
-import SaveProplem from "../api/SaveProplem"
 import { Modal } from 'antd';
 const { Option } = Select;
 const initialSchema1 = {
@@ -80,6 +79,7 @@ function formatJson(obj, listObjPara, dataObjPara) {
   var indexRoot = checkDataObject(obj.node, dataObj)
   console.log(indexRoot);
   console.log(dataObj[indexRoot])
+  objTemp.unit = dataObj[indexRoot].id.unit;
   objTemp.cal = dataObj[indexRoot].id.cal;
   objTemp.con = dataObj[indexRoot].id.con;
   objTemp.des = dataObj[indexRoot].id.des;
@@ -95,7 +95,9 @@ function formatJson(obj, listObjPara, dataObjPara) {
       console.log(indexdata);
       // delete dataObj[indexdata].id.id1;
       var test = {
+
         equation: dataObj[indexdata].id.equation,
+        unit: dataObj[indexdata].id.unit,
         introduction: dataObj[indexdata].id.introduction
       }
       objTemp.handle[i] = test
@@ -112,12 +114,19 @@ function formatJson(obj, listObjPara, dataObjPara) {
 function createData(obj1) {
   var obj = obj1;
   console.log(obj);
+  if (obj == undefined) {
+    return false;
+  }
   var data = [
 
   ]
   var indexRoot = null;
   let link = [];
   var didCheck = []
+  console.log(obj.links);
+  if (obj.links == undefined) {
+    return false;
+  }
   for (let i = 0; i < obj.links.length; i++) {
 
     var temp1 = obj.links[i];
@@ -151,55 +160,81 @@ function createData(obj1) {
 
 
 const Navigation = (props) => {
-
-
-
-
   console.log(props);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalVisible1, setIsModalVisible1] = useState(false);
   const showModal = () => {
     setIsModalVisible(true);
   };
 
-  const handleOk = (event) => {
-    console.log(props.state.schema);
-    createData(props.state.schema);
-    setIsModalVisible(false);
-  };
   const handleOk1 = (event) => {
+
     console.log(props)
     var ListCondition = createData(props.state.schema);
 
-    var dataSend = {
-      "name": props.state.Info.name,
-      "user": "123",
-      "subject": props.state.Info.subject,
-      "grade": props.state.Info.grade,
-      "date": "10/08/2020",
-      "data": {
-        "baitoan": {
-          "description": props.state.topic
+    var check = false;
+    var detail = 0;
+    if (
+      props.state.Info == undefined ||
+      props.state.topic == undefined ||
+      props.state.Variable == undefined ||
+      ListCondition == false ||
+      props.state.schema == undefined
+    ) {
+      check = false;
+      detail = 1;
+    } else {
+      var dataSend = {
+        "name": props.state.Info.name,
+        "user": "123",
+        "subject": props.state.Info.subject,
+        "grade": props.state.Info.grade,
+        "date": "10/08/2020",
+        "data": {
+          "baitoan": {
+            "description": props.state.topic
+          },
+          "Variable": props.state.Variable,
+          "ListCondition": ListCondition.handle
         },
-        "Variable": props.state.Variable,
-        "ListCondition": ListCondition.handle
-      },
-      "schema": props.state.schema
+        "schema": props.state.schema
+      }
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "text/plain");
+
+      var raw = JSON.stringify(dataSend);
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+
+      fetch("http://api.bkmathapp.tk/api/defineproblem", requestOptions)
+        .then((response) => {
+          response.json().then((db) => {
+            if (db.check == true) {
+              setIsModalVisible(false);
+              setIsModalVisible1(true);
+            }
+          })
+        })
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
     }
 
-    SaveProplem(dataSend);
 
 
 
 
 
-    setIsModalVisible(false);
   };
 
 
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-
 
   var x = props.current;
   if (x != 3) {
@@ -234,8 +269,21 @@ const Navigation = (props) => {
               Lưu bài toán
             </Button>
           </Col>
-          <Modal title="Thông tin kết quả" cancelText="Huỷ bỏ" okText="Lưu" visible={isModalVisible} onOk={handleOk1} onCancel={handleCancel}>
-            Xac nhan luu bai toan
+          <Modal align="center" title="Lưu bài toán" cancelText="Huỷ bỏ" okText="Lưu" visible={isModalVisible} onOk={handleOk1} onCancel={handleCancel}>
+            <div>Xác nhận lưu bài toán</div>
+          </Modal>
+          <Modal align="center" title="Thông tin kết quả" visible={isModalVisible1}
+            footer={[
+              <Button key="back" onClick={() => {
+                window.location.reload();
+              }}>
+                Quay lại
+              </Button>,
+
+            ]}
+          >
+            <div>Lưu bài toán thành công</div>
+
           </Modal>
         </Row>
       </div>
@@ -259,7 +307,7 @@ class ContentProblem extends React.Component {
       listProblem: [],
       idProblem: "",
       nameProblem: "",
-
+      isModalVisible: false,
       checkedAll: true,
       checked: [],
       grade: [],
@@ -280,6 +328,7 @@ class ContentProblem extends React.Component {
       res.json().then((db) => {
         var listSubject = [];
         var listGrade = [];
+        console.log("hahahaha");
         db.result.forEach((element) => {
           if (!listSubject.includes(element.subject)) {
             listSubject.push(element.subject);
@@ -303,7 +352,12 @@ class ContentProblem extends React.Component {
     this.setState({ isOpen: !this.state.isOpen });
     document.getElementById("listProblem").style.display = null;
   };
-
+  showModal = () => {
+    this.setState({ isModalVisible: !this.state.isModalVisible });
+  };
+  CloseModel = () => {
+    this.setState({ isModalVisible: !this.state.isModalVisible });
+  }
   handleClick = (event, problemData) => {
     this.setState({
       isOpen: !this.state.isOpen,
@@ -315,6 +369,40 @@ class ContentProblem extends React.Component {
     // this.setState({ nameProblem: nameProblem });
     document.getElementById("listProblem").style.display = "none";
   };
+  handleDelete = () => {
+
+    console.log(this.state.idProblem)
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "text/plain");
+    var dataSend = {
+      id: this.state.idProblem
+    }
+    var raw = JSON.stringify(dataSend);
+
+    var requestOptions = {
+      method: 'DELETE',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    fetch("http://api.bkmathapp.tk/api/defineproblem", requestOptions)
+      .then((response) => {
+        response.json().then((db) => {
+          if (db.check == true) {
+            window.location.reload();
+          }
+        })
+      })
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+
+
+
+
+
+
+  }
 
   onChange = (list) => {
     this.setState({
@@ -441,17 +529,35 @@ class ContentProblem extends React.Component {
                             <Card
                               title={element.name}
                               extra={
-                                <Button
-                                  type="primary"
-                                  onClick={(e) =>
-                                    this.handleClick(
-                                      e,
-                                      element
-                                    )
-                                  }
-                                >
-                                  Chọn
-                                </Button>
+                                <div>
+                                  <Button
+                                    type="primary"
+                                    onClick={(e) =>
+                                      this.handleClick(
+                                        e,
+                                        element
+                                      )
+                                    }
+                                  >
+                                    Chọn
+                                  </Button>
+                                  <Button
+                                    style={{ marginLeft: "5px" }}
+                                    type="primary"
+                                    onClick={(e) => {
+                                      this.showModal()
+                                      this.setState({ idProblem: element.id })
+
+                                    }}
+
+                                  >
+                                    Xoá
+                                  </Button>
+                                  <Modal align="center" title="Xoá bài toán" cancelText="Huỷ bỏ" okText="Xoá" visible={this.state.isModalVisible} onOk={this.handleDelete} onCancel={this.CloseModel}>
+                                    <div>Xác nhận xoá bài toán</div>
+                                  </Modal>
+
+                                </div>
                               }
                             >
                               {element.data.baitoan.description}
@@ -470,14 +576,16 @@ class ContentProblem extends React.Component {
               </div>
             </Col>
           </Row>
-        </Card>
-        {this.state.isOpen && (
-          <Steps style={{ height: "1000px" }} config={config}  >
-            <Step style={{ height: "100%" }} data={this.state.problemData} component={DefineInfo} title="Bước 1: Nhập thông tin bài toán " />
-            <Step style={{ height: "100%" }} component={defineStepTwo} title="Định nghĩa đề bài và biến số " />
-            <Step style={{ height: "100%" }} component={DefineProplem} title="Định nghĩa bài giải" />
-          </Steps>
-        )}
+        </Card >
+        {
+          this.state.isOpen && (
+            <Steps style={{ height: "1000px" }} config={config}  >
+              <Step style={{ height: "100%" }} handleClose={this.handleClose} data={this.state.problemData} component={DefineInfo} title="Bước 1: Nhập thông tin bài toán " />
+              <Step style={{ height: "100%" }} component={defineStepTwo} title="Định nghĩa đề bài và biến số " />
+              <Step style={{ height: "100%" }} component={DefineProplem} title="Định nghĩa bài giải" />
+            </Steps>
+          )
+        }
       </>
     );
   }
