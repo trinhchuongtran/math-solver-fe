@@ -25,6 +25,8 @@ const DefineStepTwo = (props) => {
         console.log(fields1);
         if (fields1[0].Variable != undefined) {
             for (let i = 0; i < document.getElementsByClassName("VarName").length; i++) {
+
+                document.getElementsByClassName("VarNameC")[i].value = fields1[0].Variable[i].title;
                 document.getElementsByClassName("VarName")[i].value = fields1[0].Variable[i].name;
                 document.getElementsByClassName("VarCon")[i].value = fields1[0].Variable[i].condition;
                 document.getElementsByClassName("unitDefineVar")[i].value = fields1[0].Variable[i].unit;
@@ -46,6 +48,7 @@ const DefineStepTwo = (props) => {
     const onChangeValue = () => {
         console.log("hihi");
         var objVar = [];
+        var Title = document.getElementsByClassName("VarNameC");
         var Con = document.getElementsByClassName("VarCon");
         var Name = document.getElementsByClassName("VarName");
         var Unit = document.getElementsByClassName("unitDefineVar");
@@ -54,6 +57,7 @@ const DefineStepTwo = (props) => {
         for (let i = 0; i < document.getElementsByClassName("VarCon").length; i++) {
 
             var temp = {
+                title: Title[i].value,
                 name: Name[i].getValue('latex'),
                 unit: Unit[i].getValue('latex'),
                 condition: Con[i].getValue('latex')
@@ -67,6 +71,7 @@ const DefineStepTwo = (props) => {
         console.log(props);
     }
     const styleInput = {
+        width: "100%",
         backgroundColor: "#ffffff",
         border: "1px solid #d9d9d9"
     }
@@ -107,11 +112,11 @@ const DefineStepTwo = (props) => {
                         </TextArea>
                     </Form.Item>
                     <div style={{
-
+                        width: "280px",
                         fontSize: "20px",
                         color: "#147f8f"
                     }}>Danh sách biến số</div>
-                    <Form.List name="Variable" id="listVar" >
+                    <Form.List name="Variable" id="listVar" style={{ width: "100%" }}  >
                         {(fields, { add, remove }) => {
                             console.log(fields)
                             return (
@@ -120,8 +125,22 @@ const DefineStepTwo = (props) => {
                                         fields.map((props) => {
                                             console.log(props);
                                             return (
-                                                <Space key={props.key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
+                                                <Space key={props.key} style={{ display: 'flex', width: "100%" }} align="baseline">
                                                     <Form.Item
+                                                        label="Tên biến số"
+                                                        style={{
+                                                            width: "280px"
+                                                        }}
+                                                        name={[props.name, "nameC"]}
+                                                        fieldKey={[props.fieldKey, 'nameC']}
+
+                                                        rules={[{ required: true, message: 'Thiếu tên biến' }]}
+                                                    >
+                                                        <input placeholder="x^2" onKeyUp={onChangeValue} class="VarNameC" style={styleInput} />
+
+                                                    </Form.Item>
+                                                    <Form.Item
+                                                        label="Kí hiệu"
                                                         style={{
                                                             width: "200px"
                                                         }}
@@ -134,10 +153,10 @@ const DefineStepTwo = (props) => {
 
                                                     </Form.Item>
                                                     <Form.Item
+                                                        label="Đơn vị biến số"
                                                         style={{
-                                                            width: "200px"
+                                                            width: "280px"
                                                         }}
-
                                                         name={[props.name, 'unit']}
                                                         fieldKey={[props.fieldKey, 'unit']}
                                                         rules={[{ required: true, message: 'Thiếu đơn vị của biến' }]}
@@ -146,8 +165,9 @@ const DefineStepTwo = (props) => {
 
                                                     </Form.Item>
                                                     <Form.Item
+                                                        label="Điều kiện biến số"
                                                         style={{
-                                                            width: "200px"
+                                                            width: "280px"
                                                         }}
                                                         name={[props.name, 'condition']}
                                                         fieldKey={[props.fieldKey, 'condition']}
