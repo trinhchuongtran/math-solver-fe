@@ -250,7 +250,7 @@ export default function Exercise(data2 = undefined) {
         <Row gutter={12}>
           <Col span={16}>
             <Row style={{ paddingBottom: "16px" }}>
-              <Col span={21}>
+              <Col xl={18} xxl={20}>
                 <math-field
                   id="formula1"
                   virtual-keyboard-mode="onfocus"
@@ -269,7 +269,7 @@ export default function Exercise(data2 = undefined) {
                   }}
                 ></math-field>
               </Col>
-              <Col span={3} style={{ margin: "auto" }}>
+              <Col xl={6} xxl={4} style={{ margin: "auto" }}>
                 <Col span={22} offset={1}>
                   <Button
                     type="primary"
@@ -328,7 +328,7 @@ export default function Exercise(data2 = undefined) {
                                     minHeight: "100%",
                                   }}
                                 >
-                                  <Col span={21} className="exercise_span">
+                                  <Col xl={24} xxl={20} className="exercise_span">
                                     <MathJax.Context>
                                       <MathJax.Node>{item.before}</MathJax.Node>
                                     </MathJax.Context>
@@ -369,12 +369,14 @@ export default function Exercise(data2 = undefined) {
                                     </MathJax.Context>
                                   </Col>
                                   <Col
-                                    span={3}
+                                    xl={24} xxl={4}
                                     style={{
                                       display: "flex",
                                       alignItems: "center",
                                     }}
                                   >
+                                    <Row justify="end" style={{minWidth: "100%"}}>
+                                      <Col>
                                     <Button
                                       type="primary"
                                       style={{
@@ -387,6 +389,8 @@ export default function Exercise(data2 = undefined) {
                                     >
                                       Kiểm tra
                                     </Button>
+                                    </Col>
+                                    </Row>
                                   </Col>
                                 </Row>
                               </Col>

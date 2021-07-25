@@ -141,6 +141,9 @@ class App extends Component {
             <Menu.Item key="graph">
               <Link to={"/graph"}>Đồ thị</Link>
             </Menu.Item>
+            <Menu.Item key="exercise">
+              <Link to={"/exercise"}>Bài tập</Link>
+            </Menu.Item>
           </SubMenu>
           <Menu.Item key="problem">
             <Link to={"/problem"}>Bài toán Thực tế</Link>
