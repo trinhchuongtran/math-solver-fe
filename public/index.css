@@ -7,3 +7,12 @@
 .ant-modal-mask {
   display: none;
 }
+
+.fa-arrow-circle-right{
+  font-size: 25px;
+  color: #147f8f
+}
+.fa-sign-in-alt{
+ font-size: 25px;
+  color: #147f8f
+}

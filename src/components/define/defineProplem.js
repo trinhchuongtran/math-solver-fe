@@ -56,10 +56,10 @@ function CustomFinalRender(props) {
                 </div>
 
                 <div role="button" style={{ padding: '15px', textAlign: "center" }}>
-                    {props.content}
+                    {props.id.introduction}
                 </div>
                 <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'space-between' }}>
-                    {props.inputs.map((port) => React.cloneElement(port, { style: { width: '25px', height: '25px', borderRadius: '5px', background: 'green' } }))}
+                    {props.inputs.map((port) => React.cloneElement(port, { class: "fa fa-sign-in-alt", style: { width: '25px', height: '25px', borderRadius: '5px' } }))}
                     {props.outputs.map((port) => React.cloneElement(port, { style: { width: '25px', height: '25px', borderRadius: '5px', background: 'red' } }))}
                 </div>
                 <button style={{
@@ -179,11 +179,11 @@ function CustomRender(props) {
                 </div>
 
                 <div role="button" style={{ padding: '15px', textAlign: "center" }}>
-                    {props.content}
+                    {props.id.des}
                 </div>
                 <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'space-between' }}>
-                    {props.inputs.map((port) => React.cloneElement(port, { style: { width: '25px', height: '25px', borderRadius: '5px', background: 'green' } }))}
-                    {props.outputs.map((port) => React.cloneElement(port, { style: { width: '25px', height: '25px', borderRadius: '5px', background: 'red' } }))}
+                    {props.inputs.map((port) => React.cloneElement(port, { class: "fa fa-sign-in-alt", style: { width: '25px', height: '25px', borderRadius: '5px' } }))}
+                    {props.outputs.map((port) => React.cloneElement(port, { class: "fa fa-arrow-circle-right", style: { width: '25px', height: '25px', borderRadius: '5px' } }))}
                 </div>
                 <button style={{
                     width: "100%"
@@ -323,10 +323,13 @@ function DefineProplem(props) {
                     onClick: deleteNodeFromSchema
                 }
             }
-
-
-
         }
+        if (test.links != undefined) {
+            for (let i = 0; i < test.links.length; i++) {
+                test.links[i].label = "->";
+            }
+        }
+
     } else {
         for (let i = 1; i < test.nodes.length; i++) {
             test.nodes[i].render = CustomRender;
@@ -359,7 +362,7 @@ function DefineProplem(props) {
             },
             content: "Bước giải",
             coordinates: [
-                schema.nodes[schema.nodes.length - 1].coordinates[0] + 100,
+                schema.nodes[schema.nodes.length - 1].coordinates[0] + 130,
                 schema.nodes[schema.nodes.length - 1].coordinates[1],
             ],
             render: CustomRender,
@@ -387,7 +390,7 @@ function DefineProplem(props) {
             },
             content: "Đáp án",
             coordinates: [
-                schema.nodes[schema.nodes.length - 1].coordinates[0] + 100,
+                schema.nodes[schema.nodes.length - 1].coordinates[0] + 130,
                 schema.nodes[schema.nodes.length - 1].coordinates[1],
             ],
             render: CustomFinalRender,
@@ -425,6 +428,10 @@ function DefineProplem(props) {
 
                 </div>
                 <Diagram schema={schema} onChange={onChange} onClick={() => {
+
+
+
+                    console.log(schema.links);
                     props.setState("schema", schema);
                 }} />
             </div>
