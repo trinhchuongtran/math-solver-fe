@@ -147,3 +147,7 @@
 .problem_list_card{
   border-radius: 8px;
 }
+
+.ant-layout .body{
+  min-height: 100vh;
+}

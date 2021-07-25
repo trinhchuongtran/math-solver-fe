@@ -269,7 +269,7 @@ export default function Dathuc(data) {
             {!openResult && (
               <>
                 <Col span={16}>
-                  <Card style={{ minWidth: "100%", minHeight: "100%", borderRadius: "8px" }}>
+                  <Card style={{ minWidth: "100%", borderRadius: "8px" }}>
                     <Col span={24}>
                       <Divider orientation="left" plain>
                         <Title level={3}>{listdathuc[selectedType].name}</Title>
