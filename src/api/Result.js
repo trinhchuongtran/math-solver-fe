@@ -28,6 +28,7 @@ function Results(prop) {
             var result_api = "";
             let valuesArray = Object.values(db.result);
             // let i = 1;
+            // result_api = " \\begin{ array } { l }"
             for (let value of valuesArray) {
 
                 if (typeof value == "number") {
@@ -38,14 +39,15 @@ function Results(prop) {
 
                     for (let value of valuesArray1) {
 
-                        result_api = result_api + value + "\\\\";
+                        result_api = result_api + value + "\\";
                         // i++;
                     }
                 } else {
-                    result_api = result_api + value + "\\\\";
+                    result_api = result_api + value + "\\";
                     // i++;
                 }
             }
+            // result_api = result_api + " \\end{ array }"
             setResult(result_api)
             setIsLoading(false)
         })
@@ -58,8 +60,8 @@ function Results(prop) {
     //     brd.unsuspendUpdate();
     // }
     return (
-        <Card loading={isLoading} className="poly_result_card" title="Lời giải chi tiết">
-            
+        <Card loading={isLoading} title="Lời giải chi tiết">
+            {/* <math-field style={{ height: "200px" }}>{result}</math-field> */}
             <MathJax.Context input='tex'
                 options={{
                     displayAlign: 'left',

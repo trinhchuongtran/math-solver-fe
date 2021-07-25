@@ -4,3 +4,6 @@
 .ant-list-item {
     padding: 15px 15px 15px 15px !important;
 }
+.ant-modal-mask {
+  display: none;
+}
