@@ -357,9 +357,9 @@ class Threads extends React.Component {
                 {this.state.variable.map((element) => {
                   return (
                     <React.Fragment key={element.name}>
-                    <Col span={8} className="problem_inputvalue">
+                    <Col span={24} className="problem_inputvalue">
                       <Title level={5} style={{ paddingRight: "6px" }}>
-                        {element.name + " ="}
+                        {element.title + " " + element.name + " ="}
                       </Title>
                       <Form.Item
                         name={element.name}
@@ -367,6 +367,9 @@ class Threads extends React.Component {
                       >
                         <Input style={{ width: "128px" }} />
                       </Form.Item>
+                      <Title level={5} style={{ paddingLeft: "6px" }}>
+                        {element.unit}
+                      </Title>
                     </Col>
                     </React.Fragment>
                   );

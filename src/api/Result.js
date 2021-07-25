@@ -11,8 +11,8 @@ function Results(prop) {
     console.log(prop);
     var [result, setResult] = useState("");
     var [isLoading, setIsLoading] = useState(true);
-    fetch("http://127.0.0.1:6900/api/polynomial_vnkey", {
-    // fetch("http://api.bkmathapp.tk/api/polynomial_vnkey", {
+    // fetch("http://127.0.0.1:6900/api/polynomial_vnkey", {
+    fetch("http://api.bkmathapp.tk/api/polynomial_vnkey", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
