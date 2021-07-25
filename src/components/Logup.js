@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { Form, Input, Button, message } from "antd";
-import { UserOutlined, KeyOutlined } from "@ant-design/icons";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
 import AuthService from "../services/auth.service";
 import { withRouter } from "react-router";
@@ -119,7 +119,7 @@ class Login extends Component {
           ]}
         >
           <Input
-            prefix={<KeyOutlined />}
+            prefix={<UserOutlined />}
             placeholder="Tên người dùng"
           />
         </Form.Item>
@@ -133,7 +133,7 @@ class Login extends Component {
           ]}
         >
           <Input
-            prefix={<KeyOutlined />}
+            prefix={<UserOutlined />}
             placeholder="Họ người dùng"
           />
         </Form.Item>
@@ -147,7 +147,7 @@ class Login extends Component {
           ]}
         >
           <Input.Password
-            prefix={<KeyOutlined />}
+            prefix={<LockOutlined />}
             type="password"
             placeholder="Mật khẩu"
           />
@@ -162,7 +162,7 @@ class Login extends Component {
           ]}
         >
           <Input.Password
-            prefix={<KeyOutlined />}
+            prefix={<LockOutlined />}
             type="password"
             placeholder="Nhập lại mật khẩu"
           />

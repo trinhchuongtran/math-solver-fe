@@ -48,9 +48,9 @@ class AuthService {
         }),
     }
 
-    console.log(requestOptions)
+    // console.log(requestOptions)
     fetch("http://api.bkmathapp.tk/auth/users/", requestOptions).then(response => {
-      console.log(response)
+      // console.log(response)
 
       return response
     })
