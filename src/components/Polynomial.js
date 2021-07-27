@@ -133,32 +133,42 @@ export default function Dathuc(data) {
 
     //NOTE
     var test = document.getElementById('formula1').getValue("latex");
-    console.log(test)
-    if (test != "") {
-      console.log(parse(test))
-      var test1 = duyetObject(parse(test));
+    var he = "begin{cases}";
 
-      var test2 = test1.split("");
-      if (test2.length != 0) {
-        const uniqueSet = new Set(test2);
-        const backToArray = [...uniqueSet];
-        backToArray.forEach(function (item, index, array) {
-          emails.push({
-            variable: item,
-            detail: "Giải theo biến "
+    if (test.includes(he) == true && test != "") {
+      emails.push({
+        variable: "x,y",
+        detail: "Tính kết quả phép tính "
+      })
+    } else {
+      if (test != "") {
+        console.log(parse(test))
+        var test1 = duyetObject(parse(test));
+
+        var test2 = test1.split("");
+        if (test2.length != 0) {
+          const uniqueSet = new Set(test2);
+          const backToArray = [...uniqueSet];
+          backToArray.forEach(function (item, index, array) {
+            emails.push({
+              variable: item,
+              detail: "Giải theo biến "
+            });
+
           });
-
-        });
-      } else {
-        emails.push({
-          variable: "",
-          detail: "Tính kết quả phép tính "
-        })
+        } else {
+          emails.push({
+            variable: "",
+            detail: "Tính kết quả phép tính "
+          })
+        }
+      }
+      else {
+        emails.push("Không hợp lệ, vui lòng nhập lại");
       }
     }
-    else {
-      emails.push("Không hợp lệ, vui lòng nhập lại");
-    }
+
+
 
     setvalueDialog(emails);
 
@@ -278,18 +288,18 @@ export default function Dathuc(data) {
                         {listdathuc[selectedType].list.map((item) => {
                           return (
                             <React.Fragment key={item.key}>
-                            <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={12} className="polynomial_poly_item">
-                              {/* {console.log(item)} */}
-                              <Button
-                                block
-                                className="polynomial_poly_button"
-                                onClick={() => clickExer(item.value, listdathuc[selectedType].variable)}
-                              >
-                                <MathJax.Context>
-                                  <MathJax.Node>{item.title}</MathJax.Node>
-                                </MathJax.Context>
-                              </Button>
-                            </Col>
+                              <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={12} className="polynomial_poly_item">
+                                {/* {console.log(item)} */}
+                                <Button
+                                  block
+                                  className="polynomial_poly_button"
+                                  onClick={() => clickExer(item.value, listdathuc[selectedType].variable)}
+                                >
+                                  <MathJax.Context>
+                                    <MathJax.Node>{item.title}</MathJax.Node>
+                                  </MathJax.Context>
+                                </Button>
+                              </Col>
                             </React.Fragment>
                           );
                         })}

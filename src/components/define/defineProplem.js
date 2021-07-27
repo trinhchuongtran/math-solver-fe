@@ -325,9 +325,7 @@ function DefineProplem(props) {
             }
         }
         if (test.links != undefined) {
-            for (let i = 0; i < test.links.length; i++) {
-                test.links[i].label = "->";
-            }
+            console.log("hihi");
         }
 
     } else {

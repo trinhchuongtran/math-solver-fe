@@ -606,6 +606,7 @@ export default class BoardModerator extends Component {
     };
   }
 
+
   componentDidMount() {
     const user = AuthService.getCurrentUser();
     if (!user) this.setState({ redirect: "/login" });
@@ -624,4 +625,5 @@ export default class BoardModerator extends Component {
       </div>
     );
   }
-}
+};
+
