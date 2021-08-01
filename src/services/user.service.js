@@ -4,9 +4,9 @@ import authHeader from './auth-header';
 const API_URL = 'http://api.bkmathapp.tk/api/test/';
 
 class UserService {
-  getPublicContent() {
-    return axios.get(API_URL + 'all');
-  }
+  // getPublicContent() {
+  //   return axios.get(API_URL + 'all');
+  // }
 
   getUserBoard() {
     return axios.get(API_URL + 'user', { headers: authHeader() });

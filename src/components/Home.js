@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Typography, Row } from 'antd';
 import HomeCard from './home-card.component';
-import UserService from "../services/user.service";
+// import UserService from "../services/user.service";
 
 const { Title } = Typography;
 export default class Home extends Component {
@@ -14,21 +14,21 @@ export default class Home extends Component {
   }
 
   componentDidMount() {
-    UserService.getPublicContent().then(
-      response => {
-        this.setState({
-          content: response.data
-        });
-      },
-      error => {
-        this.setState({
-          content:
-            (error.response && error.response.data) ||
-            error.message ||
-            error.toString()
-        });
-      }
-    );
+    // UserService.getPublicContent().then(
+    //   response => {
+    //     this.setState({
+    //       content: response.data
+    //     });
+    //   },
+    //   error => {
+    //     this.setState({
+    //       content:
+    //         (error.response && error.response.data) ||
+    //         error.message ||
+    //         error.toString()
+    //     });
+    //   }
+    // );
   }
 
   render() {

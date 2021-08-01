@@ -1,9 +1,9 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Result from "../api/Result";
 import MathJax from "react-mathjax2";
 
 import { Row, Col } from "antd";
-import { Layout } from "antd";
+// import { Layout } from "antd";
 import { Divider } from "antd";
 import { Modal, Button } from "antd";
 import { List, Card } from "antd";
@@ -17,7 +17,7 @@ import listfunc from '../staticdata/listmenu.json';
 import listPlot from '../staticdata/plotdata.json';
 import listExer from '../staticdata/exercisedata.json';
 
-import { Switch, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // import Rightsidemenu from "../subcomponents/menu"
 import "../css/style.css";
@@ -26,16 +26,16 @@ const { SubMenu } = Menu;
 
 const { Title } = Typography;
 
-const { Header, Footer, Sider, Content } = Layout;
+// const { Header, Footer, Sider, Content } = Layout;
 const { parse } = require("equation-parser");
 
-const style = {};
+// const style = {};
 
-var emails = [];
+// var emails = [];
 
 function SimpleDialog(props) {
-  const { onClose, selectedValue, open, onOpen, value } = props;
-  console.log(props);
+  const { onClose, selectedValue, open, value } = props;
+  // console.log(props);
   const handleClose = () => {
     onClose(selectedValue);
   };
@@ -43,7 +43,7 @@ function SimpleDialog(props) {
   const handleListItemClick = (value) => {
     onClose(value);
   };
-  var [testMathjax, setMathJax] = useState("x");
+  // var [testMathjax, setMathJax] = useState("x");
 
   return (
     // <>
@@ -72,19 +72,19 @@ function SimpleDialog(props) {
 
 
 function duyetObject(obj) {
-  if (obj.a == undefined || obj.b == undefined) {
+  if (obj.a === undefined || obj.b === undefined) {
 
-    if (obj.type == "variable") {
+    if (obj.type === "variable") {
       return obj.name;
     }
-    else if (obj.type == "negative") {
+    else if (obj.type === "negative") {
 
       return duyetObject(obj.value);
     }
-    else if (obj.type == "block") {
+    else if (obj.type === "block") {
       return duyetObject(obj.child);
     }
-    else if (obj.type == "function") {
+    else if (obj.type === "function") {
       return duyetObject(obj.args[0]);
     }
     else return "";
@@ -113,11 +113,11 @@ export default function Dathuc(data) {
     });
 
     if (data.location.state) {
-      if (data.location.state.selectedType != undefined) {
+      if (data.location.state.selectedType !== undefined) {
         setSelectedType(data.location.state.selectedType);
       }
     }
-  }, []);
+  }, [data]);
 
 
 
@@ -133,13 +133,13 @@ export default function Dathuc(data) {
 
     //NOTE
     var test = document.getElementById('formula1').getValue("latex");
-    console.log(test)
-    if (test != "") {
+    // console.log(test)
+    if (test !== "") {
       console.log(parse(test))
       var test1 = duyetObject(parse(test));
 
       var test2 = test1.split("");
-      if (test2.length != 0) {
+      if (test2.length !== 0) {
         const uniqueSet = new Set(test2);
         const backToArray = [...uniqueSet];
         backToArray.forEach(function (item, index, array) {
@@ -244,11 +244,11 @@ export default function Dathuc(data) {
                       .getElementById("formula1")
                       .getValue("latex");
 
-                    if (inputLatex != "") {
-                      console.log(inputLatex);
+                    if (inputLatex !== "") {
+                      // console.log(inputLatex);
                       handleClickOpen(inputLatex);
-                    } else if (testASC != "") {
-                      console.log(testASC);
+                    } else if (testASC !== "") {
+                      // console.log(testASC);
                       handleClickOpen(testASC);
                     }
                   }}

@@ -60,7 +60,7 @@ export default function Graph(data) {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [data]);
 
   const clickSubmit = (input) => {
     setLoading(true)
