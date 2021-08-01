@@ -8,7 +8,7 @@ import MathJax from 'react-mathjax2'
 // const { Title } = Typography;
 
 function Results(prop) {
-    console.log(prop);
+    // console.log(prop);
     var [result, setResult] = useState("");
     var [isLoading, setIsLoading] = useState(true);
     // fetch("http://127.0.0.1:6900/api/polynomial_vnkey", {

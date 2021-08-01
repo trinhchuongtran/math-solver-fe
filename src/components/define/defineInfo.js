@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import { Form, Input, Button, Space, Select } from 'antd';
-import { Row, Col } from "antd";
-const { TextArea } = Input;
+import { Form, Input, Button } from 'antd';
+// import { Row, Col } from "antd";
+// const { TextArea } = Input;
 function DefineInfo(props) {
 
-    console.log(props);
-    console.log(props.state)
-    if (props.state.Info == undefined) {
+    // console.log(props);
+    // console.log(props.state)
+    if (props.state.Info === undefined) {
         if (props.data != null) {
             props.state.Info = {
                 name: props.data.name,
@@ -18,11 +18,11 @@ function DefineInfo(props) {
             props.state.schema = props.data.schema;
         }
     }
-    if (props.state.handleClose == undefined) {
+    if (props.state.handleClose === undefined) {
         props.state.handleClose = props.handleClose;
     }
     useEffect(() => {
-        if (props.state.Info != undefined) {
+        if (props.state.Info !== undefined) {
             document.getElementById("nameProplem").value = props.state.Info.name;
             document.getElementById("Subject").value = props.state.Info.subject;
             document.getElementById("Grade").value = props.state.Info.grade;
@@ -42,11 +42,11 @@ function DefineInfo(props) {
         }
 
         props.setState("Info", info);
-        console.log(props);
+        // console.log(props);
     }
-    const onChangeSelect = (value) => {
-        console.log(value);
-    }
+    // const onChangeSelect = (value) => {
+    //     console.log(value);
+    // }
 
     const style = {
         width: "100%",

@@ -1,29 +1,29 @@
 import React, { useState, useEffect } from "react";
 import 'antd/dist/antd.css';
 import { Form, Input, Button, Space } from 'antd';
-import { MathfieldComponent } from "react-mathlive";
+// import { MathfieldComponent } from "react-mathlive";
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 const { TextArea } = Input;
 
-function CustomizedForm({ fields1, value, onChange, setState }) {
-    const onFinish = (values) => {
-        setState("Variable", "Test");
-    }
-    return (
-        <div>123</div>
-    )
-};
+// function CustomizedForm({ fields1, value, onChange, setState }) {
+//     const onFinish = (values) => {
+//         setState("Variable", "Test");
+//     }
+//     return (
+//         <div>123</div>
+//     )
+// };
 const DefineStepTwo = (props) => {
 
-    console.log(props);
+    // console.log(props);
     const onFinish = (values) => {
         props.setState("Variable", values.Variable);
-        console.log(values.Variable);
+        // console.log(values.Variable);
 
     }
     useEffect(() => {
-        console.log(fields1);
-        if (fields1[0].Variable != undefined) {
+        // console.log(fields1);
+        if (fields1[0].Variable !== undefined) {
             for (let i = 0; i < document.getElementsByClassName("VarName").length; i++) {
 
                 document.getElementsByClassName("VarNameC")[i].value = fields1[0].Variable[i].title;
@@ -41,7 +41,7 @@ const DefineStepTwo = (props) => {
             }
 
         }
-        if (props.state.topic != undefined) {
+        if (props.state.topic !== undefined) {
             document.getElementById("debai").value = props.state.topic;
         }
 
@@ -52,25 +52,25 @@ const DefineStepTwo = (props) => {
             "Variable": props.state.Variable
         }
     ]);
-    console.log(fields1);
+    // console.log(fields1);
     const onChangeValue = () => {
-        console.log("hihi");
+        // console.log("hihi");
         var objVar = [];
         var Title = document.getElementsByClassName("VarNameC");
         var Con = document.getElementsByClassName("VarCon");
         var Name = document.getElementsByClassName("VarName");
         var Unit = document.getElementsByClassName("unitDefineVar");
         var topic = document.getElementById("debai").value;
-        console.log(Con.length);
+        // console.log(Con.length);
         for (let i = 0; i < document.getElementsByClassName("VarCon").length; i++) {
             var unit = "";
             var con = "";
-            if (Unit[i].value == "") {
+            if (Unit[i].value === "") {
                 unit = null;
             } else {
                 unit = Unit[i].value;
             }
-            if (Con[i].getValue('latex') == "") {
+            if (Con[i].getValue('latex') === "") {
                 con = null;
             } else {
                 con = Con[i].getValue('latex');
@@ -81,13 +81,13 @@ const DefineStepTwo = (props) => {
                 unit: unit,
                 condition: con
             }
-            console.log(temp);
+            // console.log(temp);
             objVar.push(temp);
 
         }
         props.state.Variable = objVar;
         props.state.topic = topic;
-        console.log(props);
+        // console.log(props);
     }
     const styleInput = {
         width: "100%",
@@ -139,12 +139,12 @@ const DefineStepTwo = (props) => {
                     }}>Danh sách biến số</div>
                     <Form.List name="Variable" id="listVar" style={{ width: "100%" }}  >
                         {(fields, { add, remove }) => {
-                            console.log(fields)
+                            // console.log(fields)
                             return (
                                 <>
                                     {
                                         fields.map((props) => {
-                                            console.log(props);
+                                            // console.log(props);
                                             return (
                                                 <Space key={props.key} style={{ display: 'flex', width: "100%" }} align="baseline">
                                                     <Form.Item

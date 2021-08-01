@@ -10,12 +10,12 @@ import { List, Card } from "antd";
 import { Typography } from "antd";
 import { Menu } from "antd";
 
-import virtualKeyboard from '../staticdata/virtualKeyboard.json';
+import virtualKeyboard from "../staticdata/virtualKeyboard.json";
 
-import listdathuc from '../staticdata/polydata.json';
-import listfunc from '../staticdata/listmenu.json';
-import listPlot from '../staticdata/plotdata.json';
-import listExer from '../staticdata/exercisedata.json';
+import listdathuc from "../staticdata/polydata.json";
+import listfunc from "../staticdata/listmenu.json";
+import listPlot from "../staticdata/plotdata.json";
+import listExer from "../staticdata/exercisedata.json";
 
 import { Link } from "react-router-dom";
 
@@ -54,45 +54,37 @@ function SimpleDialog(props) {
       onCancel={handleClose}
     >
       {value.map((email) => (
-        <Button
-          type="text"
-          block
-          onClick={() => handleListItemClick(email.variable)}
-        >
-          <MathJax.Context>
-            <MathJax.Node>
-              {"\\text{" + email.detail + "}" + email.variable}
-            </MathJax.Node>
-          </MathJax.Context>
-        </Button>
+        <React.Fragment key={email.variable}>
+          <Button
+            type="text"
+            block
+            onClick={() => handleListItemClick(email.variable)}
+          >
+            <MathJax.Context>
+              <MathJax.Node>
+                {"\\text{" + email.detail + "}" + email.variable}
+              </MathJax.Node>
+            </MathJax.Context>
+          </Button>
+        </React.Fragment>
       ))}
     </Modal>
   );
 }
 
-
 function duyetObject(obj) {
   if (obj.a === undefined || obj.b === undefined) {
-
     if (obj.type === "variable") {
       return obj.name;
-    }
-    else if (obj.type === "negative") {
-
+    } else if (obj.type === "negative") {
       return duyetObject(obj.value);
-    }
-    else if (obj.type === "block") {
+    } else if (obj.type === "block") {
       return duyetObject(obj.child);
-    }
-    else if (obj.type === "function") {
+    } else if (obj.type === "function") {
       return duyetObject(obj.args[0]);
-    }
-    else return "";
-  }
-  else {
+    } else return "";
+  } else {
     return duyetObject(obj.a) + duyetObject(obj.b);
-
-
   }
 }
 
@@ -104,7 +96,6 @@ export default function Dathuc(data) {
   const [selectedValue, setSelectedValue] = React.useState(emails[1]);
   const [openResult, setOpenResult] = React.useState(false);
   const [selectedType, setSelectedType] = React.useState("default");
-
 
   useEffect(() => {
     const mf = document.getElementById("formula1");
@@ -119,10 +110,8 @@ export default function Dathuc(data) {
     }
   }, [data]);
 
-
-
   const handleClick = (e) => {
-    console.log(e)
+    // console.log(e)
     setSelectedType(e.key);
     setOpenResult(false);
   };
@@ -132,32 +121,38 @@ export default function Dathuc(data) {
     emails = [];
 
     //NOTE
-    var test = document.getElementById('formula1').getValue("latex");
-    // console.log(test)
-    if (test !== "") {
-      console.log(parse(test))
-      var test1 = duyetObject(parse(test));
+    test = document.getElementById("formula1").getValue("latex");
+    var he = "begin{cases}";
 
-      var test2 = test1.split("");
-      if (test2.length !== 0) {
-        const uniqueSet = new Set(test2);
-        const backToArray = [...uniqueSet];
-        backToArray.forEach(function (item, index, array) {
-          emails.push({
-            variable: item,
-            detail: "Giải theo biến "
+    if (test.includes(he) === true && test !== "") {
+      emails.push({
+        variable: "x,y",
+        detail: "Tính kết quả phép tính ",
+      });
+    } else {
+      if (test !== "") {
+        // console.log(parse(test))
+        var test1 = duyetObject(parse(test));
+
+        var test2 = test1.split("");
+        if (test2.length !== 0) {
+          const uniqueSet = new Set(test2);
+          const backToArray = [...uniqueSet];
+          backToArray.forEach(function (item, index, array) {
+            emails.push({
+              variable: item,
+              detail: "Giải theo biến ",
+            });
           });
-
-        });
+        } else {
+          emails.push({
+            variable: "",
+            detail: "Tính kết quả phép tính ",
+          });
+        }
       } else {
-        emails.push({
-          variable: "",
-          detail: "Tính kết quả phép tính "
-        })
+        emails.push("Không hợp lệ, vui lòng nhập lại");
       }
-    }
-    else {
-      emails.push("Không hợp lệ, vui lòng nhập lại");
     }
 
     setvalueDialog(emails);
@@ -174,7 +169,7 @@ export default function Dathuc(data) {
 
   const handleClose = (value) => {
     if (value == null) {
-      console.log("test");
+      // console.log("test");
       setOpen(false);
     } else {
       setOpen(false);
@@ -183,7 +178,6 @@ export default function Dathuc(data) {
       setOpenResult(true);
     }
   };
-
 
   return (
     <>
@@ -278,24 +272,37 @@ export default function Dathuc(data) {
                         {listdathuc[selectedType].list.map((item) => {
                           return (
                             <React.Fragment key={item.key}>
-                            <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={12} className="polynomial_poly_item">
-                              {/* {console.log(item)} */}
-                              <Button
-                                block
-                                className="polynomial_poly_button"
-                                onClick={() => clickExer(item.value, listdathuc[selectedType].variable)}
+                              <Col
+                                xs={24}
+                                sm={24}
+                                md={24}
+                                lg={12}
+                                xl={12}
+                                xxl={12}
+                                className="polynomial_poly_item"
                               >
-                                <MathJax.Context>
-                                  <MathJax.Node>{item.title}</MathJax.Node>
-                                </MathJax.Context>
-                              </Button>
-                            </Col>
+                                {/* {console.log(item)} */}
+                                <Button
+                                  block
+                                  className="polynomial_poly_button"
+                                  onClick={() =>
+                                    clickExer(
+                                      item.value,
+                                      listdathuc[selectedType].variable
+                                    )
+                                  }
+                                >
+                                  <MathJax.Context>
+                                    <MathJax.Node>{item.title}</MathJax.Node>
+                                  </MathJax.Context>
+                                </Button>
+                              </Col>
                             </React.Fragment>
                           );
                         })}
                       </Row>
                     </Col>
-                    <Col span={24} >
+                    <Col span={24}>
                       <Divider orientation="left" plain>
                         <Title level={3}>Vẽ đồ thị</Title>
                       </Divider>
@@ -303,14 +310,25 @@ export default function Dathuc(data) {
                         {listPlot.map((item) => {
                           return (
                             <React.Fragment key={item.key}>
-                              <Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={12} className="polynomial_plot_item">
+                              <Col
+                                xs={24}
+                                sm={24}
+                                md={24}
+                                lg={24}
+                                xl={24}
+                                xxl={12}
+                                className="polynomial_plot_item"
+                              >
                                 <Link
                                   to={{
                                     pathname: "/graph",
                                     state: { plot: item.value },
                                   }}
                                 >
-                                  <Button className="polynomial_plot_button" block>
+                                  <Button
+                                    className="polynomial_plot_button"
+                                    block
+                                  >
                                     <MathJax.Context>
                                       <MathJax.Node>{item.value}</MathJax.Node>
                                     </MathJax.Context>
@@ -340,16 +358,24 @@ export default function Dathuc(data) {
                             {listExer.map((item) => {
                               return (
                                 <React.Fragment key={item.key}>
-                                  <Col span={24} className="polynomial_poly_item">
+                                  <Col
+                                    span={24}
+                                    className="polynomial_poly_item"
+                                  >
                                     <Link
                                       to={{
                                         pathname: "/exercise",
                                         state: { polynomial: item.value },
                                       }}
                                     >
-                                      <Button className="polynomial_poly_button" block>
+                                      <Button
+                                        className="polynomial_poly_button"
+                                        block
+                                      >
                                         <MathJax.Context>
-                                          <MathJax.Node>{item.value}</MathJax.Node>
+                                          <MathJax.Node>
+                                            {item.value}
+                                          </MathJax.Node>
                                         </MathJax.Context>
                                       </Button>
                                     </Link>
@@ -368,7 +394,7 @@ export default function Dathuc(data) {
             {openResult && (
               <>
                 <Col span={16}>
-                  {console.log(input_latex)}
+                  {/* {console.log(input_latex)} */}
                   <Result tex={input_latex} var={selectedValue}></Result>
                 </Col>
                 <Col span={8}>
@@ -387,16 +413,24 @@ export default function Dathuc(data) {
                             {listExer.map((item) => {
                               return (
                                 <React.Fragment key={item.key}>
-                                  <Col span={24} className="polynomial_poly_item">
+                                  <Col
+                                    span={24}
+                                    className="polynomial_poly_item"
+                                  >
                                     <Link
                                       to={{
                                         pathname: "/exercise",
                                         state: { polynomial: item.value },
                                       }}
                                     >
-                                      <Button className="polynomial_poly_button" block>
+                                      <Button
+                                        className="polynomial_poly_button"
+                                        block
+                                      >
                                         <MathJax.Context>
-                                          <MathJax.Node>{item.value}</MathJax.Node>
+                                          <MathJax.Node>
+                                            {item.value}
+                                          </MathJax.Node>
                                         </MathJax.Context>
                                       </Button>
                                     </Link>

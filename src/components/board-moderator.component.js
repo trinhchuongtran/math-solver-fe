@@ -1,48 +1,48 @@
 import React, { Component, useState } from "react";
 import AuthService from "../services/auth.service";
-import { Switch, Route, Link, BrowserRouter as Router, } from "react-router-dom";
+// import { Switch, Route, Link, BrowserRouter as Router, } from "react-router-dom";
 import { List, Card } from "antd";
 import { Steps, Step } from "react-step-builder";
 import { Button } from "antd";
 import { Row, Col } from "antd";
 import { Checkbox, Divider } from "antd";
 import { Select } from "antd";
-import { Layout } from "antd";
-import { Menu } from "antd";
+// import { Layout } from "antd";
+// import { Menu } from "antd";
 import { Redirect } from "react-router-dom";
 import DefineInfo from "./define/defineInfo"
 import defineStepTwo from "./define/defineStepTwo";
 import DefineProplem from "./define/defineProplem";
 import { Modal } from 'antd';
 const { Option } = Select;
-const initialSchema1 = {
-  "nodes": [
-    {
-      "id": "node-1",
-      "content": "Bài toán gốc",
-      "cal": "",
-      "con": "",
-      "des": "",
-      "handle": "",
-      "coordinates": [
-        400,
-        200
-      ],
-      "outputs": [
-        {
-          "id": "node-1",
-          "alignment": "bottom"
-        }
-      ]
-    }
-  ]
-};
+// const initialSchema1 = {
+//   "nodes": [
+//     {
+//       "id": "node-1",
+//       "content": "Bài toán gốc",
+//       "cal": "",
+//       "con": "",
+//       "des": "",
+//       "handle": "",
+//       "coordinates": [
+//         400,
+//         200
+//       ],
+//       "outputs": [
+//         {
+//           "id": "node-1",
+//           "alignment": "bottom"
+//         }
+//       ]
+//     }
+//   ]
+// };
 
 
 
 function checkIvalid(test, array) {
   for (let value of array) {
-    if (test == value) {
+    if (test === value) {
       return true;
     }
   }
@@ -51,18 +51,18 @@ function checkIvalid(test, array) {
 function checkListObject(node, listobj) {
 
   for (let i = 0; i < listobj.length; i++) {
-    if (node == listobj[i].node) {
+    if (node === listobj[i].node) {
       return i;
     }
   }
   return false;
 }
 function checkDataObject(node, listobj) {
-  console.log(node);
-  console.log(listobj)
+  // console.log(node);
+  // console.log(listobj)
   for (let i = 0; i < listobj.length; i++) {
     console.log(listobj[i].id.id1)
-    if (node == listobj[i].id.id1) {
+    if (node === listobj[i].id.id1) {
       return i;
     }
   }
@@ -70,9 +70,9 @@ function checkDataObject(node, listobj) {
 }
 
 function formatJson(obj, listObjPara, dataObjPara) {
-  console.log(obj);
-  console.log(listObj);
-  console.log(dataObj);
+  // console.log(obj);
+  // console.log(listObj);
+  // console.log(dataObj);
   var objTemp = obj;
   var listObj = listObjPara;
   var dataObj = dataObjPara;
@@ -87,7 +87,7 @@ function formatJson(obj, listObjPara, dataObjPara) {
   for (let i = 0; i < obj.handle.length; i++) {
     var indexList = checkListObject(obj.handle[i], listObj);
     console.log(indexList)
-    if (indexList != false) {
+    if (indexList !== false) {
 
       objTemp.handle[i] = formatJson(listObj[indexList], listObj, dataObj)
     } else {
@@ -114,25 +114,25 @@ function formatJson(obj, listObjPara, dataObjPara) {
 function createData(obj1) {
   var obj = obj1;
   console.log(obj);
-  if (obj == undefined) {
+  if (obj === undefined) {
     return false;
   }
   var data = [
 
   ]
   var indexRoot = null;
-  let link = [];
+  // let link = [];
   var didCheck = []
-  console.log(obj.links);
-  if (obj.links == undefined) {
+  // console.log(obj.links);
+  if (obj.links === undefined) {
     return false;
   }
   for (let i = 0; i < obj.links.length; i++) {
 
     var temp1 = obj.links[i];
 
-    if (checkIvalid(temp1.output, didCheck) == false) {
-      if (temp1.output == "node-1") {
+    if (checkIvalid(temp1.output, didCheck) === false) {
+      if (temp1.output === "node-1") {
         indexRoot = i;
       }
       var tempData = {
@@ -144,7 +144,7 @@ function createData(obj1) {
       didCheck.push(temp1.output)
       for (let j = i + 1; j < obj.links.length; j++) {
         var temp2 = obj.links[j];
-        if (temp2.output == temp1.output) {
+        if (temp2.output === temp1.output) {
           tempData.handle.push(temp2.input)
         }
       }
@@ -154,13 +154,13 @@ function createData(obj1) {
 
 
   var tree = formatJson(data[indexRoot], data, obj.nodes)
-  console.log(tree);
+  // console.log(tree);
   return tree;
 }
 
 
 const Navigation = (props) => {
-  console.log(props);
+  // console.log(props);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalVisible1, setIsModalVisible1] = useState(false);
   const showModal = () => {
@@ -169,20 +169,22 @@ const Navigation = (props) => {
 
   const handleOk1 = (event) => {
 
-    console.log(props)
+    // console.log(props)
     var ListCondition = createData(props.state.schema);
 
     var check = false;
     var detail = 0;
     if (
-      props.state.Info == undefined ||
-      props.state.topic == undefined ||
-      props.state.Variable == undefined ||
-      ListCondition == false ||
-      props.state.schema == undefined
+      props.state.Info === undefined ||
+      props.state.topic === undefined ||
+      props.state.Variable === undefined ||
+      ListCondition === false ||
+      props.state.schema === undefined
     ) {
+      
       check = false;
       detail = 1;
+      console.log(check, detail)
     } else {
       var dataSend = {
         "name": props.state.Info.name,
@@ -214,14 +216,14 @@ const Navigation = (props) => {
       fetch("http://api.bkmathapp.tk/api/defineproblem", requestOptions)
         .then((response) => {
           response.json().then((db) => {
-            if (db.check == true) {
+            if (db.check === true) {
               setIsModalVisible(false);
               setIsModalVisible1(true);
             }
           })
         })
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
+        // .then(result => console.log(result))
+        // .catch(error => console.log('error', error));
     }
 
 
@@ -237,7 +239,7 @@ const Navigation = (props) => {
   };
 
   var x = props.current;
-  if (x != 3) {
+  if (x !== 3) {
     return (
       <div>
         <Row align="center" style={{ paddingBottom: "100px" }}>
@@ -389,13 +391,13 @@ class ContentProblem extends React.Component {
     fetch("http://api.bkmathapp.tk/api/defineproblem", requestOptions)
       .then((response) => {
         response.json().then((db) => {
-          if (db.check == true) {
+          if (db.check === true) {
             window.location.reload();
           }
         })
       })
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
+      // .then(result => console.log(result))
+      // .catch(error => console.log('error', error));
 
 
 
@@ -606,6 +608,7 @@ export default class BoardModerator extends Component {
     };
   }
 
+
   componentDidMount() {
     const user = AuthService.getCurrentUser();
     if (!user) this.setState({ redirect: "/login" });
@@ -624,4 +627,5 @@ export default class BoardModerator extends Component {
       </div>
     );
   }
-}
+};
+
