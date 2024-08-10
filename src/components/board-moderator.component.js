@@ -40,6 +40,9 @@ const { Option } = Select;
 
 
 
+const apiURL = process.env.REACT_APP_API_URL;
+
+
 function checkIvalid(test, array) {
   for (let value of array) {
     if (test === value) {
@@ -213,7 +216,7 @@ const Navigation = (props) => {
         redirect: 'follow'
       };
 
-      fetch("http://api.bkmathapp.tk/api/defineproblem", requestOptions)
+      fetch(`${apiURL}/api/defineproblem`, requestOptions)
         .then((response) => {
           response.json().then((db) => {
             if (db.check === true) {
@@ -324,7 +327,7 @@ class ContentProblem extends React.Component {
       listSubject: [],
       selectedSubject: []
     };
-    fetch("http://api.bkmathapp.tk/api/listproblem", {
+    fetch(`${apiURL}/api/listproblem`, {
       method: "GET",
     }).then((res) => {
       res.json().then((db) => {
@@ -388,7 +391,7 @@ class ContentProblem extends React.Component {
       redirect: 'follow'
     };
 
-    fetch("http://api.bkmathapp.tk/api/defineproblem", requestOptions)
+    fetch(`${apiURL}/api/defineproblem`, requestOptions)
       .then((response) => {
         response.json().then((db) => {
           if (db.check === true) {

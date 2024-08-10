@@ -10,6 +10,10 @@ import { Input } from "antd";
 
 import { Typography } from "antd";
 
+
+
+const apiURL = process.env.REACT_APP_API_URL;
+
 const { Title } = Typography;
 
 const layout = {
@@ -123,7 +127,7 @@ function Solution(props) {
 
 //   componentDidMount(){
 //     var inputJson = "";
-//     fetch("http://api.bkmathapp.tk/api/problem_detail", {
+//     fetch(`${apiURL}/api/problem_detail", {
 
 //           method: "POST",
 //           headers: {
@@ -193,7 +197,7 @@ class Threads extends React.Component {
 
   componentDidMount(){
     var inputJson = "";
-    // fetch("http://api.bkmathapp.tk/api/problem_detail", {
+    // fetch(`${apiURL}/api/problem_detail", {
     //   method: "POST",
     //   headers: {
     //     "Content-Type": "application/json",
@@ -288,7 +292,7 @@ class Threads extends React.Component {
     // console.log("Success:", this.state.idProblem);
     // this.setState({ value: values });
     this.setState({ isSubmit: true, isOpenSolution: false });
-    fetch("http://api.bkmathapp.tk/api/problem", {
+    fetch(`${apiURL}/api/problem`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -311,7 +315,7 @@ class Threads extends React.Component {
 
   handleSubmit(event) {
     this.setState({ isSubmit: true, isOpenSolution: false });
-    fetch("http://api.bkmathapp.tk/api/problem", {
+    fetch(`${apiURL}/api/problem`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

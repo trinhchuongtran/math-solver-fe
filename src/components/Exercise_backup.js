@@ -9,6 +9,8 @@ import { Switch, Route, Link } from "react-router-dom";
 
 import "../css/style.css";
 
+const apiURL = process.env.REACT_APP_API_URL;
+
 const { SubMenu } = Menu;
 
 function Exercise(data2) {
@@ -210,7 +212,7 @@ function Exercise(data2) {
 
   function checkfunc(lst) {
     console.log(lst);
-    fetch("http://api.bkmathapp.tk/api/checkresult_exercises", {
+    fetch(`${apiURL}/api/checkresult_exercises`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -413,7 +415,7 @@ export default class ExerciseComponent extends Component {
     if (props.location.state != undefined) {
       datarequest = props.location.state.state;
     }
-    fetch("http://api.bkmathapp.tk/api/exercies", {
+    fetch(`${apiURL}/api/exercies`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

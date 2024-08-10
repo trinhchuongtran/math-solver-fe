@@ -9,6 +9,9 @@ import { Select } from "antd";
 import "antd/dist/antd.css";
 import "../css/style.css";
 
+
+const apiURL = process.env.REACT_APP_API_URL;
+
 const { Option } = Select;
 
 class ContentProblem extends React.Component {
@@ -34,7 +37,7 @@ class ContentProblem extends React.Component {
         listSubject: [],
         selectedSubject: []
       };
-      fetch("http://api.bkmathapp.tk/api/listproblem", {
+      fetch(`${apiURL}/api/listproblem`, {
         method: "GET",
       }).then((res) => {
         res.json().then((db) => {

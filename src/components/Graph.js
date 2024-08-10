@@ -12,6 +12,8 @@ import { Card } from "antd";
 import "../css/style.css";
 import listfunc from "../staticdata/listmenu.json";
 
+const apiURL = process.env.REACT_APP_API_URL;
+
 const { SubMenu } = Menu;
 
 // export default class General2 extends Component {
@@ -44,7 +46,7 @@ export default function Graph(data) {
       body: raw,
       redirect: "follow",
     };
-    fetch(`http://api.bkmathapp.tk/api/plot_vnkey`, requestOptions)
+    fetch(`${apiURL}/api/plot_vnkey`, requestOptions)
       .then((res) => {
         res.json().then((db) => {
           if (db.detail) {
@@ -79,7 +81,7 @@ export default function Graph(data) {
       body: raw,
       redirect: "follow",
     };
-    fetch(`http://api.bkmathapp.tk/api/plot_vnkey`, requestOptions)
+    fetch(`${apiURL}/api/plot_vnkey`, requestOptions)
       .then((res) => {
         res.json().then((db) => {
           if (db.detail) {

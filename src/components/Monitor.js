@@ -9,6 +9,8 @@ import {
 } from "@ant-design/icons";
 import { Input, Select } from "antd";
 
+const apiURL = process.env.REACT_APP_API_URL;
+
 const { Option } = Select;
 
 const { Column, ColumnGroup } = Table;
@@ -27,7 +29,7 @@ function MonitorComponent(props) {
     const requestOptions = {
       method: "GET",
     };
-    fetch("http://api.bkmathapp.tk/api/users", requestOptions)
+    fetch(`${apiURL}/api/users`, requestOptions)
       .then((res) => {
         res.json().then((db) => {
           setLoading(false);
@@ -66,7 +68,7 @@ function MonitorComponent(props) {
       method: "GET",
     };
     setLoading(true);
-    fetch(`http://api.bkmathapp.tk/api/users`, {
+    fetch(`${apiURL}/api/users`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -79,7 +81,7 @@ function MonitorComponent(props) {
         res.json().then((data) => {
           console.log(data);
         });
-        fetch("http://api.bkmathapp.tk/api/users", requestOptions)
+        fetch(`${apiURL}/api/users`, requestOptions)
           .then((res) => {
             res.json().then((db) => {
               setLoading(false);
@@ -123,7 +125,7 @@ function MonitorComponent(props) {
       method: "GET",
     };
     setLoading(true);
-    fetch(`http://api.bkmathapp.tk/api/users`, {
+    fetch(`${apiURL}/api/users`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -133,7 +135,7 @@ function MonitorComponent(props) {
       }),
     })
       .then((res) => {
-        fetch("http://api.bkmathapp.tk/api/users", requestOptions)
+        fetch(`${apiURL}/api/users`, requestOptions)
           .then((res) => {
             res.json().then((db) => {
               setLoading(false);

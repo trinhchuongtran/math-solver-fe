@@ -6,6 +6,9 @@ import { Row, Col, Card } from "antd";
 
 import "../css/style.css";
 
+
+const apiURL = process.env.REACT_APP_API_URL;
+
 function Plot(props) {
   console.log("test");
   var [data, setData] = useState(props.tex);
@@ -39,9 +42,9 @@ function Plot(props) {
       redirect: "follow",
     };
     // console.log(requestOptions);
-    // fetch("http://api.bkmathapp.tk/api/plot_api", requestOptions)
+    // fetch(`${apiURL}/api/plot_api", requestOptions)
     // setSurvey(true)
-    fetch(`http://api.bkmathapp.tk/api/plot_vnkey`, requestOptions)
+    fetch(`${apiURL}/api/plot_vnkey`, requestOptions)
       .then((res) => {
         res.json().then((db) => {
           // setSurvey(false);

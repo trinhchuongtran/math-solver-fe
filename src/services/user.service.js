@@ -1,7 +1,9 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 
-const API_URL = 'http://api.bkmathapp.tk/api/test/';
+const apiURL = process.env.REACT_APP_API_URL;
+
+const API_URL = apiURL + '/api/test/';
 
 class UserService {
   // getPublicContent() {

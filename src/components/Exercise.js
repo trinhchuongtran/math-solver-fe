@@ -12,6 +12,8 @@ import listPlot from "../staticdata/plotdata.json";
 
 import "../css/style.css";
 
+const apiURL = process.env.REACT_APP_API_URL;
+
 const { SubMenu } = Menu;
 
 export default function Exercise(data2 = undefined) {
@@ -38,7 +40,7 @@ export default function Exercise(data2 = undefined) {
       }
     }
     // setDataRequest(data2.data)
-    fetch("http://api.bkmathapp.tk/api/exercises", {
+    fetch(`${apiURL}/api/exercises`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -63,7 +65,7 @@ export default function Exercise(data2 = undefined) {
   }, [data2]);
 
   function getdata(input, variable) {
-    fetch("http://api.bkmathapp.tk/api/exercises", {
+    fetch(`${apiURL}/api/exercises`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -159,7 +161,7 @@ export default function Exercise(data2 = undefined) {
   }
 
   function checkfunc(lst) {
-    fetch("http://api.bkmathapp.tk/api/checkresult_exercises", {
+    fetch(`${apiURL}/api/checkresult_exercises`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

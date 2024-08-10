@@ -1,11 +1,13 @@
 import axios from "axios";
 
-// const API_URL = "http://api.bkmathapp.tk/auth/";
+// const API_URL = `${apiURL}/auth/";
+
+const apiURL = process.env.REACT_APP_API_URL;
 
 class AuthService {
   login(email, password) {
     return axios
-      .post(`http://api.bkmathapp.tk/api/login/`, {
+      .post(`${apiURL}/api/login/`, {
         email,
         password
       })
@@ -49,7 +51,7 @@ class AuthService {
     }
 
     // console.log(requestOptions)
-    fetch("http://api.bkmathapp.tk/auth/users/", requestOptions).then(response => {
+    fetch(`${apiURL}/auth/users/`, requestOptions).then(response => {
       // console.log(response)
 
       return response
