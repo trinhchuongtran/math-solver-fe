@@ -1,0 +1,18 @@
+.ant-list-item:hover {
+  box-shadow: 0 0 4px #147f8f;
+}
+.ant-list-item {
+    padding: 15px 15px 15px 15px !important;
+}
+.ant-modal-mask {
+  display: none;
+}
+
+.fa-arrow-circle-right{
+  font-size: 25px;
+  color: #147f8f
+}
+.fa-sign-in-alt{
+ font-size: 25px;
+  color: #147f8f
+}

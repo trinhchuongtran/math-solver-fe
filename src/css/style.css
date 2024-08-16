@@ -1,0 +1,153 @@
+.exercise_equation {
+  padding-left: 12px;
+}
+
+.exercise_intro {
+  padding-left: 8px;
+}
+
+.exercise_equation > span {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.exercise_intro > span {
+  font-size: 18px;
+  font-weight: 1200;
+}
+
+.exercise_span > span {
+  font-size: 16px;
+  padding: 12px 0;
+  font-weight: 600;
+}
+
+.exercise_span {
+  display: flex;
+  align-items: center;
+}
+
+.exercise_item {
+  border: 2px solid #f2f7f7;
+  border-radius: 16px;
+  padding: 8px;
+  margin: 8px;
+}
+
+.ant-btn-primary {
+  background: #147f8f;
+  border-color: #147f8f;
+}
+
+.ant-menu-submenu {
+  font-size: 16px;
+  /* font-family: "font-family: 'Times New Roman',Times,STIXGeneral,serif;"; */
+  font-weight: 400;
+}
+
+.ant-btn-primary {
+  background: #147f8f;
+  border-color: #147f8f;
+}
+
+.solve_plot > span {
+  font-size: 16px;
+  /* padding: 12px 0; */
+  font-weight: 300;
+}
+
+.polynomial_poly_button {
+  text-align: left;
+  border-radius: 8px;
+  height: 70px;
+}
+
+.polynomial_poly_button > span {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.polynomial_poly_item {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.menu {
+  border-radius: 8px;
+}
+
+.polynomial_plot_item {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  height: 50px;
+}
+
+.polynomial_plot_button {
+  text-align: left;
+  border-radius: 8px;
+}
+
+.polynomial_plot_button > span {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.polynomial_exer_card{
+  border-radius: 8px;
+  /* margin-top: 8px; */
+}
+
+.polynomial_plot_card{
+  border-radius: 8px;
+}
+
+.poly_result_card{
+  min-height: 60vh;
+}
+
+.poly_result_card > .ant-card-body > div > span > .MJXc-display{
+  /* padding-top: 0px; */
+  margin: 0;
+}
+
+.problem_inputvalue{
+  display: flex;
+}
+
+.problem_menu{
+  margin-bottom: 8px;
+}
+
+.problem_card{
+  border-radius: 8px;
+  /* margin-top: 8px; */
+}
+
+.graph_plot_card{
+  height: 100%;
+   min-width: 100%;
+   border-radius: 8px; 
+   /* margin-top: 8px; */
+}
+
+.graph_plot_card > .ant-card-body > span > .MJXc-display{
+  margin: 0;
+}
+
+.graph_img_card{
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+.problen_listitem:hover{
+  box-shadow: unset
+}
+
+.problem_list_card{
+  border-radius: 8px;
+}
+
+.ant-layout .body{
+  min-height: 100vh;
+}

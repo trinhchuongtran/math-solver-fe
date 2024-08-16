@@ -1,26 +1,18 @@
 // import React from "react"
-import React from "react";
+import React  from "react";
 import MathJax from "react-mathjax2";
-// import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-// import Typography from "@material-ui/core/Typography";
-import HighlightOffIcon from "@material-ui/icons/HighlightOff";
-// import Input from "@material-ui/core/Input";
-import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core";
+import { LeftOutlined } from "@ant-design/icons";
 
-import Backdrop from "@material-ui/core/Backdrop";
-import CircularProgress from "@material-ui/core/CircularProgress";
-
-import { List, Card, Form } from "antd";
+import { Card, Form } from "antd";
 import { Button } from "antd";
 import { Row, Col } from "antd";
-import { Checkbox, Divider } from "antd";
-import { Select } from "antd";
 import { Input } from "antd";
 
 import { Typography } from "antd";
+
+
+
+const apiURL = process.env.REACT_APP_API_URL;
 
 const { Title } = Typography;
 
@@ -32,27 +24,35 @@ const layout = {
     span: 16,
   },
 };
-const tailLayout = {
-  wrapperCol: {
-    offset: 8,
-    span: 16,
-  },
-};
 
-const Popup = (props) => {
+const PopupProblem = (props) => {
+
+  // const [idProblem, setIdProblem] = React.useState(props.idProblem )
+
+  // React.useEffect(() => {
+  //   setIdProblem(props.idProblem)
+  //   console.log(props.idProblem)
+  //   console.log(idProblem)
+  // }, [])
+
   return (
-    <div className="popup-box">
-      <IconButton aria-label="delete" onClick={props.handleClose}>
-        <HighlightOffIcon />
-      </IconButton>
-      <FlavorForm idProblem={props.idProblem} />
-    </div>
+    <Card className="problem_card">
+      <Button
+        type="primary"
+        icon={<LeftOutlined />}
+        onClick={props.handleClose}
+        style={{ marginBottom: "8px" }}
+      >
+        Trở lại
+      </Button>
+      <Threads problemData={props.problemData} />
+    </Card>
   );
 };
 
 function getcontent(data) {
   let valuesArray = Object.values(data);
-  let i = 1;
+  // let i = 1;
   var result_api = "";
   for (let value of valuesArray) {
     if (typeof value == "number") {
@@ -61,119 +61,197 @@ function getcontent(data) {
     if (typeof value == "object") {
       result_api = result_api + getcontent(value) + "\\\\";
     } else {
-      result_api = result_api + value + "\\" + "\\";
-      i++;
+      result_api = result_api + value + "\\\\";
+      // i++;
     }
   }
   return result_api;
 }
 
-function arrayRemove(arr, value) {
-  return arr.filter(function(ele) {
-    return ele != value;
-  });
-}
-
-const styleSubmit = {
-  marginLeft: "10px",
-  height: "40px",
-  borderRadius: "10px",
-};
+// function arrayRemove(arr, value) {
+//   return arr.filter(function (ele) {
+//     return ele !== value;
+//   });
+// }
 
 function Solution(props) {
-  const { result } = props;
+  const { result, isloading } = props;
   return (
-    // <div className={classes.solutionContent}>
-    <Card title={"Bài Giải"}>
-      {/* <Divider orientation="left">Bài Giải</Divider> */}
+    <Card title={"Bài Giải"} loading={!isloading} style={{ marginTop: "8px" }}>
       <Col>
-      <Title level={5}>
-        <MathJax.Context
-          input="tex"
-          options={{
-            displayAlign: "left",
-            mathmlSpacing: false,
-            displayIndent: "0",
-            paddingLeft: true,
-            skipHtmlTags: ["+"],
-            inlineMath: [
-              ["$", "$"],
-              ["\\(", "\\)"],
-            ],
-            processEscapes: true,
-            tex: {
-              packages: { "[+]": ["color"] },
-            },
-          }}
-        >
-          <div>
-            <MathJax.Node>{result}</MathJax.Node>
-          </div>
-        </MathJax.Context>
+        <Title level={5}>
+          <MathJax.Context
+            input="tex"
+            options={{
+              displayAlign: "left",
+              mathmlSpacing: false,
+              displayIndent: "0",
+              paddingLeft: true,
+              skipHtmlTags: ["+"],
+              inlineMath: [
+                ["$", "$"],
+                ["\\(", "\\)"],
+              ],
+              processEscapes: true,
+              tex: {
+                packages: { "[+]": ["color"] },
+              },
+            }}
+          >
+            <div>
+              <MathJax.Node>{result}</MathJax.Node>
+            </div>
+          </MathJax.Context>
         </Title>
       </Col>
     </Card>
   );
 }
 
-class FlavorForm extends React.Component {
+// class Threads extends React.Component {
+//   constructor(props) {
+//         super(props);
+        
+//         this.state = {idProblem: this.props.idProblem,
+//           value: {},
+//           defaultTopic: "",
+//           topic: "",
+//           variable: [],
+//           result: "",
+//           isOpenSolution: false,
+//           isRender: false,
+//           isSubmit: false,
+//           name: "",
+//         };
+//       }
+
+//   componentDidMount(){
+//     var inputJson = "";
+//     fetch(`${apiURL}/api/problem_detail", {
+
+//           method: "POST",
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//           body: JSON.stringify({
+//             //   id: 0
+//             id: this.state.idProblem,
+//           }),
+//         }).then((res) => {
+//           res.json().then((db) => {
+//             // console.log(db);
+//             inputJson = db.data.baitoan.description;
+//             this.setState({
+//               defaultTopic: inputJson,
+//               topic: inputJson,
+//               variable: db.data.Variable,
+//               name: db.name,
+//             });
+//             var findVar = this.state.value;
+//             var listvar = [];
+//             for (var i = 0; i < this.state.variable.length; i++) {
+//               listvar.push(this.state.variable[i].name);
+//             }
+//             var valueVar = arrayRemove(listvar, findVar);
+//             var topic = this.state.defaultTopic;
+    
+//             if (topic.search("{" + findVar + "}") != -1) {
+//               topic = topic.replace("{" + findVar + "}", findVar);
+//               this.setState({ topic: topic });
+//             }
+//             this.setState({ isRender: true });
+//           });
+//         });
+        
+    
+//         // this.setState({ topic: this.state.defaultTopic });
+//   }
+
+//   render() {
+//     return (
+//       "sdbkfkjsdfkjsd"
+//     )
+//   }
+// }
+
+class Threads extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    // this.setState({idProblem: props.idProblem})
+    // console.log(this.props.problemData.id)
+    this.state = {
+      idProblem: this.props.problemData.id,
+      problemData: this.props.problemData.data,
+      value: {},
+      defaultTopic: "",
+      topic: "",
+      variable: [],
+      result: "",
+      isOpenSolution: false,
+      isRender: false,
+      isSubmit: false,
+      name: this.props.problemData.name
+    };
+  }
+
+  componentDidMount(){
     var inputJson = "";
-    //   if (this.props.idProblem){
-    // console.log(this.props.idProblem);
-    fetch("http://api.bkmathapp.tk/api/problem_detail", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        //   id: 0
-        id: this.props.idProblem,
-      }),
-    }).then((res) => {
-      res.json().then((db) => {
-        // console.log(db);
-        inputJson = db.data.baitoan.description;
+    // fetch(`${apiURL}/api/problem_detail", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     //   id: 0
+    //     id: this.state.idProblem,
+    //   }),
+    // }).then((res) => {
+    //   res.json().then((db) => {
+    //     // console.log(db);
+    //     inputJson = db.data.baitoan.description;
+    //     this.setState({
+    //       defaultTopic: inputJson,
+    //       topic: inputJson,
+    //       variable: db.data.Variable,
+    //       name: db.name,
+    //     });
+    //     var findVar = this.state.value;
+    //     var listvar = [];
+    //     for (var i = 0; i < this.state.variable.length; i++) {
+    //       listvar.push(this.state.variable[i].name);
+    //     }
+    //     // var valueVar = arrayRemove(listvar, findVar);
+    //     var topic = this.state.defaultTopic;
+
+    //     if (topic.search("{" + findVar + "}") !== -1) {
+    //       topic = topic.replace("{" + findVar + "}", findVar);
+    //       this.setState({ topic: topic });
+    //     }
+    //     this.setState({ isRender: true });
+    //   });
+    // });
+    console.log(this.state.problemData)
+        inputJson = this.state.problemData.baitoan.description;
         this.setState({
           defaultTopic: inputJson,
           topic: inputJson,
-          variable: db.data.Variable,
-          name: db.name
+          variable: this.state.problemData.Variable,
+          name: this.state.name,
         });
         var findVar = this.state.value;
         var listvar = [];
         for (var i = 0; i < this.state.variable.length; i++) {
           listvar.push(this.state.variable[i].name);
         }
-        var valueVar = arrayRemove(listvar, findVar);
+        // var valueVar = arrayRemove(listvar, findVar);
         var topic = this.state.defaultTopic;
 
-        if (topic.search("{" + findVar + "}") != -1) {
+        if (topic.search("{" + findVar + "}") !== -1) {
           topic = topic.replace("{" + findVar + "}", findVar);
           this.setState({ topic: topic });
         }
         this.setState({ isRender: true });
-        // console.log(this.state.topic)
-      });
-    });
-    // }
-    this.state = {
-      value: {},
-      defaultTopic: inputJson,
-      topic: inputJson,
-      variable: [],
-      result: "",
-      isOpenSolution: false,
-      isRender: false,
-      isSubmit: false,
-      name: "",
-    };
-
-    this.setState({ topic: this.state.defaultTopic });
   }
 
   // handleChange(event) {
@@ -211,16 +289,16 @@ class FlavorForm extends React.Component {
   }
 
   onFinish = (values) => {
-    console.log("Success:", values);
+    // console.log("Success:", this.state.idProblem);
     // this.setState({ value: values });
     this.setState({ isSubmit: true, isOpenSolution: false });
-    fetch("http://api.bkmathapp.tk/api/problem", {
+    fetch(`${apiURL}/api/problem`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id: this.props.idProblem,
+        id: this.state.idProblem,
         parameter: values,
       }),
     }).then((res) => {
@@ -237,7 +315,7 @@ class FlavorForm extends React.Component {
 
   handleSubmit(event) {
     this.setState({ isSubmit: true, isOpenSolution: false });
-    fetch("http://api.bkmathapp.tk/api/problem", {
+    fetch(`${apiURL}/api/problem`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -258,67 +336,61 @@ class FlavorForm extends React.Component {
   render() {
     return (
       <Row style={{ display: "block" }}>
-        <Button type="primary" loading={!this.state.isOpenSolution}>
-          Click me!
-        </Button>
-        {/* <Backdrop className={classes.backdrop} open={!this.state.isRender}>
-          <CircularProgress color="inherit" />
-        </Backdrop> */}
-        {this.state.isRender && (
-          <Row>
-            <Col span={24}>
-              <Form
-                {...layout}
-                onFinish={this.onFinish}
-                onFinishFailed={this.onFinishFailed}
-              >
-                {/* <Button type="primary" loading={true} onClick={() => this.enterLoading(0)}>
-          Click me!
-        </Button> */}
-
-                <Card
-                  title={"Bài toán: " + this.state.name}
-                  extra={
-                    <Button
-                      type="primary"
-                      style={{ color: "white", background: "blue" }}
-                      htmlType="submit"
-                    >
-                      Giải
-                    </Button>
-                  }
+        <Col span={24}>
+          <Form
+            {...layout}
+            onFinish={this.onFinish}
+            onFinishFailed={this.onFinishFailed}
+          >
+            <Card
+              title={"Bài toán: " + this.state.name}
+              extra={
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={this.state.isSubmit && !this.state.isOpenSolution}
                 >
-                  <Title level={5}>{"Đề bài: " + this.state.topic}</Title>
-                  <Title level={5}>Nhập các giá trị:</Title>
-                  {this.state.variable.map((element, i) => {
-                    return (
-                      <Row>
-                        <Title level={5} style={{ paddingRight: "6px" }}>
-                          {element.name + " ="}
-                        </Title>
-                        <Form.Item
-                          name={element.name}
-                          style={{ marginBottom: "12px" }}
-                        >
-                          <Input style={{ width: "128px" }} />
-                        </Form.Item>
-                      </Row>
-                    );
-                  })}
-                </Card>
-              </Form>
-            </Col>
-          </Row>
-        )}
-        {/* {(!this.state.isOpenSolution && this.state.isSubmit) &&
-          <CircularProgress color="inherit"/>
-          } */}
-        {this.state.isOpenSolution && (
-          <Solution result={this.state.result}></Solution>
+                  Giải
+                </Button>
+              }
+              loading={!this.state.isRender}
+            >
+              <Title level={5}>{"Đề bài: " + this.state.topic}</Title>
+              <Title level={5}>Nhập các giá trị:</Title>
+              <Row>
+                {this.state.variable.map((element) => {
+                  return (
+                    <React.Fragment key={element.name}>
+                    <Col span={24} className="problem_inputvalue">
+                      <Title level={5} style={{ paddingRight: "6px" }}>
+                        {element.title + " " + element.name + " ="}
+                      </Title>
+                      <Form.Item
+                        name={element.name}
+                        style={{ marginBottom: "12px" }}
+                      >
+                        <Input style={{ width: "128px" }} />
+                      </Form.Item>
+                      <Title level={5} style={{ paddingLeft: "6px" }}>
+                        {element.unit}
+                      </Title>
+                    </Col>
+                    </React.Fragment>
+                  );
+                })}
+              </Row>
+            </Card>
+          </Form>
+        </Col>
+        {this.state.isSubmit && (
+          <Solution
+            result={this.state.result}
+            isloading={this.state.isOpenSolution}
+          ></Solution>
         )}
       </Row>
     );
   }
 }
 
-export default Popup;
+export default PopupProblem;

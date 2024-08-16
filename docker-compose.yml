@@ -1,0 +1,20 @@
+services:
+  nginx:
+    build:
+      dockerfile: ./docker/nginx/Dockerfile
+      context: .
+    container_name: liquefaction_nginx
+    links:
+      - web
+    ports:
+      - "9999:80"
+  web:
+    build: 
+      context: .
+      dockerfile: docker/app/Dockerfile
+    volumes:
+      - ./:/code
+      - /code/node_modules
+  
+volumes:
+  node_modules:

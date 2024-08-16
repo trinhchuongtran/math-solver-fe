@@ -4,29 +4,42 @@ import "./App.css";
 
 import AuthService from "./services/auth.service";
 
-import Login from "./components/login.component";
-import Home from "./components/home.component";
+import Login from "./components/Login";
+import Logup from "./components/Logup";
+import Home from "./components/Home";
 import Profile from "./components/profile.component";
-import BoardUser from "./components/board-user.component";
+// import BoardUser from "./components/board-user.component";
 import BoardModerator from "./components/board-moderator.component";
-import BoardAdmin from "./components/board-admin.component";
-import General1 from "./components/general-1.component"
-import General2 from "./components/general-2.component";
-import General3 from "./components/general-3.component";
-import MathSolver from "./components/breadcrumb.component";
+// import BoardAdmin from "./components/board-admin.component";
+// import General1 from "./components/general-1.component";
+import ExerciseComponent from "./components/Exercise";
+import Polynomial from "./components/Polynomial";
+import Problem from "./components/Problem";
+// import MathSolver from "./components/breadcrumb.component";
+import Graph from "./components/Graph";
+import MonitorComponent from "./components/Monitor";
+import FooterContent from "./footer/footer"
+
+
 import { withRouter } from "react-router";
 
-import { Layout, Menu, Breadcrumb, Row, Col } from 'antd';
+import { Layout, Menu, Drawer, Button } from "antd";
 
-import { HomeOutlined, FunctionOutlined, EditOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
+import {
+  // HomeOutlined,
+  // FunctionOutlined,
+  // EditOutlined,
+  // MenuUnfoldOutlined,
+  // MenuFoldOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 
-const { Content, Sider, Header, Footer } = Layout;
+const { Content } = Layout;
 const { SubMenu } = Menu;
 
 const keyMap = {
-  "/login": "login",
   "/": "home",
-  "/profile": "profile",
+  // "/profile": "profile",
   "/polynomial": "polynomial",
   "/graph": "graph",
   "/problem": "problem",
@@ -39,118 +52,197 @@ class App extends Component {
     this.logOut = this.logOut.bind(this);
 
     this.state = {
-      collapsed: false,
       showModeratorBoard: false,
       showAdminBoard: false,
       currentUser: undefined,
       current: undefined,
-
+      loginVisible: false,
+      profileVisible: false,
+      logupVisible: false
     };
   }
 
-  toggle = () => {
+  showLogin = () => {
     this.setState({
-      collapsed: !this.state.collapsed,
+      loginVisible: true,
+    });
+  }; 
+
+  showLogup = () => {
+    this.setState({
+      logupVisible: true,
+    });
+  }; 
+
+  showProfile = () => {
+    this.setState({
+      profileVisible: true,
+    })
+  }
+  
+  onclose = () => {
+    this.setState({
+      loginVisible: false,
+      logupVisible: false,
+      profileVisible: false
     });
   };
 
   handleClick = e => {
-    console.log('click ', e);
+    // console.log('click ', e);
     this.setState({ current: e.key });
   };
 
   componentDidMount() {
     const user = AuthService.getCurrentUser();
-    
+
     if (user) {
       this.setState({
         currentUser: user,
-        showModeratorBoard: user.role.includes("moderator") || user.role.includes("admin"),
+        showModeratorBoard:
+          user.role.includes("moderator") || user.role.includes("admin"),
         showAdminBoard: user.role.includes("admin"),
       });
     }
   }
 
   logOut() {
-    AuthService.logout().then(this.setState({current: "home"}));
+    AuthService.logout().then(this.setState({ current: "home" }));
   }
 
 
 
   render() {
-    const { currentUser, showModeratorBoard, showAdminBoard, current } = this.state;
+    const { currentUser, showModeratorBoard, showAdminBoard } =
+      this.state;
     const { pathname } = this.props.location;
     return (
-
-        <Layout className="layout">
-          <Menu onClick={this.handleClick} selectedKeys={keyMap[pathname]} mode="horizontal"  style={{padding: "0 150px"}}>
-            <Menu.Item key="home">
-              <Link to={"/"}>
-                MathSolver 
-              </Link>
-            </Menu.Item>
-            {/* <Menu.Item>
+      <>
+      <Layout className="layout">
+        <Menu
+          onClick={this.handleClick}
+          selectedKeys={keyMap[pathname]}
+          mode="horizontal"
+          triggerSubMenuAction="click"
+          style={{ padding: "0 150px" }}
+        >
+          <Menu.Item key="home">
+            <Link to={"/"}>MathSolver</Link>
+          </Menu.Item>
+          {/* <Menu.Item>
               <Link to={"/solve"}>
                 Giải cơ bản
               </Link>
             </Menu.Item> */}
-            <SubMenu key="solve" title="Giải cơ bản">
-              <Menu.Item key="polynomial">
-                <Link to={"/polynomial"}>
-                  Đa thức
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="graph">
-                <Link to={"/graph"}>
-                  Đồ thị
-                </Link>
-              </Menu.Item>
-            </SubMenu>
-            <Menu.Item key="problem">
-              <Link to={"/problem"}>
-                Giải tổng hợp
-              </Link>
+          <SubMenu key="solve" title="Giải cơ bản">
+            <Menu.Item key="polynomial">
+              <Link to={"/polynomial"}>Đa thức</Link>
             </Menu.Item>
-            {showModeratorBoard && (
-              <Menu.Item key="define">
-                <Link to={"/define"}>
-                  Định nghĩa bài toán
-                </Link>
-              </Menu.Item>
-            )}
-            {showAdminBoard && (
-              <Menu.Item key="monitor">
-                <Link to={"/monitor"}>
-                  Quản lý
-                </Link>
-              </Menu.Item>
-            )}
-            {currentUser ? (
-              <Menu.Item style={{float: 'right'}}>
-                <a href="/" onClick={this.logOut}></a>
-                Đăng xuất
-              </Menu.Item>
-            ) : (
-              <Menu.Item key="login" style={{float: 'right'}}>
-                <Link to={"/login"}>
-                  Đăng nhập
-                </Link>
-              </Menu.Item>
-            )}
-            {currentUser && (
-              <Menu.Item key="profile" style={{float: 'right'}}>
-                <Link to={"/profile"}>
-                  {currentUser.email}
-                </Link>
+            <Menu.Item key="graph">
+              <Link to={"/graph"}>Đồ thị</Link>
+            </Menu.Item>
+            <Menu.Item key="exercise">
+              <Link to={"/exercise"}>Bài tập</Link>
+            </Menu.Item>
+          </SubMenu>
+          <Menu.Item key="problem">
+            <Link to={"/problem"}>Bài toán Thực tế</Link>
+          </Menu.Item>
+          {showModeratorBoard && (
+            <Menu.Item key="define">
+              <Link to={"/define"}>Định nghĩa bài toán</Link>
+            </Menu.Item>
+          )}
+          {showAdminBoard && (
+            <Menu.Item key="monitor">
+              <Link to={"/monitor"}>Quản lý</Link>
+            </Menu.Item>
+          )}
+          
+          {currentUser ? (
+            <Menu.Item key="logout" className="app_unhover" style = {{float: "right", margin: "0px 0px"}}>
+            <Button
+              className="nav-button"
+              shape="round"
+              type="primary"
+              href="/"
+              onClick={this.logOut}
+              
+            >
+              Đăng xuất
+            </Button>
+            </Menu.Item>
+          ) : (
+            <>
+            <Menu.Item key="logup" className="app_unhover" style = {{float: "right", margin: "0px 0px"}}>
+            <Button
+              className="nav-button"
+              shape="round"
+              type="primary"
+              onClick={this.showLogup}
+              key = "logup"
+            >
+              Đăng Ký
+            </Button>
+            </Menu.Item>
+            <Menu.Item key="login" className="app_unhover" style = {{float: "right", margin: "0px 0px"}}>
+            <Button
+            className="nav-button"
+            shape="round"
+            type="primary"
+            onClick={this.showLogin}
+            >
+            Đăng nhập
+            </Button>
+            </Menu.Item>
+            </>
+          )}
+          {currentUser && (
+            <Menu.Item key="profile" className="app_unhover" style = {{float: "right", margin: "0px 0px"}}>
+            <Button
+              className="nav-button"
+              shape="round"
+              type="dashed"
+              onClick={this.showProfile}
+              icon={<UserOutlined />}
+              
+            >
+              {currentUser.email}
+            </Button>
+            </Menu.Item>
+          )}
+        </Menu>
+       
+        <Layout className="body" style={{ padding: "0 150px" }}>
+          {/* <MathSolver style={{margin: "16px"}}></MathSolver> */}
+          <Drawer
+            title="Đăng nhập"
+            width={480}
+            onClose={this.onclose}
+            visible={this.state.loginVisible}
+          >
+            <Login></Login>
+          </Drawer>
 
-              </Menu.Item>
-            )}
-          </Menu>
+          <Drawer
+            title="Đăng ký"
+            width={480}
+            onClose={this.onclose}
+            visible={this.state.logupVisible}
+          >
+            <Logup></Logup>
+          </Drawer>
 
-          <Layout style={{padding: "0 150px"}}>
-            <MathSolver style={{margin: "16px"}}></MathSolver>
-            {pathname=="/login"? 
-            <Row style={{}}>
+          <Drawer
+            title="Thông tin người dùng"
+            width={480}
+            onClose={this.onclose}
+            visible={this.state.profileVisible}
+          >
+            <Profile></Profile>
+          </Drawer>
+          {/* {pathname=="/login"?
+            <Row style={{minHeight: '80vh'}}>
             <Col span={8}></Col>
             <Col span={8}>
               <Switch>
@@ -160,29 +252,27 @@ class App extends Component {
             <Col span={8}></Col>
               
             </Row>
-            :
-            <Content style={{ background: "#fff", padding: "16px"}}>
-                  <Switch>
-                    <Route exact path={"/"} component={Home} />
-                    {/* <Route exact path="/login" component={Login} /> */}
-                    <Route exact path="/profile" component={Profile} />
-                    {/* <Route path="/solve" component={General1} /> */}
-                    <Route path="/solve" component={BoardUser} />
-                    {/* <Route path="/polynomial" component={BoardUser}/> */}
-                    {/* <Route path="/polynomial" component={General1}/> */}
-                    <Route path="/polynomial" component={General2}/>
-                    <Route path="/solve/graph" component={General2}/>
-                    <Route path="/problem" component={General3}/>
-                    <Route path="/mod" component={BoardModerator} />
-                    <Route path="/admin" component={BoardAdmin} />
-                    {/* <Route path="*" component={Home} /> */}
-                  </Switch>
-            </Content>
-            }
-            
-          </Layout>
-            <Footer style={{ textAlign: 'center' }}>Math</Footer>
-    </Layout>
+            : */}
+          <Content>
+            <Switch>
+              <Route exact path={"/"} component={Home} />
+              {/* <Route exact path="/login" component={Login} /> */}
+              {/* <Route exact path="/profile" component={Profile} /> */}
+              <Route path="/polynomial" component={Polynomial} />
+              {/* <Route path="/polynomial" component={General1}/> */}
+              <Route path="/exercise" component={ExerciseComponent} />
+              <Route path="/graph" component={Graph} />
+              <Route path="/problem" component={Problem} />
+              <Route path="/define" component={BoardModerator} />
+              <Route path="/monitor" component={MonitorComponent} />
+              {/* <Route path="*" component={Home} /> */}
+            </Switch>
+          </Content>
+          {/* } */}
+        </Layout>
+      </Layout>
+      <FooterContent></FooterContent>
+      </>
     );
   }
 }

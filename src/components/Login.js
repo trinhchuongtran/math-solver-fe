@@ -1,27 +1,26 @@
 import React, { Component } from "react";
 
-
-import { Form, Input, Button, Typography} from "antd";
+import { Form, Input, Button, message } from "antd";
 import { UserOutlined, KeyOutlined } from "@ant-design/icons";
 
 
 import AuthService from "../services/auth.service";
-import { Redirect } from "react-router";
+import { withRouter } from "react-router";
 
-const { Text } = Typography;
+// const { Text } = Typography;
 
 
-export default class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
 
   this.enterLoading = this.enterLoading.bind(this);
 
     this.state = {
-
       validateStatus: false,
       loading: false,
-      message: ""
+      message: "",
+      popup: false
   }
 
   
@@ -51,20 +50,34 @@ export default class Login extends Component {
       AuthService.login(values.email, values.password).then(
         () => {
 
-          this.props.history.push("/profile");
+          this.props.history.push("/");
           window.location.reload();
         },
         error => {
-          const resMessage =
-            error.response.status == 401? "Email hoặc mật khẩu không đúng!":
-            error.toString();
-              console.log(error.response);
+          let resMessage;
+          //   error.response.status == 401? "Email hoặc mật khẩu không đúng!":
+          //   error.toString();
+          if (error.response.status === 401) resMessage = "E-mail hoặc mật khẩu không chính xác!";
+          else if (error.response.status === 500) resMessage = "Không thể kết nối đến máy chủ!";
+          else resMessage = error.toString();
           this.setState({
             loading: false,
-            message: resMessage
+            message: resMessage,
+            popup: true,
           });
         }
       );
+  }
+
+  error = () => {
+    // notification.open({
+      // description: this.state.message,
+    // });
+    message.error({
+      content: this.state.message,
+      style: {float: 'right'}
+    });
+    this.setState({message: ""});
   }
 
   enterLoading = index => {
@@ -74,6 +87,10 @@ export default class Login extends Component {
           message: ""
         };
       });
+  }
+
+  create_user(){
+    AuthService.register("1", "2", "3")
   }
 
 
@@ -89,11 +106,11 @@ export default class Login extends Component {
           rules={[
             {
               required: true,
-              message: "Email is required!",
+              message: "Hãy nhập e-mail!",
             },
             {
               type: "email",
-              message: "The input is not valid email!", 
+              message: "E-mail không đúng!", 
             }
           ]}>
           <Input 
@@ -106,26 +123,28 @@ export default class Login extends Component {
           rules={[
             {
               required: true,
-              message: "Password is required!"
+              message: "Hãy nhập mật khẩu!",
             }
           ]}
           >
           <Input.Password
             prefix={<KeyOutlined/>}
             type="password"
-            placeholder="Password"/>
+            placeholder="Mật khẩu"/>
         </Form.Item>
-        
+        {/* <Button onClick={()=>this.create_user()}>Create</Button> */}
         <Form.Item>
           <Button className="login-form-button" type="primary" htmlType="submit" loading={this.state.loading} >
             Đăng nhập 
           </Button>
         </Form.Item>
           {this.state.message && (
-            <Text type="danger">{this.state.message}</Text>
+            this.error()
           )}
         </Form>
         
     );
   }
 }
+
+export default withRouter(Login);

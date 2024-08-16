@@ -1,0 +1,98 @@
+[
+  {
+    "key": "simplemath",
+    "title": "Tính toán cơ bản",
+    "sub": [
+      {
+        "key": "cal",
+        "title": "Phép tính cơ bản"
+      },
+      {
+        "key": "exp",
+        "title": "Lũy thừa"
+      },
+      {
+        "key": "radical",
+        "title": "Căn"
+      }
+    ]
+  },
+  {
+    "key": "diff_integral",
+    "title": "Giới hạn, Nguyên hàm",
+    "sub": [
+      {
+        "key": "lim",
+        "title": "Giới hạn"
+      },
+      {
+        "key": "integral",
+        "title": "Nguyên hàm"
+      },
+      {
+        "key": "diff",
+        "title": "Đạo hàm"
+      }
+    ]
+  },
+  {
+     "key": "hpt",
+     "title": "Hệ phương trình",
+     "sub": [
+       {
+         "key": "hptb1",
+         "title": "Hệ PT bậc 1"
+       }
+     ]
+   },
+    {
+      "key": "dathuc",
+      "title": "Đa thức",
+      "sub": [
+        {
+          "key": "ptb1",
+          "title": "PT bậc 1"
+        },
+        {
+          "key": "ptb2",
+          "title": "PT bậc 2"
+        },
+        {
+          "key": "ptb4",
+          "title": "PT bậc 4 trùng phương"
+        },
+        {
+          "key": "ptbc",
+          "title": "PT bậc cao"
+        }
+      ]
+    },
+    {
+      "key": "trigo",
+      "title": "Lượng giác",
+      "sub": [
+        {
+          "key": "ptb1_trigo",
+          "title": "PT bậc 1"
+        },
+        {
+          "key": "ptb2_trigo",
+          "title": "PT bậc 2"
+        },
+        {
+          "key": "ptb4_trigo",
+          "title": "PT bậc 4 trùng phương"
+        }
+      ]
+    },
+    {
+      "key": "ptc",
+      "title": "PT căn",
+      "sub": [
+        {
+          "key": "ptc",
+          "title": "PT căn"
+        }
+      ]
+    }
+  ]
